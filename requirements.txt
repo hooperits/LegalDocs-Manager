@@ -24,3 +24,6 @@ django-filter==24.3
 
 # API Documentation
 drf-spectacular==0.28.0
+
+# Testing
+coverage==7.4.0

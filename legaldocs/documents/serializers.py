@@ -21,14 +21,15 @@ class DocumentSerializer(serializers.ModelSerializer):
     Read-only fields: file_size, uploaded_by, uploaded_at
     """
 
-    uploaded_by_username = serializers.CharField(
-        source='uploaded_by.username',
-        read_only=True
-    )
+    uploaded_by_username = serializers.SerializerMethodField()
     case_number = serializers.CharField(
         source='case.case_number',
         read_only=True
     )
+
+    def get_uploaded_by_username(self, obj):
+        """Return the username of the uploader, or None if no uploader."""
+        return obj.uploaded_by.username if obj.uploaded_by else None
 
     class Meta:
         model = Document
