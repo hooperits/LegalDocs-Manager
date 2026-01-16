@@ -1,0 +1,537 @@
+openapi: 3.0.3
+info:
+  title: LegalDocs Manager - Auth & Dashboard API
+  description: Authentication, dashboard statistics, global search, and user profile endpoints
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+
+tags:
+  - name: auth
+    description: Authentication endpoints
+  - name: dashboard
+    description: Dashboard statistics
+  - name: search
+    description: Global search
+  - name: profile
+    description: User profile management
+
+paths:
+  /auth/login/:
+    post:
+      tags: [auth]
+      summary: Obtain authentication token
+      description: Authenticate with username and password to receive an auth token
+      operationId: authLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/logout/:
+    post:
+      tags: [auth]
+      summary: Delete authentication token
+      description: Invalidate the current user's token (logout)
+      operationId: authLogout
+      security:
+        - TokenAuth: []
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: Not authenticated
+
+  /auth/register/:
+    post:
+      tags: [auth]
+      summary: Register new user
+      description: Create a new user account and return an auth token
+      operationId: authRegister
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/me/:
+    get:
+      tags: [auth]
+      summary: Get current user info
+      description: Return basic information about the authenticated user
+      operationId: authMe
+      security:
+        - TokenAuth: []
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '401':
+          description: Not authenticated
+
+  /dashboard/:
+    get:
+      tags: [dashboard]
+      summary: Get dashboard statistics
+      description: Return aggregated statistics for clients, cases, and documents
+      operationId: getDashboard
+      security:
+        - TokenAuth: []
+      responses:
+        '200':
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+        '401':
+          description: Not authenticated
+
+  /search/:
+    get:
+      tags: [search]
+      summary: Global search
+      description: Search across clients, cases, and documents
+      operationId: globalSearch
+      security:
+        - TokenAuth: []
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (minimum 1 character)
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Missing or empty query parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not authenticated
+
+  /profile/:
+    get:
+      tags: [profile]
+      summary: Get user profile
+      description: Return the authenticated user's profile with assigned cases count
+      operationId: getProfile
+      security:
+        - TokenAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+        '401':
+          description: Not authenticated
+    patch:
+      tags: [profile]
+      summary: Update user profile
+      description: Update the authenticated user's profile (email, first_name, last_name)
+      operationId: updateProfile
+      security:
+        - TokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Not authenticated
+
+components:
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Token-based authentication. Format: 'Token <token_key>'"
+
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "johndoe"
+        password:
+          type: string
+          format: password
+          example: "securepassword123"
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+        user_id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "johndoe"
+
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - password_confirm
+      properties:
+        username:
+          type: string
+          maxLength: 150
+          example: "newuser"
+        email:
+          type: string
+          format: email
+          example: "newuser@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: "securepassword123"
+        password_confirm:
+          type: string
+          format: password
+          example: "securepassword123"
+        first_name:
+          type: string
+          maxLength: 150
+          example: "John"
+        last_name:
+          type: string
+          maxLength: 150
+          example: "Doe"
+
+    RegisterResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+        user:
+          $ref: '#/components/schemas/UserInfo'
+
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "johndoe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+
+    DashboardResponse:
+      type: object
+      properties:
+        total_clients:
+          type: integer
+          example: 150
+        active_clients:
+          type: integer
+          example: 120
+        cases_by_status:
+          type: object
+          additionalProperties:
+            type: integer
+          example:
+            en_proceso: 45
+            pendiente_documentos: 20
+            en_revision: 15
+            cerrado: 80
+        cases_by_type:
+          type: object
+          additionalProperties:
+            type: integer
+          example:
+            civil: 50
+            penal: 30
+            laboral: 40
+            mercantil: 25
+            familia: 15
+        recent_cases:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecentCase'
+        documents_by_type:
+          type: object
+          additionalProperties:
+            type: integer
+          example:
+            contrato: 45
+            demanda: 30
+            poder: 25
+            sentencia: 15
+            escritura: 20
+            otro: 10
+        upcoming_deadlines:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpcomingDeadline'
+
+    RecentCase:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        case_number:
+          type: string
+          example: "CASE-2026-0001"
+        title:
+          type: string
+          example: "García vs. Martínez"
+        status:
+          type: string
+          example: "en_proceso"
+        client_name:
+          type: string
+          example: "Juan García"
+
+    UpcomingDeadline:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        case_number:
+          type: string
+          example: "CASE-2026-0005"
+        title:
+          type: string
+          example: "Caso urgente"
+        deadline:
+          type: string
+          format: date
+          example: "2026-01-20"
+        days_remaining:
+          type: integer
+          example: 4
+        client_name:
+          type: string
+          example: "María López"
+
+    SearchResponse:
+      type: object
+      properties:
+        query:
+          type: string
+          example: "García"
+        results:
+          type: object
+          properties:
+            clients:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClientSearchResult'
+            cases:
+              type: array
+              items:
+                $ref: '#/components/schemas/CaseSearchResult'
+            documents:
+              type: array
+              items:
+                $ref: '#/components/schemas/DocumentSearchResult'
+        counts:
+          type: object
+          properties:
+            clients:
+              type: integer
+              example: 2
+            cases:
+              type: integer
+              example: 3
+            documents:
+              type: integer
+              example: 1
+            total:
+              type: integer
+              example: 6
+
+    ClientSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          enum: [client]
+          example: "client"
+        full_name:
+          type: string
+          example: "Juan García"
+        email:
+          type: string
+          example: "juan.garcia@email.com"
+
+    CaseSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        type:
+          type: string
+          enum: [case]
+          example: "case"
+        case_number:
+          type: string
+          example: "CASE-2026-0005"
+        title:
+          type: string
+          example: "García vs. Smith"
+
+    DocumentSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        type:
+          type: string
+          enum: [document]
+          example: "document"
+        title:
+          type: string
+          example: "Contrato García"
+        document_type:
+          type: string
+          example: "contrato"
+
+    ProfileResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "johndoe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        assigned_cases_count:
+          type: integer
+          example: 15
+        date_joined:
+          type: string
+          format: date-time
+          example: "2026-01-01T00:00:00Z"
+
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "newemail@example.com"
+        first_name:
+          type: string
+          maxLength: 150
+          example: "Jonathan"
+        last_name:
+          type: string
+          maxLength: 150
+          example: "Smith"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid credentials"
+        detail:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            username: ["This field is required."]
