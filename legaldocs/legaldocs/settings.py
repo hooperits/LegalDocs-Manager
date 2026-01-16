@@ -52,8 +52,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'django_filters',
+    'drf_spectacular',
 
     # Local apps
+    'api',
     'core',
     'users',
     'clients',
@@ -184,6 +186,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -198,3 +201,29 @@ CORS_ALLOWED_ORIGINS = [
 
 # Allow credentials (cookies, authorization headers)
 CORS_ALLOW_CREDENTIALS = True
+
+
+# =============================================================================
+# File Upload Limits
+# =============================================================================
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+
+
+# =============================================================================
+# drf-spectacular (OpenAPI Schema Generation)
+# =============================================================================
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LegalDocs Manager API',
+    'DESCRIPTION': 'API REST para gestión de documentos legales, clientes y casos.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'clients', 'description': 'Client management endpoints'},
+        {'name': 'cases', 'description': 'Case management endpoints'},
+        {'name': 'documents', 'description': 'Document management endpoints'},
+    ],
+}
