@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from . import admin as admin_config  # noqa: F401 - Import to load admin site branding
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
