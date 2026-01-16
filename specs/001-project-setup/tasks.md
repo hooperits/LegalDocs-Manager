@@ -138,12 +138,12 @@
 
 **Purpose**: Final verification, git commit, and documentation
 
-- [ ] T035 Run full verification: `python manage.py check` (no issues)
-- [ ] T036 Run full verification: `python manage.py migrate` (no pending migrations)
-- [ ] T037 Run full verification: `python manage.py runserver` (starts on port 8000)
-- [ ] T038 Verify Django Admin login works at http://localhost:8000/admin/
-- [ ] T039 Create initial git commit in Spanish per constitution standards
-- [ ] T040 Validate against quickstart.md checklist
+- [x] T035 Run full verification: `python manage.py check` (no issues)
+- [x] T036 Run full verification: `python manage.py migrate` (no pending migrations)
+- [x] T037 Run full verification: `python manage.py runserver` (starts on port 8000)
+- [x] T038 Verify Django Admin login works at http://localhost:8000/admin/
+- [x] T039 Create initial git commit in Spanish per constitution standards
+- [x] T040 Validate against quickstart.md checklist
 
 ---
 
