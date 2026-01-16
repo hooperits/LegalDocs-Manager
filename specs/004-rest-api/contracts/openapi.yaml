@@ -1,0 +1,898 @@
+openapi: 3.0.3
+info:
+  title: LegalDocs Manager API
+  description: RESTful API for legal document management system
+  version: 1.0.0
+  contact:
+    name: LegalDocs Manager
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+
+security:
+  - tokenAuth: []
+
+paths:
+  /api-token-auth/:
+    post:
+      summary: Obtain authentication token
+      operationId: obtainToken
+      security: []
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Token obtained successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Invalid credentials
+
+  /clients/:
+    get:
+      summary: List all clients
+      operationId: listClients
+      tags:
+        - Clients
+      parameters:
+        - name: is_active
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search by name, email, or ID number
+        - name: ordering
+          in: query
+          schema:
+            type: string
+            enum: [full_name, -full_name, created_at, -created_at]
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paginated list of clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClientList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      summary: Create a new client
+      operationId: createClient
+      tags:
+        - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '201':
+          description: Client created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          description: Validation error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /clients/{id}/:
+    get:
+      summary: Retrieve a client
+      operationId: retrieveClient
+      tags:
+        - Clients
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      responses:
+        '200':
+          description: Client details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update a client
+      operationId: updateClient
+      tags:
+        - Clients
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '200':
+          description: Client updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Partially update a client
+      operationId: partialUpdateClient
+      tags:
+        - Clients
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '200':
+          description: Client updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a client
+      operationId: deleteClient
+      tags:
+        - Clients
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      responses:
+        '204':
+          description: Client deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /clients/{id}/cases/:
+    get:
+      summary: Get all cases for a client
+      operationId: getClientCases
+      tags:
+        - Clients
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      responses:
+        '200':
+          description: List of client's cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Case'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /cases/:
+    get:
+      summary: List all cases
+      operationId: listCases
+      tags:
+        - Cases
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [en_proceso, pendiente_documentos, en_revision, cerrado]
+        - name: case_type
+          in: query
+          schema:
+            type: string
+            enum: [civil, penal, laboral, familia, administrativo]
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [alta, media, baja]
+        - name: client
+          in: query
+          schema:
+            type: integer
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: ordering
+          in: query
+          schema:
+            type: string
+            enum: [start_date, -start_date, priority, -priority]
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paginated list of cases
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCaseList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      summary: Create a new case
+      operationId: createCase
+      tags:
+        - Cases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaseInput'
+      responses:
+        '201':
+          description: Case created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+        '400':
+          description: Validation error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /cases/{id}/:
+    get:
+      summary: Retrieve a case
+      operationId: retrieveCase
+      tags:
+        - Cases
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: Case details with nested client and documents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update a case
+      operationId: updateCase
+      tags:
+        - Cases
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaseInput'
+      responses:
+        '200':
+          description: Case updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Partially update a case
+      operationId: partialUpdateCase
+      tags:
+        - Cases
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaseInput'
+      responses:
+        '200':
+          description: Case updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a case
+      operationId: deleteCase
+      tags:
+        - Cases
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '204':
+          description: Case deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /cases/{id}/close/:
+    post:
+      summary: Close a case
+      operationId: closeCase
+      tags:
+        - Cases
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: Case closed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+        '400':
+          description: Case already closed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Case already closed
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /cases/statistics/:
+    get:
+      summary: Get case statistics
+      operationId: getCaseStatistics
+      tags:
+        - Cases
+      responses:
+        '200':
+          description: Case statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseStatistics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /documents/:
+    get:
+      summary: List all documents
+      operationId: listDocuments
+      tags:
+        - Documents
+      parameters:
+        - name: case
+          in: query
+          schema:
+            type: integer
+        - name: document_type
+          in: query
+          schema:
+            type: string
+        - name: is_confidential
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paginated list of documents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDocumentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      summary: Upload a new document
+      operationId: createDocument
+      tags:
+        - Documents
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentInput'
+      responses:
+        '201':
+          description: Document uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Validation error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /documents/{id}/:
+    get:
+      summary: Retrieve a document
+      operationId: retrieveDocument
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update a document
+      operationId: updateDocument
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentInput'
+      responses:
+        '200':
+          description: Document updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a document
+      operationId: deleteDocument
+      description: Only the document owner or an admin can delete
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '204':
+          description: Document deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Not the document owner
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token-based authentication. Format: Token <token>'
+
+  parameters:
+    ClientId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    CaseId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    DocumentId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Authentication credentials were not provided.
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Not found.
+
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 200
+        identification_number:
+          type: string
+          maxLength: 20
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          maxLength: 20
+        address:
+          type: string
+        is_active:
+          type: boolean
+          default: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    ClientDetail:
+      allOf:
+        - $ref: '#/components/schemas/Client'
+        - type: object
+          properties:
+            notes:
+              type: string
+            case_count:
+              type: integer
+              readOnly: true
+
+    ClientInput:
+      type: object
+      required:
+        - full_name
+        - identification_number
+        - email
+      properties:
+        full_name:
+          type: string
+        identification_number:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        address:
+          type: string
+        is_active:
+          type: boolean
+        notes:
+          type: string
+
+    Case:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        case_number:
+          type: string
+          readOnly: true
+        client:
+          type: integer
+        client_name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+        description:
+          type: string
+        case_type:
+          type: string
+          enum: [civil, penal, laboral, familia, administrativo]
+        status:
+          type: string
+          enum: [en_proceso, pendiente_documentos, en_revision, cerrado]
+        priority:
+          type: string
+          enum: [alta, media, baja]
+        start_date:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        closed_date:
+          type: string
+          format: date
+        assigned_to:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    CaseDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        case_number:
+          type: string
+          readOnly: true
+        client:
+          $ref: '#/components/schemas/Client'
+        title:
+          type: string
+        description:
+          type: string
+        case_type:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        start_date:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        closed_date:
+          type: string
+          format: date
+        assigned_to:
+          type: integer
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    CaseInput:
+      type: object
+      required:
+        - client
+        - title
+        - case_type
+        - status
+        - priority
+        - start_date
+      properties:
+        client:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        case_type:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        start_date:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        assigned_to:
+          type: integer
+
+    CaseStatistics:
+      type: object
+      properties:
+        by_status:
+          type: object
+          additionalProperties:
+            type: integer
+        by_type:
+          type: object
+          additionalProperties:
+            type: integer
+        by_priority:
+          type: object
+          additionalProperties:
+            type: integer
+        total:
+          type: integer
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        case:
+          type: integer
+        case_number:
+          type: string
+          readOnly: true
+        title:
+          type: string
+        document_type:
+          type: string
+        description:
+          type: string
+        file:
+          type: string
+          format: uri
+        file_size:
+          type: integer
+          readOnly: true
+        is_confidential:
+          type: boolean
+        uploaded_by:
+          type: integer
+          readOnly: true
+        uploaded_by_username:
+          type: string
+          readOnly: true
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    DocumentInput:
+      type: object
+      required:
+        - case
+        - title
+        - document_type
+        - file
+      properties:
+        case:
+          type: integer
+        title:
+          type: string
+        document_type:
+          type: string
+        description:
+          type: string
+        file:
+          type: string
+          format: binary
+        is_confidential:
+          type: boolean
+
+    PaginatedClientList:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          format: uri
+          nullable: true
+        previous:
+          type: string
+          format: uri
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+
+    PaginatedCaseList:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          format: uri
+          nullable: true
+        previous:
+          type: string
+          format: uri
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Case'
+
+    PaginatedDocumentList:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          format: uri
+          nullable: true
+        previous:
+          type: string
+          format: uri
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
