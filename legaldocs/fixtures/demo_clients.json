@@ -1,0 +1,377 @@
+[
+  {
+    "model": "clients.client",
+    "pk": 1,
+    "fields": {
+      "full_name": "Juan Carlos García López",
+      "identification_number": "12345678-9",
+      "email": "juan.garcia@email.com",
+      "phone": "+56 9 1234 5678",
+      "address": "Av. Providencia 1234, Santiago",
+      "notes": "Cliente VIP, referido por abogado asociado",
+      "is_active": true,
+      "created_at": "2026-01-01T10:00:00Z",
+      "updated_at": "2026-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 2,
+    "fields": {
+      "full_name": "María Fernanda Rodríguez Pérez",
+      "identification_number": "23456789-0",
+      "email": "maria.rodriguez@email.com",
+      "phone": "+56 9 2345 6789",
+      "address": "Calle Las Flores 567, Las Condes",
+      "notes": "Caso de divorcio en curso",
+      "is_active": true,
+      "created_at": "2026-01-02T10:00:00Z",
+      "updated_at": "2026-01-02T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 3,
+    "fields": {
+      "full_name": "Roberto Antonio Martínez Silva",
+      "identification_number": "34567890-1",
+      "email": "roberto.martinez@email.com",
+      "phone": "+56 9 3456 7890",
+      "address": "Pasaje Los Aromos 89, Ñuñoa",
+      "notes": "Empresario, múltiples casos comerciales",
+      "is_active": true,
+      "created_at": "2026-01-03T10:00:00Z",
+      "updated_at": "2026-01-03T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 4,
+    "fields": {
+      "full_name": "Carolina Andrea Soto Muñoz",
+      "identification_number": "45678901-2",
+      "email": "carolina.soto@email.com",
+      "phone": "+56 9 4567 8901",
+      "address": "Av. Libertador 2345, Vitacura",
+      "notes": "Trabajadora despedida injustamente",
+      "is_active": true,
+      "created_at": "2026-01-04T10:00:00Z",
+      "updated_at": "2026-01-04T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 5,
+    "fields": {
+      "full_name": "Felipe Andrés Hernández Castro",
+      "identification_number": "56789012-3",
+      "email": "felipe.hernandez@email.com",
+      "phone": "+56 9 5678 9012",
+      "address": "Calle Santa Rosa 678, Santiago Centro",
+      "notes": "Caso penal por defensa propia",
+      "is_active": true,
+      "created_at": "2026-01-05T10:00:00Z",
+      "updated_at": "2026-01-05T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 6,
+    "fields": {
+      "full_name": "Valentina Isabel Torres Reyes",
+      "identification_number": "67890123-4",
+      "email": "valentina.torres@email.com",
+      "phone": "+56 9 6789 0123",
+      "address": "Av. Apoquindo 4567, Las Condes",
+      "notes": "Herencia familiar en disputa",
+      "is_active": true,
+      "created_at": "2026-01-06T10:00:00Z",
+      "updated_at": "2026-01-06T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 7,
+    "fields": {
+      "full_name": "Sebastián Eduardo Vargas Núñez",
+      "identification_number": "78901234-5",
+      "email": "sebastian.vargas@email.com",
+      "phone": "+56 9 7890 1234",
+      "address": "Pasaje El Bosque 123, La Florida",
+      "notes": "Demanda por incumplimiento de contrato",
+      "is_active": true,
+      "created_at": "2026-01-07T10:00:00Z",
+      "updated_at": "2026-01-07T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 8,
+    "fields": {
+      "full_name": "Francisca Javiera Díaz Morales",
+      "identification_number": "89012345-6",
+      "email": "francisca.diaz@email.com",
+      "phone": "+56 9 8901 2345",
+      "address": "Calle Huérfanos 890, Santiago Centro",
+      "notes": "Caso de pensión alimenticia",
+      "is_active": true,
+      "created_at": "2026-01-08T10:00:00Z",
+      "updated_at": "2026-01-08T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 9,
+    "fields": {
+      "full_name": "Diego Alejandro Fuentes Rivera",
+      "identification_number": "90123456-7",
+      "email": "diego.fuentes@email.com",
+      "phone": "+56 9 9012 3456",
+      "address": "Av. Irarrázaval 1234, Ñuñoa",
+      "notes": "Accidente de tránsito, lesiones graves",
+      "is_active": true,
+      "created_at": "2026-01-09T10:00:00Z",
+      "updated_at": "2026-01-09T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 10,
+    "fields": {
+      "full_name": "Camila Beatriz Espinoza Lagos",
+      "identification_number": "01234567-8",
+      "email": "camila.espinoza@email.com",
+      "phone": "+56 9 0123 4567",
+      "address": "Calle Merced 345, Santiago Centro",
+      "notes": "Despido por maternidad",
+      "is_active": true,
+      "created_at": "2026-01-10T10:00:00Z",
+      "updated_at": "2026-01-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 11,
+    "fields": {
+      "full_name": "Andrés Ignacio Paredes Vega",
+      "identification_number": "11234567-9",
+      "email": "andres.paredes@email.com",
+      "phone": "+56 9 1123 4567",
+      "address": "Av. Matta 567, San Miguel",
+      "notes": "Socio en conflicto comercial",
+      "is_active": true,
+      "created_at": "2026-01-11T10:00:00Z",
+      "updated_at": "2026-01-11T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 12,
+    "fields": {
+      "full_name": "Daniela Patricia Campos Rojas",
+      "identification_number": "12345678-0",
+      "email": "daniela.campos@email.com",
+      "phone": "+56 9 1234 5678",
+      "address": "Pasaje Los Cipreses 78, Maipú",
+      "notes": "Caso de violencia intrafamiliar",
+      "is_active": true,
+      "created_at": "2026-01-12T10:00:00Z",
+      "updated_at": "2026-01-12T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 13,
+    "fields": {
+      "full_name": "Nicolás Fernando Aguirre Sepúlveda",
+      "identification_number": "13456789-1",
+      "email": "nicolas.aguirre@email.com",
+      "phone": "+56 9 1345 6789",
+      "address": "Calle Compañía 901, Santiago Centro",
+      "notes": "Demanda laboral por acoso",
+      "is_active": true,
+      "created_at": "2026-01-13T10:00:00Z",
+      "updated_at": "2026-01-13T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 14,
+    "fields": {
+      "full_name": "Isidora Macarena Pizarro Contreras",
+      "identification_number": "14567890-2",
+      "email": "isidora.pizarro@email.com",
+      "phone": "+56 9 1456 7890",
+      "address": "Av. Vicuña Mackenna 2345, Providencia",
+      "notes": "Arrendatario moroso",
+      "is_active": true,
+      "created_at": "2026-01-14T10:00:00Z",
+      "updated_at": "2026-01-14T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 15,
+    "fields": {
+      "full_name": "Maximiliano José Bravo Figueroa",
+      "identification_number": "15678901-3",
+      "email": "maximiliano.bravo@email.com",
+      "phone": "+56 9 1567 8901",
+      "address": "Calle San Antonio 456, Santiago Centro",
+      "notes": "Estafa inmobiliaria",
+      "is_active": true,
+      "created_at": "2026-01-15T10:00:00Z",
+      "updated_at": "2026-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 16,
+    "fields": {
+      "full_name": "Antonia Belén González Molina",
+      "identification_number": "16789012-4",
+      "email": "antonia.gonzalez@email.com",
+      "phone": "+56 9 1678 9012",
+      "address": "Pasaje Las Acacias 234, Puente Alto",
+      "notes": "Tuición de menores",
+      "is_active": true,
+      "created_at": "2026-01-16T10:00:00Z",
+      "updated_at": "2026-01-16T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 17,
+    "fields": {
+      "full_name": "Tomás Benjamín Olivares Sandoval",
+      "identification_number": "17890123-5",
+      "email": "tomas.olivares@email.com",
+      "phone": "+56 9 1789 0123",
+      "address": "Av. Pedro de Valdivia 789, Providencia",
+      "notes": "Accidente laboral en construcción",
+      "is_active": true,
+      "created_at": "2026-01-17T10:00:00Z",
+      "updated_at": "2026-01-17T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 18,
+    "fields": {
+      "full_name": "Catalina Sofía Riquelme Aravena",
+      "identification_number": "18901234-6",
+      "email": "catalina.riquelme@email.com",
+      "phone": "+56 9 1890 1234",
+      "address": "Calle Estado 567, Santiago Centro",
+      "notes": "Cobro de deudas comerciales",
+      "is_active": true,
+      "created_at": "2026-01-18T10:00:00Z",
+      "updated_at": "2026-01-18T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 19,
+    "fields": {
+      "full_name": "Matías Alonso Salazar Henríquez",
+      "identification_number": "19012345-7",
+      "email": "matias.salazar@email.com",
+      "phone": "+56 9 1901 2345",
+      "address": "Av. Los Leones 890, Providencia",
+      "notes": "Propiedad intelectual vulnerada",
+      "is_active": true,
+      "created_at": "2026-01-19T10:00:00Z",
+      "updated_at": "2026-01-19T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 20,
+    "fields": {
+      "full_name": "Josefina Victoria Fernández Castillo",
+      "identification_number": "20123456-8",
+      "email": "josefina.fernandez@email.com",
+      "phone": "+56 9 2012 3456",
+      "address": "Pasaje Los Olivos 123, La Reina",
+      "notes": "Negligencia médica",
+      "is_active": true,
+      "created_at": "2026-01-20T10:00:00Z",
+      "updated_at": "2026-01-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 21,
+    "fields": {
+      "full_name": "Agustín Emilio Cortés Valdés",
+      "identification_number": "21234567-9",
+      "email": "agustin.cortes@email.com",
+      "phone": "+56 9 2123 4567",
+      "address": "Calle Moneda 345, Santiago Centro",
+      "notes": "Recurso de protección",
+      "is_active": true,
+      "created_at": "2026-01-21T10:00:00Z",
+      "updated_at": "2026-01-21T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 22,
+    "fields": {
+      "full_name": "Emilia Constanza Vera Poblete",
+      "identification_number": "22345678-0",
+      "email": "emilia.vera@email.com",
+      "phone": "+56 9 2234 5678",
+      "address": "Av. Libertad 678, Viña del Mar",
+      "notes": "Cliente inactivo, caso cerrado",
+      "is_active": false,
+      "created_at": "2025-12-01T10:00:00Z",
+      "updated_at": "2025-12-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 23,
+    "fields": {
+      "full_name": "Benjamín Lucas Cáceres Muñoz",
+      "identification_number": "23456789-1",
+      "email": "benjamin.caceres@email.com",
+      "phone": "+56 9 2345 6789",
+      "address": "Pasaje El Sol 901, Quilpué",
+      "notes": "Cliente inactivo, sin casos pendientes",
+      "is_active": false,
+      "created_at": "2025-11-15T10:00:00Z",
+      "updated_at": "2025-12-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 24,
+    "fields": {
+      "full_name": "Florencia Paz Miranda Gutiérrez",
+      "identification_number": "24567890-2",
+      "email": "florencia.miranda@email.com",
+      "phone": "+56 9 2456 7890",
+      "address": "Calle Brasil 234, Valparaíso",
+      "notes": "Defensa en caso de robo",
+      "is_active": true,
+      "created_at": "2026-01-14T10:00:00Z",
+      "updated_at": "2026-01-14T10:00:00Z"
+    }
+  },
+  {
+    "model": "clients.client",
+    "pk": 25,
+    "fields": {
+      "full_name": "Martín Ignacio Leiva Acuña",
+      "identification_number": "25678901-3",
+      "email": "martin.leiva@email.com",
+      "phone": "+56 9 2567 8901",
+      "address": "Av. Argentina 567, Santiago Centro",
+      "notes": "Demanda por daños y perjuicios",
+      "is_active": true,
+      "created_at": "2026-01-15T10:00:00Z",
+      "updated_at": "2026-01-15T10:00:00Z"
+    }
+  }
+]
