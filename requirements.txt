@@ -21,3 +21,6 @@ django-cors-headers==4.6.0
 
 # Filtering
 django-filter==24.3
+
+# API Documentation
+drf-spectacular==0.28.0
