@@ -1,0 +1,192 @@
+[
+  {
+    "model": "cases.case",
+    "pk": 1,
+    "fields": {
+      "client": 1,
+      "case_number": "CASE-2026-0001",
+      "title": "Reclamación de herencia familiar",
+      "description": "Proceso de reclamación de herencia de bienes inmuebles tras fallecimiento del padre.",
+      "case_type": "civil",
+      "status": "en_proceso",
+      "priority": "alta",
+      "start_date": "2026-01-10",
+      "deadline": "2026-06-10",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-10T09:00:00Z",
+      "updated_at": "2026-01-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 2,
+    "fields": {
+      "client": 1,
+      "case_number": "CASE-2026-0002",
+      "title": "Divorcio de mutuo acuerdo",
+      "description": "Tramitación de divorcio de mutuo acuerdo con reparto de bienes.",
+      "case_type": "familia",
+      "status": "pendiente_documentos",
+      "priority": "media",
+      "start_date": "2026-01-12",
+      "deadline": "2026-03-12",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-12T10:30:00Z",
+      "updated_at": "2026-01-12T10:30:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 3,
+    "fields": {
+      "client": 2,
+      "case_number": "CASE-2026-0003",
+      "title": "Constitución de sociedad limitada",
+      "description": "Asesoramiento y tramitación para constitución de nueva S.L.",
+      "case_type": "mercantil",
+      "status": "en_revision",
+      "priority": "media",
+      "start_date": "2026-01-05",
+      "deadline": "2026-02-28",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-05T11:15:00Z",
+      "updated_at": "2026-01-05T11:15:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 4,
+    "fields": {
+      "client": 2,
+      "case_number": "CASE-2026-0004",
+      "title": "Reclamación por despido improcedente",
+      "description": "Demanda laboral por despido sin causa justificada de empleado.",
+      "case_type": "laboral",
+      "status": "en_proceso",
+      "priority": "urgente",
+      "start_date": "2026-01-14",
+      "deadline": "2026-02-14",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-14T08:45:00Z",
+      "updated_at": "2026-01-14T08:45:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 5,
+    "fields": {
+      "client": 3,
+      "case_number": "CASE-2026-0005",
+      "title": "Defensa en juicio penal por lesiones",
+      "description": "Defensa del cliente acusado de lesiones leves en altercado.",
+      "case_type": "penal",
+      "status": "en_proceso",
+      "priority": "alta",
+      "start_date": "2026-01-08",
+      "deadline": "2026-04-08",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-08T14:00:00Z",
+      "updated_at": "2026-01-08T14:00:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 6,
+    "fields": {
+      "client": 3,
+      "case_number": "CASE-2026-0006",
+      "title": "Reclamación de cantidad por impago",
+      "description": "Reclamación judicial de deuda por servicios prestados no pagados.",
+      "case_type": "civil",
+      "status": "pendiente_documentos",
+      "priority": "baja",
+      "start_date": "2026-01-15",
+      "deadline": null,
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-15T16:20:00Z",
+      "updated_at": "2026-01-15T16:20:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 7,
+    "fields": {
+      "client": 4,
+      "case_number": "CASE-2025-0001",
+      "title": "Modificación de medidas de custodia",
+      "description": "Solicitud de modificación del régimen de visitas establecido.",
+      "case_type": "familia",
+      "status": "cerrado",
+      "priority": "media",
+      "start_date": "2025-06-01",
+      "deadline": "2025-12-01",
+      "closed_date": "2025-11-15",
+      "assigned_to": null,
+      "created_at": "2025-06-01T09:30:00Z",
+      "updated_at": "2025-11-15T17:00:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 8,
+    "fields": {
+      "client": 4,
+      "case_number": "CASE-2025-0002",
+      "title": "Reclamación de accidente de tráfico",
+      "description": "Reclamación de indemnización por daños en accidente de coche.",
+      "case_type": "civil",
+      "status": "cerrado",
+      "priority": "alta",
+      "start_date": "2025-03-01",
+      "deadline": "2025-09-01",
+      "closed_date": "2025-08-20",
+      "assigned_to": null,
+      "created_at": "2025-03-01T10:00:00Z",
+      "updated_at": "2025-08-20T15:45:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 9,
+    "fields": {
+      "client": 5,
+      "case_number": "CASE-2026-0007",
+      "title": "Registro de marca comercial",
+      "description": "Tramitación de registro de marca ante la OEPM.",
+      "case_type": "mercantil",
+      "status": "en_proceso",
+      "priority": "media",
+      "start_date": "2026-01-11",
+      "deadline": "2026-07-11",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-11T12:00:00Z",
+      "updated_at": "2026-01-11T12:00:00Z"
+    }
+  },
+  {
+    "model": "cases.case",
+    "pk": 10,
+    "fields": {
+      "client": 5,
+      "case_number": "CASE-2026-0008",
+      "title": "Negociación de contrato laboral",
+      "description": "Revisión y negociación de contrato de alta dirección.",
+      "case_type": "laboral",
+      "status": "en_revision",
+      "priority": "alta",
+      "start_date": "2026-01-13",
+      "deadline": "2026-01-31",
+      "closed_date": null,
+      "assigned_to": null,
+      "created_at": "2026-01-13T13:30:00Z",
+      "updated_at": "2026-01-13T13:30:00Z"
+    }
+  }
+]
