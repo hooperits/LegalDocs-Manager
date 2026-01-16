@@ -11,8 +11,8 @@ class ClientAdmin(admin.ModelAdmin):
         'full_name',
         'identification_number',
         'email',
+        'phone',
         'is_active',
-        'created_at',
     ]
     list_filter = [
         'is_active',
@@ -27,3 +27,30 @@ class ClientAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     ]
+    ordering = ['-created_at']
+
+    fieldsets = [
+        ('Información Personal', {
+            'fields': ['full_name', 'identification_number'],
+        }),
+        ('Contacto', {
+            'fields': ['email', 'phone', 'address'],
+        }),
+        ('Estado', {
+            'fields': ['is_active', 'notes', 'created_at', 'updated_at'],
+        }),
+    ]
+
+    actions = ['activate_clients', 'deactivate_clients']
+
+    @admin.action(description="Activar clientes seleccionados")
+    def activate_clients(self, request, queryset):
+        """Bulk action to activate selected clients."""
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"{updated} cliente(s) activado(s).")
+
+    @admin.action(description="Desactivar clientes seleccionados")
+    def deactivate_clients(self, request, queryset):
+        """Bulk action to deactivate selected clients."""
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f"{updated} cliente(s) desactivado(s).")
