@@ -26,4 +26,11 @@ Python 3.11+: Follow standard conventions
 - 001-project-setup: Added Python 3.11+ + Django 5.0.11, djangorestframework 3.15.2, psycopg2-binary 2.9.10, python-dotenv 1.0.1, Pillow 11.1.0, django-cors-headers 4.6.0, django-filter 24.3
 
 <!-- MANUAL ADDITIONS START -->
+
+## Commit & PR Guidelines
+
+- Do NOT add "Co-Authored-By" lines to commits
+- Do NOT add "Generated with Claude Code" or similar attribution lines to PRs
+- Keep commits and PRs clean without tool attribution
+
 <!-- MANUAL ADDITIONS END -->
