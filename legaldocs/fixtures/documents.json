@@ -1,0 +1,227 @@
+[
+  {
+    "model": "documents.document",
+    "pk": 1,
+    "fields": {
+      "case": 1,
+      "document_type": "escritura",
+      "title": "Escritura de propiedad del inmueble",
+      "description": "Escritura original de la propiedad heredada",
+      "file": "legal_documents/escritura_propiedad_001.pdf",
+      "file_size": 245760,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-10T10:00:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 2,
+    "fields": {
+      "case": 1,
+      "document_type": "otro",
+      "title": "Certificado de defunción",
+      "description": "Certificado de defunción del causante",
+      "file": "legal_documents/certificado_defuncion_001.pdf",
+      "file_size": 52480,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-10T10:30:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 3,
+    "fields": {
+      "case": 2,
+      "document_type": "contrato",
+      "title": "Convenio regulador de divorcio",
+      "description": "Borrador del convenio regulador para firma de ambas partes",
+      "file": "legal_documents/convenio_divorcio_002.pdf",
+      "file_size": 156320,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-12T11:00:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 4,
+    "fields": {
+      "case": 3,
+      "document_type": "contrato",
+      "title": "Estatutos sociales de la S.L.",
+      "description": "Borrador de estatutos para la nueva sociedad",
+      "file": "legal_documents/estatutos_sl_003.pdf",
+      "file_size": 189440,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-05T12:00:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 5,
+    "fields": {
+      "case": 3,
+      "document_type": "escritura",
+      "title": "Escritura de constitución",
+      "description": "Escritura pública de constitución de la sociedad",
+      "file": "legal_documents/escritura_constitucion_003.pdf",
+      "file_size": 312480,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-06T09:30:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 6,
+    "fields": {
+      "case": 4,
+      "document_type": "demanda",
+      "title": "Demanda por despido improcedente",
+      "description": "Demanda presentada ante el Juzgado de lo Social",
+      "file": "legal_documents/demanda_despido_004.pdf",
+      "file_size": 278560,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-14T09:15:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 7,
+    "fields": {
+      "case": 4,
+      "document_type": "contrato",
+      "title": "Contrato de trabajo original",
+      "description": "Copia del contrato de trabajo del demandante",
+      "file": "legal_documents/contrato_trabajo_004.pdf",
+      "file_size": 124800,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-14T09:45:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 8,
+    "fields": {
+      "case": 5,
+      "document_type": "demanda",
+      "title": "Escrito de defensa penal",
+      "description": "Escrito de defensa presentado en el procedimiento",
+      "file": "legal_documents/defensa_penal_005.pdf",
+      "file_size": 345600,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-08T15:00:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 9,
+    "fields": {
+      "case": 6,
+      "document_type": "contrato",
+      "title": "Contrato de servicios",
+      "description": "Contrato original de prestación de servicios",
+      "file": "legal_documents/contrato_servicios_006.pdf",
+      "file_size": 98304,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-15T17:00:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 10,
+    "fields": {
+      "case": 7,
+      "document_type": "sentencia",
+      "title": "Sentencia de custodia original",
+      "description": "Sentencia del juzgado estableciendo el régimen original",
+      "file": "legal_documents/sentencia_custodia_007.pdf",
+      "file_size": 215040,
+      "uploaded_by": null,
+      "uploaded_at": "2025-06-02T10:00:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 11,
+    "fields": {
+      "case": 8,
+      "document_type": "otro",
+      "title": "Informe pericial del accidente",
+      "description": "Informe del perito sobre los daños del vehículo",
+      "file": "legal_documents/informe_pericial_008.pdf",
+      "file_size": 524288,
+      "uploaded_by": null,
+      "uploaded_at": "2025-03-05T11:30:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 12,
+    "fields": {
+      "case": 8,
+      "document_type": "sentencia",
+      "title": "Sentencia favorable",
+      "description": "Sentencia concediendo indemnización al cliente",
+      "file": "legal_documents/sentencia_accidente_008.pdf",
+      "file_size": 178560,
+      "uploaded_by": null,
+      "uploaded_at": "2025-08-20T14:00:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 13,
+    "fields": {
+      "case": 9,
+      "document_type": "otro",
+      "title": "Solicitud de registro de marca",
+      "description": "Formulario de solicitud ante la OEPM",
+      "file": "legal_documents/solicitud_marca_009.pdf",
+      "file_size": 89600,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-11T13:00:00Z",
+      "is_confidential": false
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 14,
+    "fields": {
+      "case": 10,
+      "document_type": "contrato",
+      "title": "Borrador contrato alta dirección",
+      "description": "Borrador del contrato de alta dirección para revisión",
+      "file": "legal_documents/contrato_direccion_010.pdf",
+      "file_size": 267520,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-13T14:00:00Z",
+      "is_confidential": true
+    }
+  },
+  {
+    "model": "documents.document",
+    "pk": 15,
+    "fields": {
+      "case": 10,
+      "document_type": "poder",
+      "title": "Poder de representación",
+      "description": "Poder notarial para negociación del contrato",
+      "file": "legal_documents/poder_representacion_010.pdf",
+      "file_size": 145920,
+      "uploaded_by": null,
+      "uploaded_at": "2026-01-13T14:30:00Z",
+      "is_confidential": false
+    }
+  }
+]
