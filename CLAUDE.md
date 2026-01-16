@@ -40,4 +40,14 @@ Python 3.11+: Follow standard conventions
 - Do NOT add "Generated with Claude Code" or similar attribution lines to PRs
 - Keep commits and PRs clean without tool attribution
 
+## Post-Spec Completion Workflow
+
+After completing all tasks in a spec, automatically run:
+
+1. `git push -u origin <branch-name>` - Push branch to remote
+2. `gh pr create --title "..." --body "..."` - Create pull request
+3. `gh pr merge <pr-number> --merge --delete-branch` - Merge PR and delete remote branch
+4. `git checkout master && git pull origin master` - Switch to master and pull changes
+5. `git fetch --prune` - Clean up stale remote tracking branches
+
 <!-- MANUAL ADDITIONS END -->
