@@ -1,0 +1,23 @@
+# LegalDocs Manager - Python Dependencies
+# Django 5.x with PostgreSQL and DRF
+
+# Core Framework
+Django==5.0.11
+
+# REST API
+djangorestframework==3.15.2
+
+# Database
+psycopg2-binary==2.9.10
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# Image/Document Handling
+Pillow==11.1.0
+
+# CORS Support
+django-cors-headers==4.6.0
+
+# Filtering
+django-filter==24.3
