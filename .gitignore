@@ -61,6 +61,13 @@ htmlcov/
 coverage.xml
 *.cover
 
+# Playwright E2E Tests
+tests/e2e/node_modules/
+tests/e2e/dist/
+tests/e2e/playwright-report/
+tests/e2e/playwright/.cache/
+tests/e2e/test-results/
+
 # Jupyter
 .ipynb_checkpoints/
 
