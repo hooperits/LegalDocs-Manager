@@ -42,9 +42,10 @@ export default defineConfig({
     screenshot: 'only-on-failure',
 
     // Extra HTTP headers
+    // Note: Don't set Content-Type here as it conflicts with multipart uploads
+    // Playwright auto-sets Content-Type based on request data type
     extraHTTPHeaders: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
     },
   },
 

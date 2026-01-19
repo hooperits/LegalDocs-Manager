@@ -337,8 +337,8 @@ test.describe('Complete Workflow', () => {
     expect(confidentialList[0].title).toBe('Demanda Legal');
     console.log(`Confidential documents: ${confidentialList.length}`);
 
-    // Update document metadata
-    const updateResponse = await auth.patch(`${API_BASE}/documents/${doc1.id}/`, {
+    // Update document metadata (documents API requires multipart for PATCH)
+    const updateResponse = await auth.patchMultipart(`${API_BASE}/documents/${doc1.id}/`, {
       title: 'Contrato Principal Actualizado',
       description: 'Updated contract description',
     });

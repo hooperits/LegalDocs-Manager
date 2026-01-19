@@ -115,19 +115,26 @@ test.describe('Clients API', () => {
     test('should reject duplicate identification_number', async ({ auth }) => {
       await auth.register();
 
-      // Create first client
+      // Use a fixed unique identification number for this test
+      const sharedId = `DUPLICATE-TEST-${Date.now()}`;
+
+      // Create first client with explicit identification_number
       const clientData = generateTestClient();
-      await auth.post(`${API_BASE}/clients/`, clientData);
+      clientData.identification_number = sharedId;
+      const firstResponse = await auth.post(`${API_BASE}/clients/`, clientData);
+      expect(firstResponse.status()).toBe(201);
 
       // Try to create another client with same identification_number
       const duplicateClient = generateTestClient();
-      duplicateClient.identification_number = clientData.identification_number;
+      duplicateClient.identification_number = sharedId;
 
       const response = await auth.post(`${API_BASE}/clients/`, duplicateClient);
       expect(response.status()).toBe(400);
 
       const body = await response.json();
-      expect(body.identification_number).toBeDefined();
+      // Error should contain identification_number (Spanish or English key)
+      const bodyStr = JSON.stringify(body);
+      expect(bodyStr).toMatch(/identification_number|número de identificación/i);
     });
 
     test('should reject client with missing required fields', async ({ auth }) => {
