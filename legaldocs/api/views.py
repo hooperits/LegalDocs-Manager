@@ -11,7 +11,6 @@ Provides:
 - ProfileView: User profile management
 """
 
-from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework import status
@@ -22,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import ProfileSerializer, RegisterSerializer, UserInfoSerializer
+from .throttling import LoginRateThrottle, RegisterRateThrottle
 
 
 class LoginView(ObtainAuthToken):
@@ -31,7 +31,11 @@ class LoginView(ObtainAuthToken):
     POST /api/v1/auth/login/
     Request: {"username": "...", "password": "..."}
     Response: {"token": "...", "user_id": ..., "username": "..."}
+
+    Rate limited to 5 requests per minute per IP address.
     """
+
+    throttle_classes = [LoginRateThrottle]
 
     def post(self, request, *args, **kwargs):
         """Authenticate user and return token."""
@@ -76,9 +80,12 @@ class RegisterView(APIView):
     POST /api/v1/auth/register/
     Request: {"username": "...", "email": "...", "password": "...", "password_confirm": "..."}
     Response: {"token": "...", "user": {...}}
+
+    Rate limited to 5 requests per minute per IP address.
     """
 
     permission_classes = [AllowAny]
+    throttle_classes = [RegisterRateThrottle]
 
     def post(self, request):
         """Create new user and return token."""
@@ -122,17 +129,30 @@ class DashboardView(APIView):
         "documents_by_type": {...},
         "upcoming_deadlines": [...]
     }
+
+    Statistics are cached for 5 minutes to improve performance.
     """
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        """Return aggregated dashboard statistics."""
+        """Return aggregated dashboard statistics (cached for 5 minutes)."""
         from datetime import timedelta
+
+        from core.cache import (
+            DASHBOARD_CACHE_TIMEOUT,
+            get_dashboard_stats,
+            set_dashboard_stats,
+        )
 
         from cases.models import Case
         from clients.models import Client
         from documents.models import Document
+
+        # Try to get cached stats
+        cached_stats = get_dashboard_stats()
+        if cached_stats is not None:
+            return Response(cached_stats)
 
         today = timezone.now().date()
         seven_days_later = today + timedelta(days=7)
@@ -202,7 +222,7 @@ class DashboardView(APIView):
             for case in upcoming_qs
         ]
 
-        return Response({
+        stats = {
             'total_clients': client_stats['total'],
             'active_clients': client_stats['active'],
             'cases_by_status': cases_by_status,
@@ -210,7 +230,12 @@ class DashboardView(APIView):
             'recent_cases': recent_cases,
             'documents_by_type': documents_by_type,
             'upcoming_deadlines': upcoming_deadlines,
-        })
+        }
+
+        # Cache the stats
+        set_dashboard_stats(stats, DASHBOARD_CACHE_TIMEOUT)
+
+        return Response(stats)
 
 
 class SearchView(APIView):
