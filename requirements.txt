@@ -27,3 +27,9 @@ drf-spectacular==0.28.0
 
 # Testing
 coverage==7.4.0
+
+# Security & Rate Limiting
+django-ratelimit>=4.1.0
+
+# File Type Validation
+python-magic>=0.4.27

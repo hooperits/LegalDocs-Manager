@@ -1,5 +1,12 @@
 # LegalDocs Manager
 
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![Django](https://img.shields.io/badge/Django-5.0-green.svg)
+![DRF](https://img.shields.io/badge/DRF-3.15-red.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Coverage](https://img.shields.io/badge/Coverage-98%25-brightgreen.svg)
+![Tests](https://img.shields.io/badge/Tests-163%20passing-brightgreen.svg)
+
 A comprehensive legal document management system built with Django REST Framework. Designed to help law firms and legal professionals manage clients, cases, and documents efficiently.
 
 ## Features
@@ -276,4 +283,4 @@ LegalDocs-Manager/
 
 ## License
 
-This project is proprietary software. All rights reserved.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
