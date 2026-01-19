@@ -19,6 +19,56 @@ A comprehensive legal document management system built with Django REST Framewor
 - **User Authentication**: Token-based authentication with registration, login, and profile management
 - **API Documentation**: Interactive Swagger UI documentation
 
+## Screenshots
+
+### Swagger API Documentation
+
+The API is fully documented with interactive Swagger UI:
+
+![Swagger Overview](docs/screenshots/07-api/01-swagger-overview.png)
+
+### Authentication Endpoints
+
+Secure token-based authentication with login and registration:
+
+![Login Endpoint](docs/screenshots/01-auth/02-login-endpoint.png)
+
+### Client Management
+
+Complete CRUD operations for managing legal clients:
+
+![Client List](docs/screenshots/02-clients/02-client-list-endpoint.png)
+
+### Case Management
+
+Track legal cases with status, priority, and filtering:
+
+![Case List](docs/screenshots/03-cases/02-case-list-filters.png)
+
+![Case Statistics](docs/screenshots/03-cases/04-case-statistics-endpoint.png)
+
+### Document Management
+
+Upload and manage legal documents with file validation:
+
+![Document Upload](docs/screenshots/04-documents/03-document-upload-endpoint.png)
+
+### Dashboard & Search
+
+Real-time statistics and global search functionality:
+
+![Dashboard](docs/screenshots/05-dashboard/01-dashboard-endpoint.png)
+
+### Django Admin Interface
+
+Powerful admin interface for advanced management:
+
+![Admin Dashboard](docs/screenshots/06-admin/02-admin-dashboard.png)
+
+![Admin Cases](docs/screenshots/06-admin/04-admin-cases-list.png)
+
+> 📸 **[View all screenshots →](docs/screenshots/README.md)**
+
 ## Tech Stack
 
 - **Backend**: Python 3.11+, Django 5.x, Django REST Framework 3.15+
