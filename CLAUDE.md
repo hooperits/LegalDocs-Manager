@@ -1,6 +1,6 @@
 # LegalDocs-Manager Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-01-16
+Auto-generated from all feature plans. Last updated: 2026-01-19
 
 ## Active Technologies
 - Python 3.11+ + Django 5.0.11 (built-in admin module) (003-admin-interface)
@@ -10,6 +10,7 @@ Auto-generated from all feature plans. Last updated: 2026-01-16
 - Python 3.11+ + Django 5.x + Django REST Framework 3.15+, rest_framework.authtoken (already installed) (005-auth-dashboard)
 - Python 3.11+ + Django 5.x, Django REST Framework 3.15+, coverage.py (006-testing-docs)
 - PostgreSQL 15+ (SQLite for tests) (006-testing-docs)
+- TypeScript 5.x + Playwright 1.40+ + Chromium (009-screenshot-documentation)
 
 - Python 3.11+ + Django 5.0.11, djangorestframework 3.15.2, psycopg2-binary 2.9.10, python-dotenv 1.0.1, Pillow 11.1.0, django-cors-headers 4.6.0, django-filter 24.3 (001-project-setup)
 
@@ -29,6 +30,7 @@ cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLO
 Python 3.11+: Follow standard conventions
 
 ## Recent Changes
+- 009-screenshot-documentation: Added TypeScript 5.x + Playwright 1.40+ + Chromium for visual documentation generation
 - 006-testing-docs: Added Python 3.11+ + Django 5.x, Django REST Framework 3.15+, coverage.py
 - 005-auth-dashboard: Added Python 3.11+ + Django 5.x + Django REST Framework 3.15+, rest_framework.authtoken (already installed)
 - 004-rest-api: Added Python 3.11+ + Django 5.x, Django REST Framework 3.15+, django-filter, drf-spectacular, django-cors-headers

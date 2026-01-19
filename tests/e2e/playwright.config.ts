@@ -74,6 +74,15 @@ export default defineConfig({
       testMatch: /workflows\/.*\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'docs',
+      testMatch: /docs\/.*\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'off', // We handle screenshots manually
+      },
+    },
   ],
 
   // Run your local dev server before starting the tests
