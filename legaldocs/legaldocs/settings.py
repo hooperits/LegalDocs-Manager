@@ -5,6 +5,7 @@ LegalDocs Manager - A legal document management system.
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -112,7 +113,6 @@ DATABASES = {
 }
 
 # Use SQLite for testing (no CREATE DATABASE permissions needed)
-import sys
 if 'test' in sys.argv:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -146,13 +146,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # =============================================================================
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'  # Spanish (Colombia)
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
 USE_TZ = True
+
+# Date and time formats for Spanish (DD/MM/YYYY)
+DATE_FORMAT = 'd/m/Y'
+DATETIME_FORMAT = 'd/m/Y H:i:s'
+SHORT_DATE_FORMAT = 'd/m/Y'
+SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
+
+# DRF date formats
+REST_FRAMEWORK_DATE_FORMAT = '%d/%m/%Y'
+REST_FRAMEWORK_DATETIME_FORMAT = '%d/%m/%Y %H:%M:%S'
 
 
 # =============================================================================
@@ -195,6 +205,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
 }
 
 
@@ -202,9 +213,16 @@ REST_FRAMEWORK = {
 # CORS Configuration
 # =============================================================================
 
+# Development origins - update for production deployment
+# For production, replace with actual domain(s):
+# CORS_ALLOWED_ORIGINS = ['https://yourdomain.com']
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # React/Next.js frontend
-    'http://127.0.0.1:3000',
+    origin.strip()
+    for origin in os.getenv(
+        'CORS_ALLOWED_ORIGINS',
+        'http://localhost:3000,http://127.0.0.1:3000'
+    ).split(',')
+    if origin.strip()
 ]
 
 # Allow credentials (cookies, authorization headers)
@@ -212,11 +230,44 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 # =============================================================================
-# File Upload Limits
+# File Upload Limits and Validation
 # =============================================================================
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+
+# Maximum file upload size in bytes (10MB)
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024
+
+# Allowed file MIME types for document uploads
+ALLOWED_FILE_TYPES = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
+    'image/jpeg',
+    'image/png',
+]
+
+
+# =============================================================================
+# Cache Configuration
+# =============================================================================
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}
+
+
+# =============================================================================
+# Rate Limiting Configuration
+# =============================================================================
+
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
 
 
 # =============================================================================

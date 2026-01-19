@@ -14,7 +14,6 @@ from rest_framework.test import APITestCase
 
 from cases.models import Case
 from clients.models import Client
-from documents.models import Document
 
 
 class DashboardTests(APITestCase):
