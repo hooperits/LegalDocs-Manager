@@ -11,6 +11,9 @@ dotenv.config();
 export default defineConfig({
   testDir: '.',
 
+  // Global setup creates a shared test user to avoid rate limits
+  globalSetup: './global-setup.ts',
+
   // Run tests in files in parallel
   fullyParallel: true,
 
@@ -20,8 +23,9 @@ export default defineConfig({
   // Retry on CI only
   retries: process.env.CI ? 1 : 0,
 
-  // Opt out of parallel tests on CI
-  workers: process.env.CI ? 1 : undefined,
+  // Use single worker to avoid triggering rate limits
+  // The Django API has rate limiting (5 requests/minute on auth endpoints)
+  workers: 1,
 
   // Reporter to use
   reporter: [
