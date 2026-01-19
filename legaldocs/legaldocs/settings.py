@@ -206,6 +206,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
+    # Rate limiting - disabled for testing via DISABLE_THROTTLING env var
+    'DEFAULT_THROTTLE_RATES': {
+        'auth': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',
+        'login': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',
+        'register': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',
+    },
 }
 
 

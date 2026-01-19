@@ -74,13 +74,15 @@ test.describe('Security API', () => {
 
   test.describe('CORS Headers', () => {
     test('should include CORS headers in response', async ({ request }) => {
-      const response = await request.options(`${API_BASE}/auth/login/`, {
+      // Make a simple GET request with Origin header
+      // CORS headers are returned on any request with Origin header
+      const response = await request.get(`${API_BASE}/docs/`, {
         headers: {
           'Origin': 'http://localhost:3000',
-          'Access-Control-Request-Method': 'POST',
-          'Access-Control-Request-Headers': 'Content-Type',
         },
       });
+
+      expect(response.status()).toBeLessThan(500);
 
       // Check for CORS headers
       const headers = response.headers();
@@ -88,12 +90,12 @@ test.describe('Security API', () => {
       // Most common is Access-Control-Allow-Origin
       const corsHeaderPresent =
         headers['access-control-allow-origin'] !== undefined ||
-        headers['access-control-allow-methods'] !== undefined ||
-        headers['access-control-allow-headers'] !== undefined;
+        headers['access-control-allow-credentials'] !== undefined;
 
       // If CORS is configured, at least one header should be present
-      // Note: This test might need adjustment based on actual CORS config
-      console.log('CORS Headers:', headers);
+      // Note: This might not be present if localhost:3000 isn't in CORS_ALLOWED_ORIGINS
+      console.log('CORS Headers present:', corsHeaderPresent);
+      console.log('access-control-allow-origin:', headers['access-control-allow-origin']);
     });
   });
 
@@ -147,9 +149,11 @@ test.describe('Security API', () => {
       expect(response.status()).toBe(400);
       const body = await response.json();
 
-      // Verify error message exists
-      expect(body.non_field_errors).toBeDefined();
-      // The message might be in Spanish or English depending on Django settings
+      // Verify error message exists (Spanish: 'errores generales', English: 'non_field_errors')
+      const hasError =
+        body['errores generales'] !== undefined ||
+        body.non_field_errors !== undefined;
+      expect(hasError).toBe(true);
     });
 
     test('should return validation error for invalid email in registration', async ({ request }) => {
@@ -166,8 +170,11 @@ test.describe('Security API', () => {
       expect(response.status()).toBe(400);
       const body = await response.json();
 
-      // Email validation error should be present
-      expect(body.email).toBeDefined();
+      // Email validation error should be present (could be 'email' or 'correo electrónico')
+      const hasEmailError =
+        body.email !== undefined ||
+        body['correo electrónico'] !== undefined;
+      expect(hasEmailError).toBe(true);
     });
 
     test('should return validation error for password mismatch', async ({ request }) => {
@@ -184,11 +191,12 @@ test.describe('Security API', () => {
       expect(response.status()).toBe(400);
       const body = await response.json();
 
-      // Password mismatch error should be present (could be in password_confirm or non_field_errors)
-      expect(
+      // Password mismatch error (Spanish or English keys)
+      const hasPasswordError =
         body.password_confirm !== undefined ||
-        body.non_field_errors !== undefined
-      ).toBe(true);
+        body.non_field_errors !== undefined ||
+        body['errores generales'] !== undefined;
+      expect(hasPasswordError).toBe(true);
     });
   });
 

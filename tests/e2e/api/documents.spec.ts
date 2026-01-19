@@ -149,8 +149,9 @@ test.describe('Documents API', () => {
       expect(response.status()).toBe(400);
 
       const body = await response.json();
-      // Error should mention file type
-      expect(JSON.stringify(body)).toContain('file');
+      // Error should mention file type (Spanish: 'archivo', English: 'file')
+      const bodyStr = JSON.stringify(body);
+      expect(bodyStr).toMatch(/file|archivo/);
     });
 
     test('should auto-calculate file_size', async ({ auth }) => {
@@ -292,10 +293,10 @@ test.describe('Documents API', () => {
       });
       const uploadedDoc = await uploadResponse.json();
 
-      // Update metadata
-      const updateResponse = await auth.patch(`${API_BASE}/documents/${uploadedDoc.id}/`, {
+      // Update metadata (documents API requires multipart for PATCH)
+      const updateResponse = await auth.patchMultipart(`${API_BASE}/documents/${uploadedDoc.id}/`, {
         title: 'Updated Title',
-        is_confidential: true,
+        is_confidential: 'true',
       });
       expect(updateResponse.status()).toBe(200);
 

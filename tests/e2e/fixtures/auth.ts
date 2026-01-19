@@ -224,7 +224,10 @@ export class AuthHelper {
    */
   async post(url: string, data?: object): Promise<APIResponse> {
     return await this.request.post(url, {
-      headers: this.getAuthHeaders(),
+      headers: {
+        ...this.getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
       data,
     });
   }
@@ -234,18 +237,35 @@ export class AuthHelper {
    */
   async put(url: string, data: object): Promise<APIResponse> {
     return await this.request.put(url, {
-      headers: this.getAuthHeaders(),
+      headers: {
+        ...this.getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
       data,
     });
   }
 
   /**
-   * Make an authenticated PATCH request
+   * Make an authenticated PATCH request (JSON)
    */
   async patch(url: string, data: object): Promise<APIResponse> {
     return await this.request.patch(url, {
-      headers: this.getAuthHeaders(),
+      headers: {
+        ...this.getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
       data,
+    });
+  }
+
+  /**
+   * Make an authenticated PATCH request with multipart form data
+   * (Required for endpoints that only accept multipart, like documents)
+   */
+  async patchMultipart(url: string, data: Record<string, string | number | boolean>): Promise<APIResponse> {
+    return await this.request.patch(url, {
+      headers: this.getAuthHeaders(),
+      multipart: data,
     });
   }
 
@@ -370,28 +390,28 @@ export function generateTestDocument(caseId: number): {
  * Create a simple PDF file buffer for testing
  */
 export function createTestPDF(): Buffer {
-  // Minimal valid PDF content
-  const pdfContent = `%PDF-1.4
-1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
-endobj
-2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
-endobj
-3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] >>
-endobj
-xref
-0 4
-0000000000 65535 f
-0000000009 00000 n
-0000000058 00000 n
-0000000115 00000 n
-trailer
-<< /Size 4 /Root 1 0 R >>
-startxref
-191
-%%EOF`;
+  // Minimal valid PDF content - must start with %PDF-1.4 at byte 0
+  const pdfContent = '%PDF-1.4\n' +
+    '1 0 obj\n' +
+    '<< /Type /Catalog /Pages 2 0 R >>\n' +
+    'endobj\n' +
+    '2 0 obj\n' +
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>\n' +
+    'endobj\n' +
+    '3 0 obj\n' +
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] >>\n' +
+    'endobj\n' +
+    'xref\n' +
+    '0 4\n' +
+    '0000000000 65535 f\n' +
+    '0000000009 00000 n\n' +
+    '0000000058 00000 n\n' +
+    '0000000115 00000 n\n' +
+    'trailer\n' +
+    '<< /Size 4 /Root 1 0 R >>\n' +
+    'startxref\n' +
+    '191\n' +
+    '%%EOF';
   return Buffer.from(pdfContent, 'utf-8');
 }
 

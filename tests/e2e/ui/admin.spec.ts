@@ -7,6 +7,10 @@
  * - Case management with badges
  * - Bulk actions
  * - Document inline views
+ *
+ * NOTE: These tests require an admin superuser to exist.
+ * Create one with: python manage.py createsuperuser
+ * Set ADMIN_USERNAME and ADMIN_PASSWORD env vars to run these tests.
  */
 
 import { test, expect } from '@playwright/test';
@@ -17,7 +21,22 @@ const ADMIN_CREDENTIALS = {
   password: process.env.ADMIN_PASSWORD || 'admin',
 };
 
+// Skip admin tests if no explicit admin credentials provided
+const SKIP_ADMIN_TESTS = !process.env.ADMIN_USERNAME && !process.env.ADMIN_PASSWORD;
+
+// Helper function to login to admin
+async function loginToAdmin(page: any) {
+  await page.goto('/admin/login/');
+  await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
+  await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
+  await page.click('input[type="submit"]');
+  await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
+}
+
 test.describe('Django Admin', () => {
+  // Skip all admin tests if no credentials provided
+  test.skip(() => SKIP_ADMIN_TESTS, 'Admin tests require ADMIN_USERNAME and ADMIN_PASSWORD env vars');
+
   test.describe('Admin Login', () => {
     test('should load admin login page', async ({ page }) => {
       await page.goto('/admin/');
@@ -28,17 +47,9 @@ test.describe('Django Admin', () => {
     });
 
     test('should login to admin successfully', async ({ page }) => {
-      await page.goto('/admin/login/');
-
-      // Fill login form
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-
-      // Submit form
-      await page.click('input[type="submit"]');
-
-      // Should be redirected to admin dashboard
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
+      await loginToAdmin(page);
+      // If we get here, login was successful
+      await expect(page.locator('#site-name')).toBeVisible();
     });
 
     test('should reject invalid admin credentials', async ({ page }) => {
@@ -57,16 +68,9 @@ test.describe('Django Admin', () => {
   });
 
   test.describe('Admin Dashboard', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login to admin
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
-    });
-
     test('should display admin dashboard', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Should be on admin index
       await expect(page.locator('#site-name')).toBeVisible();
 
@@ -76,6 +80,8 @@ test.describe('Django Admin', () => {
     });
 
     test('should show registered models', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Look for the models in the admin
       const content = page.locator('#content-main');
       await expect(content).toBeVisible();
@@ -98,16 +104,9 @@ test.describe('Django Admin', () => {
   });
 
   test.describe('Client Management', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login to admin
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
-    });
-
     test('should navigate to clients list', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Click on Clientes link
       const clientsLink = page.locator('a').filter({ hasText: 'Clientes' }).first();
 
@@ -120,6 +119,8 @@ test.describe('Django Admin', () => {
     });
 
     test('should show "Add" button for clients', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Navigate to clients
       await page.goto('/admin/clients/client/');
 
@@ -129,6 +130,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should create new client from admin', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/clients/client/add/');
 
       const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
@@ -148,16 +150,9 @@ test.describe('Django Admin', () => {
   });
 
   test.describe('Case Management', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login to admin
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
-    });
-
     test('should navigate to cases list', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Click on Casos link
       const casesLink = page.locator('a').filter({ hasText: 'Casos' }).first();
 
@@ -170,6 +165,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should show status badges in case list', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/cases/case/');
 
       // If there are cases, they should have status displayed
@@ -183,6 +179,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should have bulk actions available', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/cases/case/');
 
       // Look for actions dropdown
@@ -198,6 +195,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should show filter sidebar', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/cases/case/');
 
       // Look for filter sidebar
@@ -216,16 +214,9 @@ test.describe('Django Admin', () => {
   });
 
   test.describe('Document Management', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login to admin
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
-    });
-
     test('should navigate to documents list', async ({ page }) => {
+      await loginToAdmin(page);
+
       // Click on Documentos link
       const documentsLink = page.locator('a').filter({ hasText: 'Documentos' }).first();
 
@@ -238,6 +229,8 @@ test.describe('Django Admin', () => {
     });
 
     test('should show documents as inline in case edit', async ({ page }) => {
+      await loginToAdmin(page);
+
       // First need to have a case - go to cases list
       await page.goto('/admin/cases/case/');
 
@@ -262,16 +255,8 @@ test.describe('Django Admin', () => {
   });
 
   test.describe('Admin Search', () => {
-    test.beforeEach(async ({ page }) => {
-      // Login to admin
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
-    });
-
     test('should have search box in clients list', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/clients/client/');
 
       // Look for search box
@@ -280,6 +265,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should have search box in cases list', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/cases/case/');
 
       // Look for search box
@@ -288,6 +274,7 @@ test.describe('Django Admin', () => {
     });
 
     test('should search clients', async ({ page }) => {
+      await loginToAdmin(page);
       await page.goto('/admin/clients/client/');
 
       // Fill search box
@@ -304,12 +291,7 @@ test.describe('Django Admin', () => {
 
   test.describe('Admin Logout', () => {
     test('should logout from admin', async ({ page }) => {
-      // Login first
-      await page.goto('/admin/login/');
-      await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
-      await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-      await page.click('input[type="submit"]');
-      await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
+      await loginToAdmin(page);
 
       // Find and click logout link
       const logoutLink = page.locator('a').filter({ hasText: /log out|cerrar sesión/i }).first();

@@ -42,9 +42,10 @@ export default defineConfig({
     screenshot: 'only-on-failure',
 
     // Extra HTTP headers
+    // Note: Don't set Content-Type here as it conflicts with multipart uploads
+    // Playwright auto-sets Content-Type based on request data type
     extraHTTPHeaders: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
     },
   },
 
@@ -72,6 +73,15 @@ export default defineConfig({
       name: 'workflows',
       testMatch: /workflows\/.*\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'docs',
+      testMatch: /docs\/.*\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'off', // We handle screenshots manually
+      },
     },
   ],
 
