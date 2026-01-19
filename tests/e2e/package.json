@@ -1,0 +1,22 @@
+{
+  "name": "legaldocs-e2e-tests",
+  "version": "1.0.0",
+  "description": "E2E tests for LegalDocs-Manager using Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test api/",
+    "test:ui": "playwright test ui/",
+    "test:workflows": "playwright test workflows/",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui-mode": "playwright test --ui",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
