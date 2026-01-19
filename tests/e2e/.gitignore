@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Playwright
+playwright-report/
+playwright/.cache/
+test-results/
+
+# Environment
+.env.local
