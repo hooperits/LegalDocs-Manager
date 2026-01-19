@@ -11,9 +11,6 @@ dotenv.config();
 export default defineConfig({
   testDir: '.',
 
-  // Global setup creates a shared test user to avoid rate limits
-  globalSetup: './global-setup.ts',
-
   // Run tests in files in parallel
   fullyParallel: true,
 

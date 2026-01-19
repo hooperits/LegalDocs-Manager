@@ -8,32 +8,6 @@
  */
 
 import { test as base, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
-
-// Path to shared auth file created by global setup
-const AUTH_FILE = path.join(__dirname, '..', '.auth.json');
-
-interface SharedAuth {
-  token: string;
-  userId: number;
-  username: string;
-}
-
-/**
- * Get shared auth from global setup if available
- */
-export function getSharedAuth(): SharedAuth | null {
-  try {
-    if (fs.existsSync(AUTH_FILE)) {
-      const data = fs.readFileSync(AUTH_FILE, 'utf-8');
-      return JSON.parse(data) as SharedAuth;
-    }
-  } catch {
-    // Ignore errors
-  }
-  return null;
-}
 
 // Test user credentials
 export const TEST_USER = {
@@ -136,23 +110,7 @@ export class AuthHelper {
   }
 
   /**
-   * Use shared auth from global setup (avoids rate limits)
-   * Returns true if shared auth was available and set
-   */
-  useSharedAuth(): boolean {
-    const shared = getSharedAuth();
-    if (shared) {
-      this.token = shared.token;
-      this.userId = shared.userId;
-      this.username = shared.username;
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Register a new user (may be rate limited)
-   * Consider using useSharedAuth() first if you don't need a fresh user
+   * Register a new user (may be rate limited - 5 requests/minute)
    */
   async register(userData?: Partial<typeof TEST_USER>): Promise<RegisterResponse> {
     const data = {
@@ -169,22 +127,7 @@ export class AuthHelper {
     });
 
     if (response.status() === 429) {
-      // Rate limited - try to use shared auth
-      const shared = getSharedAuth();
-      if (shared) {
-        this.token = shared.token;
-        this.userId = shared.userId;
-        this.username = shared.username;
-        return {
-          token: shared.token,
-          user: {
-            id: shared.userId,
-            username: shared.username,
-            email: `${shared.username}@test.com`,
-          },
-        };
-      }
-      throw new Error('Rate limited and no shared auth available');
+      throw new Error('Rate limited - please wait before running more registration tests');
     }
 
     expect(response.status()).toBe(201);
