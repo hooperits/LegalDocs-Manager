@@ -11,3 +11,6 @@ test-results/
 
 # Environment
 .env.local
+
+# Auth tokens from global setup
+.auth.json

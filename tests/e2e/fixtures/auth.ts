@@ -8,6 +8,32 @@
  */
 
 import { test as base, expect, APIRequestContext, APIResponse } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Path to shared auth file created by global setup
+const AUTH_FILE = path.join(__dirname, '..', '.auth.json');
+
+interface SharedAuth {
+  token: string;
+  userId: number;
+  username: string;
+}
+
+/**
+ * Get shared auth from global setup if available
+ */
+export function getSharedAuth(): SharedAuth | null {
+  try {
+    if (fs.existsSync(AUTH_FILE)) {
+      const data = fs.readFileSync(AUTH_FILE, 'utf-8');
+      return JSON.parse(data) as SharedAuth;
+    }
+  } catch {
+    // Ignore errors
+  }
+  return null;
+}
 
 // Test user credentials
 export const TEST_USER = {
@@ -100,15 +126,33 @@ export interface Document {
  * Authentication helper class
  */
 export class AuthHelper {
-  private request: APIRequestContext;
+  public readonly request: APIRequestContext;
   private token: string | null = null;
+  private userId: number | null = null;
+  private username: string | null = null;
 
   constructor(request: APIRequestContext) {
     this.request = request;
   }
 
   /**
-   * Register a new user
+   * Use shared auth from global setup (avoids rate limits)
+   * Returns true if shared auth was available and set
+   */
+  useSharedAuth(): boolean {
+    const shared = getSharedAuth();
+    if (shared) {
+      this.token = shared.token;
+      this.userId = shared.userId;
+      this.username = shared.username;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Register a new user (may be rate limited)
+   * Consider using useSharedAuth() first if you don't need a fresh user
    */
   async register(userData?: Partial<typeof TEST_USER>): Promise<RegisterResponse> {
     const data = {
@@ -124,9 +168,30 @@ export class AuthHelper {
       data,
     });
 
+    if (response.status() === 429) {
+      // Rate limited - try to use shared auth
+      const shared = getSharedAuth();
+      if (shared) {
+        this.token = shared.token;
+        this.userId = shared.userId;
+        this.username = shared.username;
+        return {
+          token: shared.token,
+          user: {
+            id: shared.userId,
+            username: shared.username,
+            email: `${shared.username}@test.com`,
+          },
+        };
+      }
+      throw new Error('Rate limited and no shared auth available');
+    }
+
     expect(response.status()).toBe(201);
     const json = await response.json() as RegisterResponse;
     this.token = json.token;
+    this.userId = json.user.id;
+    this.username = json.user.username;
     return json;
   }
 

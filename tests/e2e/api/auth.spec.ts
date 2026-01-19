@@ -93,17 +93,12 @@ test.describe('Authentication API', () => {
   });
 
   test.describe('Login', () => {
-    test('should login successfully and return token', async ({ auth }) => {
-      // First register a user
-      const registerResponse = await auth.register();
-
-      // Create a new auth helper to login
+    test('should login successfully and return token', async ({ request }) => {
       const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
       const username = `logintest_${uniqueId}`;
       const password = 'TestPassword123!';
 
-      // Register the test user directly
-      const request = await (auth as any).request;
+      // Register the test user first
       await request.post(`${API_BASE}/auth/register/`, {
         data: {
           username,
@@ -135,8 +130,9 @@ test.describe('Authentication API', () => {
 
       expect(response.status()).toBe(400);
       const body = await response.json();
-      // Error messages might be in Spanish based on Django settings
-      expect(body.non_field_errors).toBeDefined();
+      // Error messages are in Spanish - check for 'errores generales' or 'non_field_errors'
+      const hasError = body['errores generales'] !== undefined || body.non_field_errors !== undefined;
+      expect(hasError).toBe(true);
     });
 
     test('should reject login with missing credentials', async ({ request }) => {
