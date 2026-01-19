@@ -1,0 +1,606 @@
+{
+	"info": {
+		"_postman_id": "legaldocs-api-collection",
+		"name": "LegalDocs Manager API",
+		"description": "API collection for LegalDocs Manager - Legal document management system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"description": "Authentication endpoints",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"demo_user\",\n    \"email\": \"demo@example.com\",\n    \"password\": \"Demo123456\",\n    \"password_confirm\": \"Demo123456\",\n    \"first_name\": \"Demo\",\n    \"last_name\": \"User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register", ""]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"demo_user\",\n    \"password\": \"Demo123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login", ""]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/logout/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/me/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"description": "Client management endpoints",
+			"item": [
+				{
+					"name": "List Clients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"full_name\": \"Juan Carlos Pérez\",\n    \"identification_number\": \"CC-12345678\",\n    \"email\": \"juan.perez@email.com\",\n    \"phone\": \"+57 300 123 4567\",\n    \"address\": \"Calle 123 #45-67, Bogotá\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/clients/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Client",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+57 310 987 6543\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/clients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Client Cases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients/1/cases/",
+							"host": ["{{base_url}}"],
+							"path": ["clients", "1", "cases", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Cases",
+			"description": "Case management endpoints",
+			"item": [
+				{
+					"name": "List Cases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cases/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Case",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"client\": 1,\n    \"title\": \"Demanda laboral - Despido injustificado\",\n    \"description\": \"El cliente fue despedido sin justa causa.\",\n    \"case_type\": \"laboral\",\n    \"status\": \"en_proceso\",\n    \"priority\": \"alta\",\n    \"start_date\": \"2026-01-15\",\n    \"deadline\": \"2026-03-15\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cases/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Case",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cases/1/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Case",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"en_revision\",\n    \"priority\": \"urgente\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cases/1/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Close Case",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cases/1/close/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", "1", "close", ""]
+						}
+					}
+				},
+				{
+					"name": "Case Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cases/statistics/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", "statistics", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Case",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cases/1/",
+							"host": ["{{base_url}}"],
+							"path": ["cases", "1", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Documents",
+			"description": "Document management endpoints",
+			"item": [
+				{
+					"name": "List Documents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/documents/",
+							"host": ["{{base_url}}"],
+							"path": ["documents", ""]
+						}
+					}
+				},
+				{
+					"name": "Upload Document",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "case",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Contrato de trabajo",
+									"type": "text"
+								},
+								{
+									"key": "document_type",
+									"value": "contrato",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Contrato original firmado",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/documents/",
+							"host": ["{{base_url}}"],
+							"path": ["documents", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Document",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/documents/1/",
+							"host": ["{{base_url}}"],
+							"path": ["documents", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Document",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_confidential\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/documents/1/",
+							"host": ["{{base_url}}"],
+							"path": ["documents", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Document",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/documents/1/",
+							"host": ["{{base_url}}"],
+							"path": ["documents", "1", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Dashboard & Search",
+			"description": "Dashboard and search endpoints",
+			"item": [
+				{
+					"name": "Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/dashboard/",
+							"host": ["{{base_url}}"],
+							"path": ["dashboard", ""]
+						}
+					}
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/search/?q=Juan",
+							"host": ["{{base_url}}"],
+							"path": ["search", ""],
+							"query": [
+								{
+									"key": "q",
+									"value": "Juan"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"description": "User profile endpoints",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/profile/",
+							"host": ["{{base_url}}"],
+							"path": ["profile", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Juan Carlos\",\n    \"last_name\": \"Pérez\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/profile/",
+							"host": ["{{base_url}}"],
+							"path": ["profile", ""]
+						}
+					}
+				}
+			]
+		}
+	]
+}

@@ -5,7 +5,6 @@ Tests case creation, auto-generated case numbers, and custom manager methods.
 """
 
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
 

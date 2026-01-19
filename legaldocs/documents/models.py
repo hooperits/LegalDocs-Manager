@@ -67,6 +67,11 @@ class Document(models.Model):
         ordering = ['-uploaded_at']
         verbose_name = "Documento"
         verbose_name_plural = "Documentos"
+        indexes = [
+            models.Index(fields=['case'], name='doc_case_idx'),
+            models.Index(fields=['-uploaded_at'], name='doc_uploaded_idx'),
+            models.Index(fields=['document_type'], name='doc_type_idx'),
+        ]
 
     def __str__(self) -> str:
         return f"{self.get_document_type_display()}: {self.title}"

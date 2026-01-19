@@ -135,6 +135,12 @@ class Case(models.Model):
         ordering = ['-created_at']
         verbose_name = "Caso"
         verbose_name_plural = "Casos"
+        indexes = [
+            models.Index(fields=['client'], name='case_client_idx'),
+            models.Index(fields=['status'], name='case_status_idx'),
+            models.Index(fields=['case_type'], name='case_type_idx'),
+            models.Index(fields=['-created_at'], name='case_created_idx'),
+        ]
 
     def __str__(self) -> str:
         return f"{self.case_number} - {self.title}"
