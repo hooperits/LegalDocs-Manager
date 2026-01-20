@@ -81,3 +81,4 @@ celerybeat.pid
 # Secrets
 *.pem
 *.key
+test-results/
