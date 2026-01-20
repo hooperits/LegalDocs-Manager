@@ -10,3 +10,4 @@ from django.contrib import admin
 admin.site.site_header = "LegalDocs Manager"
 admin.site.site_title = "LegalDocs Manager"
 admin.site.index_title = "Panel de Administración"
+admin.site.site_url = "/api/v1/docs/"  # Link "Ver sitio" to Swagger documentation
