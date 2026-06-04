@@ -172,6 +172,7 @@ REST_FRAMEWORK_DATETIME_FORMAT = '%d/%m/%Y %H:%M:%S'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.getenv('STATIC_ROOT', BASE_DIR / 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

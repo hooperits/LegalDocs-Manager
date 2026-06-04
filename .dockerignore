@@ -1,0 +1,30 @@
+# Exclude local virtual environments
+venv/
+.venv/
+env/
+
+# Exclude python cache/compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Exclude git directory and config files
+.git/
+.gitignore
+.dockerignore
+
+# Exclude testing and coverage files
+.coverage
+htmlcov/
+test-results/
+tests/e2e/node_modules/
+tests/e2e/playwright-report/
+tests/e2e/test-results/
+tests/e2e/.auth.json
+
+# Exclude local database and media/static files
+db.sqlite3
+test_db.sqlite3
+legaldocs/media/
+legaldocs/staticfiles/

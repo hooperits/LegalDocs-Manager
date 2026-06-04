@@ -1,15 +1,19 @@
 <div align="center">
 
-# LegalDocs Manager
+# ⚖️ LegalDocs Manager
 
 🇺🇸 [English](#english) | 🇪🇸 [Español](#español)
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![Django](https://img.shields.io/badge/Django-5.0-green.svg)
-![DRF](https://img.shields.io/badge/DRF-3.15-red.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Coverage](https://img.shields.io/badge/Coverage-98%25-brightgreen.svg)
-![Tests](https://img.shields.io/badge/Tests-163%20passing-brightgreen.svg)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-5.0-green.svg?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/DRF-3.15-red.svg?style=for-the-badge&logo=django&logoColor=white)](https://www.django-rest-framework.org/)
+[![Docker](https://img.shields.io/badge/Docker-enabled-blue.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Postgres](https://img.shields.io/badge/PostgreSQL-15+-blue.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Nginx](https://img.shields.io/badge/Nginx-proxy-green.svg?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org/)
+
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![Coverage](https://img.shields.io/badge/Coverage-98%25-brightgreen.svg?style=flat-square)](https://github.com/hooperits/LegalDocs-Manager)
+[![Tests](https://img.shields.io/badge/Tests-163%20passing-brightgreen.svg?style=flat-square)](https://github.com/hooperits/LegalDocs-Manager)
 
 **A comprehensive legal document management system built with Django REST Framework**
 
@@ -34,6 +38,7 @@ A comprehensive legal document management system designed to help law firms and 
 - [Tech Stack](#tech-stack)
 - [Quick Start](#quick-start)
 - [Installation](#installation)
+- [Running with Docker (Recommended)](#running-with-docker-recommended)
 - [Environment Variables](#environment-variables)
 - [Database Setup](#database-setup)
 - [Running Tests](#running-tests)
@@ -214,7 +219,51 @@ Visit: **http://localhost:8000/api/v1/docs/**
    python manage.py runserver
    ```
 
-   The API will be available at `http://localhost:8000/api/v1/`
+    The API will be available at `http://localhost:8000/api/v1/`
+
+---
+
+### Running with Docker (Recommended)
+
+Docker Compose allows you to launch the entire stack—including the database and pre-installed OS utilities—with a single command. It is the easiest and most robust way to run the project.
+
+> [!TIP]
+> The Docker setup installs all required system-level packages (like `libmagic` for secure mime-type detection) automatically, preventing compatibility issues on different operating systems.
+
+#### 1. Development Mode (with hot-reloading & auto-loaded demo data)
+
+Runs the application using Django's development server. Code changes inside the `legaldocs` folder will trigger automatic reloading.
+
+```bash
+# Clone the repository (if not already done)
+git clone https://github.com/hooperits/LegalDocs-Manager.git
+cd LegalDocs-Manager
+
+# Start development containers
+docker compose up --build
+```
+
+- The script will wait for the Postgres container, apply database migrations, and load **demo data** automatically.
+- **API Documentation**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
+- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+
+#### 2. Production Mode (Gunicorn + Nginx + PostgreSQL)
+
+Simulates production architecture locally. Nginx serves as a reverse proxy on port 80 and directly delivers all static and media assets.
+
+```bash
+docker compose -f docker-compose.prod.yml up --build
+```
+
+- **API Documentation**: [http://localhost/api/v1/docs/](http://localhost/api/v1/docs/)
+
+#### 3. Running Unit Tests in Docker
+
+Run the test suite within the running web service container:
+
+```bash
+docker compose exec web python manage.py test
+```
 
 ---
 
@@ -398,7 +447,7 @@ All endpoints are prefixed with `/api/v1/`
 
 ```
 LegalDocs-Manager/
-├── legaldocs/
+├── legaldocs/            # Django project root directory
 │   ├── api/              # API views, authentication, permissions
 │   ├── cases/            # Case model, views, serializers
 │   ├── clients/          # Client model, views, serializers
@@ -409,13 +458,15 @@ LegalDocs-Manager/
 │   └── manage.py
 ├── docs/
 │   └── screenshots/      # Application screenshots
-├── specs/                # Feature specifications
+├── nginx/
+│   └── default.conf      # Nginx proxy configuration
 ├── tests/
 │   └── e2e/              # Playwright E2E tests
-├── requirements.txt
-├── README.md
-├── API_DOCS.md           # Detailed API documentation
-└── DEPLOYMENT.md         # Production deployment guide
+├── Dockerfile            # Docker configuration
+├── docker-compose.yml    # Dev Docker Compose environment
+├── docker-compose.prod.yml # Production Docker Compose environment
+├── requirements.txt      # Python dependencies
+└── README.md             # Project documentation
 ```
 
 ---
@@ -469,6 +520,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <a name="español"></a>
 
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
+[![Django 5.0](https://img.shields.io/badge/django-5.0-092e20.svg)](https://www.djangoproject.com/)
+[![PostgreSQL 15](https://img.shields.io/badge/postgresql-15-blue.svg)](https://www.postgresql.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Sistema integral de gestión de documentos legales diseñado para ayudar a bufetes de abogados y profesionales legales a gestionar clientes, casos y documentos de manera eficiente.
 
 ### Tabla de Contenidos
@@ -478,6 +534,7 @@ Sistema integral de gestión de documentos legales diseñado para ayudar a bufet
 - [Stack Tecnológico](#stack-tecnológico)
 - [Inicio Rápido](#inicio-rápido)
 - [Instalación](#instalación)
+- [Ejecución con Docker (Recomendado)](#ejecución-con-docker-recomendado)
 - [Variables de Entorno](#variables-de-entorno)
 - [Configuración de Base de Datos](#configuración-de-base-de-datos)
 - [Ejecutar Tests](#ejecutar-tests)
@@ -658,7 +715,51 @@ Visitar: **http://localhost:8000/api/v1/docs/**
    python manage.py runserver
    ```
 
-   La API estará disponible en `http://localhost:8000/api/v1/`
+    La API estará disponible en `http://localhost:8000/api/v1/`
+
+---
+
+### Ejecución con Docker (Recomendado)
+
+Docker Compose te permite levantar la arquitectura completa (base de datos y dependencias del sistema preinstaladas) con un solo comando. Es el método recomendado para ejecutar el proyecto de forma robusta.
+
+> [!TIP]
+> El entorno Docker instala automáticamente todas las librerías a nivel de sistema operativo necesarias (como `libmagic` para la validación de archivos), evitando problemas de compatibilidad y dependencias rotas en tu máquina local.
+
+#### 1. Modo de Desarrollo (con recarga en vivo y carga automática de datos)
+
+Utiliza el servidor de desarrollo nativo de Django. Los cambios que realices en el código dentro de la carpeta `legaldocs` se reflejarán inmediatamente.
+
+```bash
+# Clonar el repositorio (si no lo has hecho)
+git clone https://github.com/hooperits/LegalDocs-Manager.git
+cd LegalDocs-Manager
+
+# Iniciar contenedores en desarrollo
+docker compose up --build
+```
+
+- El script de inicio esperará automáticamente al contenedor de Postgres, aplicará las migraciones y cargará los **datos de demostración**.
+- **Documentación API**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
+- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+
+#### 2. Modo de Producción (Gunicorn + Nginx + PostgreSQL)
+
+Simula un despliegue de producción real de forma local. Nginx actúa como proxy inverso en el puerto 80 y sirve directamente los archivos estáticos y multimedia.
+
+```bash
+docker compose -f docker-compose.prod.yml up --build
+```
+
+- **Documentación API**: [http://localhost/api/v1/docs/](http://localhost/api/v1/docs/)
+
+#### 3. Ejecutar Pruebas Unitarias en Docker
+
+Ejecuta la suite de pruebas unitarias dentro del contenedor del servicio web:
+
+```bash
+docker compose exec web python manage.py test
+```
 
 ---
 
@@ -842,7 +943,7 @@ Todos los endpoints tienen el prefijo `/api/v1/`
 
 ```
 LegalDocs-Manager/
-├── legaldocs/
+├── legaldocs/            # Directorio raíz del proyecto Django
 │   ├── api/              # Vistas API, autenticación, permisos
 │   ├── cases/            # Modelo, vistas y serializadores de casos
 │   ├── clients/          # Modelo, vistas y serializadores de clientes
@@ -853,11 +954,17 @@ LegalDocs-Manager/
 │   └── manage.py
 ├── docs/
 │   └── screenshots/      # Capturas de pantalla de la aplicación
+├── nginx/
+│   └── default.conf      # Configuración del proxy Nginx para producción
 ├── specs/                # Especificaciones de características
 ├── tests/
 │   └── e2e/              # Tests E2E con Playwright
-├── requirements.txt
-├── README.md
+├── Dockerfile            # Configuración Docker para el servicio web
+├── docker-entrypoint.sh  # Script de inicio y chequeo de base de datos
+├── docker-compose.yml    # Entorno Docker Compose de desarrollo
+├── docker-compose.prod.yml # Entorno Docker Compose de producción
+├── requirements.txt      # Dependencias de Python (incluye Gunicorn)
+├── README.md             # Documentación del proyecto
 ├── API_DOCS.md           # Documentación detallada de la API
 └── DEPLOYMENT.md         # Guía de despliegue en producción
 ```
