@@ -246,6 +246,10 @@ docker compose up --build
 - The script will wait for the Postgres container, apply database migrations, and load **demo data** automatically.
 - **API Documentation**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
 - **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+- **MinIO Object Storage Console**: [http://localhost:9001](http://localhost:9001) (user: `minioadmin`, password: `minioadminsecure`)
+  - A private bucket named `legaldocs-media` is automatically created on startup.
+  - To test file uploads locally using MinIO, set `USE_S3=True` in your `.env` file.
+
 
 #### 2. Production Mode (Gunicorn + Nginx + PostgreSQL + SSL/TLS)
 
@@ -297,6 +301,13 @@ docker compose exec web python manage.py test
 | `DB_PASSWORD` | Database password | Required |
 | `DB_HOST` | Database host | `localhost` |
 | `DB_PORT` | Database port | `5432` |
+| `USE_S3` | Enable S3/MinIO object storage for media files | `False` |
+| `AWS_ACCESS_KEY_ID` | Access key credential for S3/MinIO | Required if `USE_S3=True` |
+| `AWS_SECRET_ACCESS_KEY` | Secret key credential for S3/MinIO | Required if `USE_S3=True` |
+| `AWS_STORAGE_BUCKET_NAME` | S3 bucket name for uploads | Required if `USE_S3=True` |
+| `AWS_S3_ENDPOINT_URL` | Public endpoint URL (host-accessible) | Required if `USE_S3=True` |
+| `AWS_S3_ENDPOINT_URL_INTERNAL` | Internal container network endpoint URL | Optional (MinIO only) |
+| `AWS_S3_REGION_NAME` | S3 Region name | `us-east-1` |
 
 #### Example .env file
 
@@ -309,6 +320,15 @@ DB_USER=legaldocs_user
 DB_PASSWORD=your-password
 DB_HOST=localhost
 DB_PORT=5432
+
+# Object Storage Configuration
+USE_S3=False
+AWS_ACCESS_KEY_ID=minioadmin
+AWS_SECRET_ACCESS_KEY=minioadminsecure
+AWS_STORAGE_BUCKET_NAME=legaldocs-media
+AWS_S3_ENDPOINT_URL=http://localhost:9000
+AWS_S3_ENDPOINT_URL_INTERNAL=http://minio:9000
+AWS_S3_REGION_NAME=us-east-1
 ```
 
 ---
@@ -760,6 +780,10 @@ docker compose up --build
 - El script de inicio esperará automáticamente al contenedor de Postgres, aplicará las migraciones y cargará los **datos de demostración**.
 - **Documentación API**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
 - **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+- **Consola de Almacenamiento MinIO**: [http://localhost:9001](http://localhost:9001) (usuario: `minioadmin`, contraseña: `minioadminsecure`)
+  - Un bucket privado llamado `legaldocs-media` se crea automáticamente al iniciar.
+  - Para probar la subida de archivos localmente con MinIO, establece `USE_S3=True` en tu archivo `.env`.
+
 
 #### 2. Modo de Producción (Gunicorn + Nginx + PostgreSQL + SSL/TLS)
 
@@ -811,6 +835,13 @@ docker compose exec web python manage.py test
 | `DB_PASSWORD` | Contraseña de la base de datos | Requerida |
 | `DB_HOST` | Host de la base de datos | `localhost` |
 | `DB_PORT` | Puerto de la base de datos | `5432` |
+| `USE_S3` | Activar almacenamiento de objetos S3/MinIO para archivos media | `False` |
+| `AWS_ACCESS_KEY_ID` | Clave de acceso de S3/MinIO | Requerida si `USE_S3=True` |
+| `AWS_SECRET_ACCESS_KEY` | Clave secreta de S3/MinIO | Requerida si `USE_S3=True` |
+| `AWS_STORAGE_BUCKET_NAME` | Nombre del bucket S3 para subidas | Requerida si `USE_S3=True` |
+| `AWS_S3_ENDPOINT_URL` | URL del endpoint público (accesible por clientes) | Requerida si `USE_S3=True` |
+| `AWS_S3_ENDPOINT_URL_INTERNAL` | URL del endpoint interno en red de contenedores | Opcional (solo MinIO) |
+| `AWS_S3_REGION_NAME` | Nombre de la región S3 | `us-east-1` |
 
 #### Ejemplo de archivo .env
 
@@ -823,6 +854,15 @@ DB_USER=legaldocs_user
 DB_PASSWORD=tu-contraseña
 DB_HOST=localhost
 DB_PORT=5432
+
+# Configuración de Almacenamiento de Objetos
+USE_S3=False
+AWS_ACCESS_KEY_ID=minioadmin
+AWS_SECRET_ACCESS_KEY=minioadminsecure
+AWS_STORAGE_BUCKET_NAME=legaldocs-media
+AWS_S3_ENDPOINT_URL=http://localhost:9000
+AWS_S3_ENDPOINT_URL_INTERNAL=http://minio:9000
+AWS_S3_REGION_NAME=us-east-1
 ```
 
 ---

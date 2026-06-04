@@ -317,13 +317,36 @@ source venv/bin/activate
 python manage.py collectstatic --settings=legaldocs.settings_prod --noinput
 ```
 
-### Media Directory Permissions
+### Media Directory Permissions (Local Storage)
+
+If you are using local filesystem storage for uploaded files:
 
 ```bash
 sudo mkdir -p /var/www/legaldocs/media
 sudo chown -R www-data:www-data /var/www/legaldocs/media
 sudo chmod -R 755 /var/www/legaldocs/media
 ```
+
+### Object Storage (Recommended)
+
+For scalability and document confidentiality, it is strongly recommended to deploy with object storage (AWS S3 or a compatible API like MinIO) rather than local storage. When `USE_S3=True` is enabled, Django bypasses the local media directories and stores all uploaded legal documents inside a secure, private bucket. All document downloads are served via secure pre-signed URLs that automatically expire in 1 hour.
+
+To configure S3/MinIO, add the following to your production `.env` file:
+
+```bash
+# Enable object storage
+USE_S3=True
+
+# S3 Credentials
+AWS_ACCESS_KEY_ID=your-production-access-key
+AWS_SECRET_ACCESS_KEY=your-production-secret-key
+AWS_STORAGE_BUCKET_NAME=your-production-bucket-name
+
+# Public Endpoint URL (Optional for AWS S3, required for MinIO / Spaces)
+AWS_S3_ENDPOINT_URL=https://s3.amazonaws.com
+AWS_S3_REGION_NAME=us-east-1
+```
+
 
 ---
 

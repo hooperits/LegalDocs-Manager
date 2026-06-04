@@ -317,6 +317,55 @@ else:
         }
     }
 
+# =============================================================================
+# Storages Configuration (AWS S3 / MinIO)
+# =============================================================================
+# In Django 4.2+, the STORAGES setting governs default and static file storage.
+USE_S3 = os.getenv('USE_S3', 'False').lower() == 'true'
+
+if 'test' in sys.argv:
+    # Use standard FileSystemStorage and clean temp folder for unit testing
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+    # Force local media root for tests
+    MEDIA_ROOT = BASE_DIR / 'test_media'
+elif USE_S3:
+    STORAGES = {
+        "default": {
+            # Use our custom S3 storage class that overrides endpoint resolution for local containers
+            "BACKEND": "core.storages.CustomS3Boto3Storage",
+            "OPTIONS": {
+                "access_key": os.getenv('AWS_ACCESS_KEY_ID'),
+                "secret_key": os.getenv('AWS_SECRET_ACCESS_KEY'),
+                "bucket_name": os.getenv('AWS_STORAGE_BUCKET_NAME'),
+                "region_name": os.getenv('AWS_S3_REGION_NAME', 'us-east-1'),
+                "endpoint_url": os.getenv('AWS_S3_ENDPOINT_URL'),
+                "file_overwrite": False,
+                "default_acl": None,  # S3 best practice (Bucket Owner Enforced)
+                "querystring_auth": True,  # Enables secure pre-signed expiring URLs
+                "querystring_expire": 3600,  # URLs expire in 1 hour
+            },
+        },
+        "staticfiles": {
+            # Keep serving static files locally via Nginx (faster and more secure)
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
 
 # =============================================================================
 # Rate Limiting Configuration
