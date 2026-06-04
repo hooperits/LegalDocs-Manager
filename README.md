@@ -247,15 +247,33 @@ docker compose up --build
 - **API Documentation**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
 - **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
 
-#### 2. Production Mode (Gunicorn + Nginx + PostgreSQL)
+#### 2. Production Mode (Gunicorn + Nginx + PostgreSQL + SSL/TLS)
 
-Simulates production architecture locally. Nginx serves as a reverse proxy on port 80 and directly delivers all static and media assets.
+Simulates production architecture with secure SSL/TLS. Nginx serves as a reverse proxy on ports 80 and 443, automatically redirects all HTTP traffic to HTTPS, and directly delivers static and media assets.
 
+**Prerequisites**:
+- Set `DOMAIN_NAME` and `CERTBOT_EMAIL` in your `.env` file (see `.env.example`).
+- For local testing, set `DOMAIN_NAME=localhost`.
+
+**Initial Setup (Provisioning SSL Certificates)**:
+Run the bootstrap script to generate temporary certificates, start Nginx, and request Let's Encrypt certificates (or use local self-signed mode):
 ```bash
-docker compose -f docker-compose.prod.yml up --build
+# For local testing (using self-signed certificates on localhost)
+./init-ssl.sh
+
+# For production (using Let's Encrypt certificates)
+./init-ssl.sh
+
+# For production testing (using Let's Encrypt Staging environment to avoid rate limits)
+./init-ssl.sh --staging
 ```
 
-- **API Documentation**: [http://localhost/api/v1/docs/](http://localhost/api/v1/docs/)
+Once provisioned:
+- **API Documentation (Secure)**: [https://localhost/api/v1/docs/](https://localhost/api/v1/docs/) (or your domain)
+- **Django Admin (Secure)**: [https://localhost/admin/](https://localhost/admin/)
+
+> [!NOTE]
+> The `certbot` container runs in the background and automatically checks for renewal every 12 hours. Nginx is configured to reload every 24 hours to dynamically pick up renewed certificates.
 
 #### 3. Running Unit Tests in Docker
 
@@ -474,7 +492,7 @@ LegalDocs-Manager/
 ### Contributing
 
 1. **Fork the repository**
-2. **Create a feature branch** from `master`
+2. **Create a feature branch** from `main`
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -743,15 +761,33 @@ docker compose up --build
 - **Documentación API**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
 - **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
 
-#### 2. Modo de Producción (Gunicorn + Nginx + PostgreSQL)
+#### 2. Modo de Producción (Gunicorn + Nginx + PostgreSQL + SSL/TLS)
 
-Simula un despliegue de producción real de forma local. Nginx actúa como proxy inverso en el puerto 80 y sirve directamente los archivos estáticos y multimedia.
+Simula la arquitectura de producción real con SSL/TLS seguro. Nginx actúa como un proxy inverso en los puertos 80 y 443, redirige automáticamente el tráfico HTTP a HTTPS, y sirve directamente los archivos estáticos y multimedia.
 
+**Prerrequisitos**:
+- Configurar `DOMAIN_NAME` y `CERTBOT_EMAIL` en tu archivo `.env` (ver `.env.example`).
+- Para pruebas locales, establece `DOMAIN_NAME=localhost`.
+
+**Configuración Inicial (Aprovisionamiento de Certificados SSL)**:
+Ejecuta el script de inicio para generar certificados temporales, iniciar Nginx y solicitar certificados de Let's Encrypt (o usar el modo local autofirmado):
 ```bash
-docker compose -f docker-compose.prod.yml up --build
+# Para pruebas locales (usando certificados autofirmados en localhost)
+./init-ssl.sh
+
+# Para producción (usando certificados reales de Let's Encrypt)
+./init-ssl.sh
+
+# Para pruebas en producción (usando el entorno Staging de Let's Encrypt para evitar límites de tasa)
+./init-ssl.sh --staging
 ```
 
-- **Documentación API**: [http://localhost/api/v1/docs/](http://localhost/api/v1/docs/)
+Una vez aprovisionado:
+- **Documentación API (Segura)**: [https://localhost/api/v1/docs/](https://localhost/api/v1/docs/) (o tu dominio)
+- **Panel de Administración (Seguro)**: [https://localhost/admin/](https://localhost/admin/)
+
+> [!NOTE]
+> El contenedor `certbot` se ejecuta en segundo plano y comprueba la renovación automáticamente cada 12 horas. Nginx está configurado para recargar su configuración cada 24 horas y aplicar dinámicamente los certificados renovados.
 
 #### 3. Ejecutar Pruebas Unitarias en Docker
 
@@ -974,7 +1010,7 @@ LegalDocs-Manager/
 ### Contribuir
 
 1. **Hacer fork del repositorio**
-2. **Crear una rama de característica** desde `master`
+2. **Crear una rama de característica** desde `main`
    ```bash
    git checkout -b feature/nombre-de-tu-caracteristica
    ```
