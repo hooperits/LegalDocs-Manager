@@ -141,7 +141,7 @@ ROOT_URLCONF = 'legaldocs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -465,7 +465,9 @@ JAZZMIN_SETTINGS = {
     "site_title": "LegalDocs Manager",
     "site_header": "LegalDocs Manager",
     "site_brand": "LegalDocs Manager",
+    "site_logo": "admin/img/logo_v2.png",
     "site_logo_classes": "img-circle",
+    "site_icon": "admin/img/favicon_v1.png",
     
     # Welcome text on the login screen
     "welcome_sign": _("Welcome to LegalDocs Manager"),
@@ -508,11 +510,14 @@ JAZZMIN_SETTINGS = {
     "default_icon_children": "fas fa-circle",
     
     # Custom CSS and Javascript files
-    "custom_css": "admin/css/custom_jazzmin.css",
-    "custom_js": None,
+    "custom_css": "admin/css/custom_jazzmin_v2.css",
+    "custom_js": "admin/js/custom_dashboard.js",
+    
+    # Render fieldsets sequentially instead of tabs
+    "changeform_format": "single",
     
     # Multi-language selector drop-down
-    "show_language_chooser": True,
+    "language_chooser": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
@@ -543,4 +548,8 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-success"
     }
 }
+
+
+# Redirect successful logins to admin dashboard
+LOGIN_REDIRECT_URL = '/admin/'
 

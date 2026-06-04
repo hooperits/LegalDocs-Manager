@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-03 23:49-0500\n"
+"POT-Creation-Date: 2026-06-04 09:57-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
-#: cases/models.py:46
+
+#: api/serializers.py:139
+msgid "Unable to log in with provided credentials."
+msgstr ""
+
+#: api/serializers.py:147
+msgid "Must include \"username\" and \"password\"."
+msgstr ""
+
+#: cases/models.py:46 templates/admin/index.html:30
 msgid "Civil"
 msgstr ""
 
-#: cases/models.py:47
+#: cases/models.py:47 templates/admin/index.html:31
 msgid "Penal"
 msgstr ""
 
-#: cases/models.py:48
+#: cases/models.py:48 templates/admin/index.html:32
 msgid "Laboral"
 msgstr ""
 
-#: cases/models.py:49
+#: cases/models.py:49 templates/admin/index.html:33
 msgid "Mercantil"
 msgstr ""
 
-#: cases/models.py:50
+#: cases/models.py:50 templates/admin/index.html:34
 msgid "Familia"
 msgstr ""
 
-#: cases/models.py:54
+#: cases/models.py:54 templates/admin/index.html:24
 msgid "En Proceso"
 msgstr ""
 
-#: cases/models.py:55
+#: cases/models.py:55 templates/admin/index.html:25
 msgid "Pendiente Documentos"
 msgstr ""
 
-#: cases/models.py:56
+#: cases/models.py:56 templates/admin/index.html:26
 msgid "En Revisión"
 msgstr ""
 
-#: cases/models.py:57
+#: cases/models.py:57 templates/admin/index.html:27
 msgid "Cerrado"
 msgstr ""
 
@@ -222,14 +231,170 @@ msgstr ""
 msgid "Panel de Administración"
 msgstr ""
 
-#: legaldocs/settings.py:199
+#: legaldocs/settings.py:216
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
-#: legaldocs/settings.py:200
+#: legaldocs/settings.py:217
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
-#: legaldocs/settings.py:447
+#: legaldocs/settings.py:471
 msgid "Welcome to LegalDocs Manager"
-msgstr ""
+msgstr "Bienvenido a LegalDocs Manager"
+
+#: templates/admin/index.html:7 templates/admin/index.html:12
+msgid "Executive Dashboard"
+msgstr "Panel Ejecutivo"
+
+#: templates/admin/index.html:11
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/admin/index.html:37
+msgid "Could not load statistics from the server."
+msgstr "No se pudieron cargar las estadísticas del servidor."
+
+#: templates/admin/index.html:38
+msgid "No deadlines scheduled for the next 7 days."
+msgstr "No hay vencimientos programados para los próximos 7 días."
+
+#: templates/admin/index.html:39
+msgid "No cases registered recently."
+msgstr "No hay casos registrados recientemente."
+
+#: templates/admin/index.html:40
+msgid "Connection Error"
+msgstr "Error de Conexión"
+
+#: templates/admin/index.html:41
+msgid "Please verify that services and database are active."
+msgstr "Por favor, verifique que los servicios y la base de datos estén activos."
+
+#: templates/admin/index.html:42
+msgid "day"
+msgstr "día"
+
+#: templates/admin/index.html:43
+msgid "days"
+msgstr "días"
+
+#: templates/admin/index.html:44
+msgid "Cases"
+msgstr "Casos"
+
+#: templates/admin/index.html:61
+msgid "Active Cases"
+msgstr "Casos Activos"
+
+#: templates/admin/index.html:64
+msgid "cases in total"
+msgstr "casos en total"
+
+#: templates/admin/index.html:77
+msgid "Pending Documents"
+msgstr "Documentos Pendientes"
+
+#: templates/admin/index.html:80
+msgid "Awaiting attachments"
+msgstr "Esperando archivos"
+
+#: templates/admin/index.html:93
+msgid "Active Clients"
+msgstr "Clientes Activos"
+
+#: templates/admin/index.html:96
+msgid "clients total"
+msgstr "clientes en total"
+
+#: templates/admin/index.html:109
+msgid "Total Documents"
+msgstr "Total de Documentos"
+
+#: templates/admin/index.html:112
+msgid "Stored files repository"
+msgstr "Repositorio de archivos"
+
+#: templates/admin/index.html:125
+msgid "Cases by Status"
+msgstr "Casos por Estado"
+
+#: templates/admin/index.html:139
+msgid "Cases by Type"
+msgstr "Casos por Tipo"
+
+#: templates/admin/index.html:153
+msgid "Upcoming Deadlines"
+msgstr "Próximos Vencimientos"
+
+#: templates/admin/index.html:160
+msgid "Loading deadlines..."
+msgstr "Cargando vencimientos..."
+
+#: templates/admin/index.html:174
+msgid "Recent Cases Activity"
+msgstr "Actividad de Casos Recientes"
+
+#: templates/admin/index.html:181
+msgid "Case Number"
+msgstr "Número de caso"
+
+#: templates/admin/index.html:182
+msgid "Title"
+msgstr "Título"
+
+#: templates/admin/index.html:183
+msgid "Client"
+msgstr "Cliente"
+
+#: templates/admin/index.html:184
+msgid "Status"
+msgstr "Estado"
+
+#: templates/admin/index.html:190
+msgid "Loading recent cases..."
+msgstr "Cargando casos recientes..."
+
+#: templates/admin/index.html:204
+msgid "System Log"
+msgstr "Bitácora del Sistema"
+
+#: templates/admin/index.html:210
+msgid "No recent actions available"
+msgstr "No hay acciones recientes disponibles"
+
+#: templates/admin/index.html:223
+msgid "ago"
+msgstr "atrás"
+
+#: templates/admin/index.html:226
+msgid "created"
+msgstr "creó"
+
+#: templates/admin/index.html:226
+msgid "updated"
+msgstr "actualizó"
+
+#: templates/admin/index.html:226
+msgid "deleted"
+msgstr "eliminó"
+
+#: templates/admin/index.html:250
+msgid "System Database Registry (Quick Access)"
+msgstr "Registro de la Base de Datos (Acceso Rápido)"
+
+#: templates/admin/index.html:280
+msgid "Add"
+msgstr "Añadir"
+
+#: templates/admin/index.html:284
+msgid "View"
+msgstr "Ver"
+
+#: templates/admin/index.html:286
+msgid "Go"
+msgstr "Ir"
+
+#: templates/admin/index.html:286
+msgid "Change"
+msgstr "Modificar"

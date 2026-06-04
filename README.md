@@ -1,6 +1,8 @@
 <div align="center">
 
-# ⚖️ LegalDocs Manager
+<img src="legaldocs/static/admin/img/logo_v2.png" alt="LegalDocs Manager Logo" width="350">
+
+# LegalDocs Manager
 
 🇺🇸 [English](#english) | 🇪🇸 [Español](#español)
 
@@ -13,7 +15,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Coverage](https://img.shields.io/badge/Coverage-98%25-brightgreen.svg?style=flat-square)](https://github.com/hooperits/LegalDocs-Manager)
-[![Tests](https://img.shields.io/badge/Tests-163%20passing-brightgreen.svg?style=flat-square)](https://github.com/hooperits/LegalDocs-Manager)
+[![Tests](https://img.shields.io/badge/Tests-172%20passing-brightgreen.svg?style=flat-square)](https://github.com/hooperits/LegalDocs-Manager)
 
 **A comprehensive legal document management system built with Django REST Framework**
 
@@ -59,6 +61,7 @@ A comprehensive legal document management system designed to help law firms and 
 - 🔍 **Search**: Global search across clients, cases, and documents
 - 🔐 **User Authentication**: Token-based authentication with registration, login, and profile management
 - 📚 **API Documentation**: Interactive Swagger UI documentation
+- 🎨 **Premium Theme & Branding**: Customized AdminLTE UI via django-jazzmin featuring a custom Windows-style folder & scales logo, matching favicon, corrected layout spacing, and a luxury glassmorphism login screen
 
 ---
 
@@ -393,7 +396,7 @@ coverage report
 coverage html  # Generate HTML report in htmlcov/
 ```
 
-Current coverage: **98%** | Tests passing: **163**
+Current coverage: **98%** | Tests passing: **172**
 
 ---
 
@@ -593,6 +596,7 @@ Sistema integral de gestión de documentos legales diseñado para ayudar a bufet
 - 🔍 **Búsqueda**: Búsqueda global en clientes, casos y documentos
 - 🔐 **Autenticación de Usuarios**: Autenticación basada en token con registro, inicio de sesión y gestión de perfil
 - 📚 **Documentación API**: Documentación interactiva con Swagger UI
+- 🎨 **Tema y Branding Premium**: Interfaz AdminLTE personalizada con django-jazzmin que incluye un logotipo personalizado de carpeta estilo Windows y balanza de la justicia, favicon a juego, espaciado de interfaz optimizado y pantalla de login de lujo con efecto glassmorphism
 
 ---
 
@@ -956,7 +960,7 @@ coverage report
 coverage html  # Generar reporte HTML en htmlcov/
 ```
 
-Cobertura actual: **98%** | Tests pasando: **163**
+Cobertura actual: **98%** | Tests pasando: **172**
 
 ---
 

@@ -1,0 +1,767 @@
+/* =============================================================================
+   LexPremium - Custom Premium Stylesheet for LegalDocs Manager Admin Panel
+   ============================================================================= */
+
+/* Import Google Fonts (Outfit & Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* Apply premium modern typography globally */
+body, .main-sidebar, .main-header, .content-wrapper, .modal-content, input, select, textarea, button, .table, .card {
+    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background canvas color */
+.content-wrapper {
+    background-color: #f8fafc !important; /* Cool, light warm gray background */
+}
+
+/* Custom premium navbar gradient (Ocean Navy to Slate) */
+.main-header.navbar-teal {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+    height: 70px !important; /* Increased height to fit larger logo */
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+}
+
+.main-header.navbar-teal .nav-link {
+    color: #f1f5f9 !important;
+    font-weight: 500;
+}
+
+.main-header.navbar-teal .nav-link:hover {
+    color: #c5a880 !important; /* Gold accent */
+}
+
+/* Sidebar branding logo custom accent */
+.brand-link {
+    background: #090f1d !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    height: 70px !important; /* Matching height */
+    padding: 0 15px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.brand-link .brand-image {
+    height: 24px !important; /* Scaled down slightly to fit sidebar width */
+    width: auto !important; /* Dynamic width based on logo aspect ratio */
+    max-height: 24px !important;
+    margin-top: 0 !important; /* Center vertically using flexbox */
+    margin-right: 8px !important; /* Tight margin to remove excess space */
+    object-fit: contain !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transform: translateY(1.5px) !important; /* Optical vertical alignment correction */
+}
+
+.brand-link .brand-text {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ffffff 0%, #c5a880 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-size: 1.05rem !important; /* Scaled down slightly to prevent clipping */
+}
+
+/* Layout offsets for the custom 70px header height */
+.content-wrapper {
+    margin-top: 70px !important;
+}
+
+.main-sidebar .sidebar {
+    margin-top: 0 !important;
+}
+
+/* Sidebar styling overrides */
+.main-sidebar {
+    background-color: #090f1d !important;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.25) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Prevent user avatar clipping on the left and top edges */
+.user-panel {
+    padding-left: 10px !important;
+    overflow: visible !important;
+}
+
+.user-panel .image {
+    overflow: visible !important;
+}
+
+.user-profile {
+    font-size: 2.4em !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+}
+
+.sidebar-dark-teal .sidebar a {
+    color: #94a3b8 !important;
+}
+
+.nav-sidebar .nav-item {
+    margin: 3px 12px !important;
+}
+
+.nav-sidebar .nav-link {
+    border-radius: 10px !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    padding: 10px 14px !important;
+    font-weight: 500 !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(135deg, #0e7490 0%, #0369a1 100%) !important; /* Elegant Teal to Blue */
+    box-shadow: 0 4px 15px rgba(14, 116, 144, 0.35) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.nav-sidebar .nav-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    transform: translateX(2px);
+}
+
+.nav-sidebar .nav-icon {
+    margin-right: 10px !important;
+    font-size: 1.1rem !important;
+    transition: transform 0.25s ease !important;
+}
+
+.nav-sidebar .nav-link:hover .nav-icon {
+    transform: scale(1.1);
+}
+
+/* Dashboard title and header customization */
+.content-header {
+    padding: 25px 15px 10px 15px !important;
+}
+
+.content-header h1 {
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.03em !important;
+    font-size: 2.1rem !important;
+}
+
+/* Rounded premium cards */
+.card {
+    border-radius: 16px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 10px 30px -5px rgba(2, 12, 27, 0.04), 0 1px 3px rgba(0, 0, 0, 0.01) !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background-color: #ffffff !important;
+    margin-bottom: 24px !important;
+}
+
+/* Subtle micro-animation on card hover */
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -10px rgba(148, 163, 184, 0.12), 0 1px 5px rgba(0, 0, 0, 0.02) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 18px 24px !important;
+}
+
+.card-title {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* Premium table enhancements and hover transition */
+.table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+}
+
+.table tr {
+    transition: background-color 0.2s ease !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(14, 116, 144, 0.02) !important; /* Soft teal highlight */
+}
+
+.table th {
+    border-top: none !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 16px 20px !important;
+    background-color: #f8fafc;
+}
+
+.table td {
+    border-top: 1px solid #f1f5f9 !important;
+    vertical-align: middle !important;
+    padding: 16px 20px !important;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+/* Rounded corners for tables in cards */
+.card .table-responsive {
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+}
+
+/* Button overrides - Modern Gradients & Micro-animations */
+.btn {
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 10px 20px !important;
+    border: none !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-size: 0.9rem !important;
+}
+
+.btn-xs {
+    padding: 4px 10px !important;
+    font-size: 0.75rem !important;
+    border-radius: 6px !important;
+}
+
+/* Success button (Add) */
+.btn-success, .btn-success:focus, .btn-success:active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Primary button (Change / Save) */
+.btn-primary, .btn-primary:focus, .btn-primary:active {
+    background: linear-gradient(135deg, #0e7490 0%, #0369a1 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2) !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+    box-shadow: 0 6px 18px rgba(14, 116, 144, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Info button (View / API) */
+.btn-info, .btn-info:focus, .btn-info:active {
+    background: linear-gradient(135deg, #b5945b 0%, #c5a880 100%) !important;
+    color: #090f1d !important;
+    box-shadow: 0 4px 12px rgba(181, 148, 91, 0.15) !important;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #c5a880 0%, #d4bc9c 100%) !important;
+    box-shadow: 0 6px 18px rgba(181, 148, 91, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn:active {
+    transform: translateY(1px) !important;
+    box-shadow: none !important;
+}
+
+/* Form fields and inputs styling */
+input[type="text"], input[type="email"], input[type="password"], select, textarea, .form-control {
+    border-radius: 10px !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 10px 14px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    transition: all 0.2s ease-in-out !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus, .form-control:focus {
+    border-color: #0e7490 !important;
+    box-shadow: 0 0 0 4px rgba(14, 116, 144, 0.12) !important;
+    outline: none !important;
+    background-color: #ffffff !important;
+}
+
+/* Custom Status Badges (HSL Color Palette) */
+.badge {
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+    border: 1px solid transparent !important;
+}
+
+/* Badges by status code classes */
+.badge-status-en_proceso {
+    background-color: hsla(200, 100%, 45%, 0.08) !important;
+    color: hsl(200, 100%, 35%) !important;
+    border-color: hsla(200, 100%, 45%, 0.15) !important;
+}
+
+.badge-status-pendiente_documentos {
+    background-color: hsla(35, 100%, 45%, 0.08) !important;
+    color: hsl(35, 100%, 35%) !important;
+    border-color: hsla(35, 100%, 45%, 0.15) !important;
+}
+
+.badge-status-en_revision {
+    background-color: hsla(275, 80%, 50%, 0.08) !important;
+    color: hsl(275, 80%, 42%) !important;
+    border-color: hsla(275, 80%, 50%, 0.15) !important;
+}
+
+.badge-status-cerrado {
+    background-color: hsla(145, 80%, 40%, 0.08) !important;
+    color: hsl(145, 80%, 30%) !important;
+    border-color: hsla(145, 80%, 40%, 0.15) !important;
+}
+
+/* Default / Unrecognized status */
+.badge-status-default {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Customize list-group items hover */
+.list-group-item {
+    transition: all 0.25s ease !important;
+    border-radius: 10px !important;
+    margin-bottom: 6px;
+    border: 1px solid #f1f5f9 !important;
+    padding: 12px 18px !important;
+}
+
+.list-group-item:hover {
+    background-color: rgba(14, 116, 144, 0.03) !important;
+    padding-left: 26px !important; /* Subtle slide effect */
+    border-color: rgba(14, 116, 144, 0.1) !important;
+}
+
+/* =============================================================================
+   GLASSMORPHISM LUXURY LOGIN SCREEN
+   ============================================================================= */
+
+body.login-page, body.jazzmin-login-page {
+    background: linear-gradient(-45deg, #090f1d, #0d1b2e, #132742, #090f1d) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.login-box {
+    width: 440px !important;
+    margin: 0 !important;
+}
+
+.login-box .card {
+    background: rgba(9, 15, 29, 0.7) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
+    overflow: hidden;
+    transform: none !important; /* Disable hover scale on login card */
+}
+
+.login-box .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 35px 25px 25px 25px !important;
+    text-align: center;
+}
+
+.login-box .login-logo {
+    margin-bottom: 30px !important;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.login-box .login-logo h1 {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+}
+
+/* Style the login/logout page logo image - flat, next to text */
+.login-box .login-logo img {
+    height: 38px !important; /* Perfectly scaled to the 2.2rem (35px) text */
+    width: auto !important; /* Dynamic width based on logo aspect ratio */
+    max-height: 38px !important;
+    object-fit: contain !important;
+    margin-right: 8px !important; /* Tight margin to remove excess space */
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transform: translateY(1px) !important; /* Optical vertical alignment correction */
+}
+
+/* Render the premium text next to the logo image on login/logout screen */
+.login-box .login-logo h1::after {
+    content: "LegalDocs Manager" !important;
+    display: inline-block !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ffffff 0%, #c5a880 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-size: 2.2rem !important;
+    margin-top: 0 !important;
+    line-height: 1.2 !important;
+    transform: translateY(5px) !important; /* Move text down slightly to align bottom baseline with logo bottom */
+}
+
+/* Maintain compatibility if a tag is rendered instead */
+.login-box .login-logo a {
+    display: inline-flex !important;
+    align-items: center !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ffffff 0%, #c5a880 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-size: 2.2rem !important;
+}
+
+.login-box .login-card-body {
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    padding: 35px !important;
+}
+
+.login-box .login-box-msg {
+    color: #94a3b8 !important;
+    font-size: 1rem !important;
+    padding: 0 0 25px 0 !important;
+    font-weight: 500;
+}
+
+.login-box .input-group {
+    margin-bottom: 20px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.login-box .input-group-text {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-left: none !important;
+    color: #64748b !important;
+    padding-right: 15px !important;
+}
+
+.login-box input.form-control {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-right: none !important;
+    color: #ffffff !important;
+    border-radius: 10px 0 0 10px !important;
+    padding: 14px 18px !important;
+    height: auto !important;
+    transition: all 0.25s ease !important;
+}
+
+.login-box input.form-control:focus {
+    border-color: #c5a880 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: none !important;
+}
+
+.login-box input.form-control:focus + .input-group-append .input-group-text {
+    border-color: #c5a880 !important;
+}
+
+.login-box button[type="submit"] {
+    background: linear-gradient(135deg, #b5945b 0%, #c5a880 100%) !important;
+    border: none !important;
+    color: #090f1d !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    padding: 14px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 20px rgba(181, 148, 91, 0.25) !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.95rem !important;
+}
+
+.login-box button[type="submit"]:hover {
+    background: linear-gradient(135deg, #c5a880 0%, #d4bc9c 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(181, 148, 91, 0.4) !important;
+}
+
+/* =============================================================================
+   EXECUTIVE DASHBOARD STYLING
+   ============================================================================= */
+
+/* Main Metric Cards */
+.custom-dashboard-container {
+    padding: 10px 0 !important;
+}
+
+.metric-card {
+    border-radius: 18px !important;
+    padding: 24px !important;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 10px 25px -5px rgba(2, 12, 27, 0.03) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.metric-card .icon-wrapper {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.metric-card.teal-theme .icon-wrapper {
+    background-color: hsla(190, 90%, 40%, 0.08);
+    color: hsl(190, 90%, 35%);
+}
+
+.metric-card.gold-theme .icon-wrapper {
+    background-color: hsla(38, 70%, 50%, 0.08);
+    color: hsl(38, 70%, 40%);
+}
+
+.metric-card.blue-theme .icon-wrapper {
+    background-color: hsla(215, 90%, 50%, 0.08);
+    color: hsl(215, 90%, 45%);
+}
+
+.metric-card.purple-theme .icon-wrapper {
+    background-color: hsla(270, 70%, 55%, 0.08);
+    color: hsl(270, 70%, 48%);
+}
+
+.metric-card .metric-info {
+    flex-grow: 1;
+}
+
+.metric-card .metric-label {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.metric-card .metric-value {
+    color: #0f172a;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.metric-card .metric-subtitle {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+}
+
+/* Dashboard Row grid */
+.dashboard-grid-row {
+    margin-bottom: 24px;
+}
+
+/* Charts Containers */
+.dashboard-chart-card {
+    height: 380px !important;
+}
+
+.dashboard-chart-wrapper {
+    position: relative;
+    height: 270px;
+    width: 100%;
+}
+
+/* Urgency / Deadlines Alerts list */
+.deadline-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.deadline-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+    border-left: 4px solid #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+.deadline-item:hover {
+    background: #f1f5f9;
+    transform: translateX(3px);
+}
+
+.deadline-item.urgency-high {
+    border-left-color: #ef4444; /* High priority (Red) */
+    background: hsla(0, 100%, 97%, 0.5);
+}
+
+.deadline-item.urgency-medium {
+    border-left-color: #f97316; /* Medium priority (Orange) */
+    background: hsla(30, 100%, 97%, 0.5);
+}
+
+.deadline-item.urgency-low {
+    border-left-color: #3b82f6; /* Normal/Low priority (Blue) */
+}
+
+.deadline-info {
+    flex-grow: 1;
+    padding-right: 15px;
+}
+
+.deadline-title {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 0.95rem;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
+
+.deadline-meta {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    gap: 12px;
+}
+
+.deadline-days {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.urgency-high .deadline-days {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.urgency-medium .deadline-days {
+    background: #ffedd5;
+    color: #f97316;
+}
+
+.urgency-low .deadline-days {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+/* Collapsible app lists header */
+.dashboard-collapse-header {
+    background: #f8fafc !important;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dashboard-collapse-header:hover {
+    background: #f1f5f9 !important;
+}
+
+.dashboard-collapse-icon {
+    transition: transform 0.2s ease;
+}
+
+.collapsed .dashboard-collapse-icon {
+    transform: rotate(-90deg);
+}
+
+/* Custom Scrollbar for modern aesthetic */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Fix select element size and padding inside change list actions bar */
+.actions select, #changelist-form .actions select {
+    padding: 4px 8px !important;
+    height: auto !important;
+    font-size: 0.85rem !important;
+    display: inline-block !important;
+    width: auto !important;
+}

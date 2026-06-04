@@ -29,8 +29,8 @@ async function loginToAdmin(page: any) {
   await page.goto('/admin/login/');
   await page.fill('input[name="username"]', ADMIN_CREDENTIALS.username);
   await page.fill('input[name="password"]', ADMIN_CREDENTIALS.password);
-  await page.click('input[type="submit"]');
-  await expect(page.locator('#site-name')).toBeVisible({ timeout: 10000 });
+  await page.click('button[type="submit"], input[type="submit"]');
+  await expect(page.locator('.brand-link, #site-name')).toBeVisible({ timeout: 10000 });
 }
 
 test.describe('Django Admin', () => {
@@ -49,7 +49,7 @@ test.describe('Django Admin', () => {
     test('should login to admin successfully', async ({ page }) => {
       await loginToAdmin(page);
       // If we get here, login was successful
-      await expect(page.locator('#site-name')).toBeVisible();
+      await expect(page.locator('.brand-link, #site-name')).toBeVisible();
     });
 
     test('should reject invalid admin credentials', async ({ page }) => {
@@ -60,10 +60,10 @@ test.describe('Django Admin', () => {
       await page.fill('input[name="password"]', 'wrong_password');
 
       // Submit form
-      await page.click('input[type="submit"]');
+      await page.click('button[type="submit"], input[type="submit"]');
 
       // Should show error message
-      await expect(page.locator('.errornote')).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('.callout-danger, .errornote')).toBeVisible({ timeout: 5000 });
     });
   });
 
@@ -72,11 +72,21 @@ test.describe('Django Admin', () => {
       await loginToAdmin(page);
 
       // Should be on admin index
-      await expect(page.locator('#site-name')).toBeVisible();
+      await expect(page.locator('.brand-link, #site-name')).toBeVisible();
 
-      // Should show app list
+      // Should show app list (content-main)
       const appList = page.locator('#content-main');
       await expect(appList).toBeVisible();
+
+      // Should show executive dashboard metrics container
+      const metricsContainer = page.locator('#dashboard-metrics-container');
+      await expect(metricsContainer).toBeVisible();
+
+      // Should show the four metric cards
+      await expect(page.locator('#metric-active-cases')).toBeVisible();
+      await expect(page.locator('#metric-pending-docs')).toBeVisible();
+      await expect(page.locator('#metric-active-clients')).toBeVisible();
+      await expect(page.locator('#metric-total-docs')).toBeVisible();
     });
 
     test('should show registered models', async ({ page }) => {
@@ -87,15 +97,15 @@ test.describe('Django Admin', () => {
       await expect(content).toBeVisible();
 
       // Should show Clients model
-      const clientsLink = page.locator('a').filter({ hasText: 'Clientes' });
+      const clientsLink = page.locator('a').filter({ hasText: /Clientes|Clients/i });
       const hasClients = await clientsLink.count() > 0;
 
       // Should show Cases model
-      const casesLink = page.locator('a').filter({ hasText: 'Casos' });
+      const casesLink = page.locator('a').filter({ hasText: /Casos|Cases/i });
       const hasCases = await casesLink.count() > 0;
 
       // Should show Documents model
-      const documentsLink = page.locator('a').filter({ hasText: 'Documentos' });
+      const documentsLink = page.locator('a').filter({ hasText: /Documentos|Documents/i });
       const hasDocuments = await documentsLink.count() > 0;
 
       // At least one model should be visible
@@ -108,7 +118,7 @@ test.describe('Django Admin', () => {
       await loginToAdmin(page);
 
       // Click on Clientes link
-      const clientsLink = page.locator('a').filter({ hasText: 'Clientes' }).first();
+      const clientsLink = page.locator('a').filter({ hasText: /Clientes|Clients/i }).first();
 
       if (await clientsLink.isVisible()) {
         await clientsLink.click();
@@ -125,7 +135,7 @@ test.describe('Django Admin', () => {
       await page.goto('/admin/clients/client/');
 
       // Should have add button
-      const addButton = page.locator('.addlink');
+      const addButton = page.locator('.addlink, a:has(.fa-plus-circle), a[href$="/add/"]');
       await expect(addButton).toBeVisible({ timeout: 5000 });
     });
 
@@ -145,7 +155,7 @@ test.describe('Django Admin', () => {
       await page.click('input[name="_save"]');
 
       // Should redirect to change list with success message
-      await expect(page.locator('.success')).toBeVisible({ timeout: 10000 });
+      await expect(page.locator('.alert-success, .success')).toBeVisible({ timeout: 10000 });
     });
   });
 
@@ -154,7 +164,7 @@ test.describe('Django Admin', () => {
       await loginToAdmin(page);
 
       // Click on Casos link
-      const casesLink = page.locator('a').filter({ hasText: 'Casos' }).first();
+      const casesLink = page.locator('a').filter({ hasText: /Casos|Cases/i }).first();
 
       if (await casesLink.isVisible()) {
         await casesLink.click();
@@ -173,7 +183,7 @@ test.describe('Django Admin', () => {
 
       if (await caseList.isVisible()) {
         // Check for status column
-        const statusHeader = page.locator('th').filter({ hasText: /estado/i });
+        const statusHeader = page.locator('th').filter({ hasText: /estado|status/i });
         await expect(statusHeader.first()).toBeVisible({ timeout: 5000 });
       }
     });
@@ -187,8 +197,7 @@ test.describe('Django Admin', () => {
       await expect(actionsSelect).toBeVisible({ timeout: 5000 });
 
       // Should have "Mark as closed" action or similar
-      // Click on the dropdown to see options
-      await actionsSelect.click();
+      // Check options without clicking the native select dropdown
       const options = page.locator('select[name="action"] option');
       const optionCount = await options.count();
       expect(optionCount).toBeGreaterThan(1); // At least delete and custom actions
@@ -218,7 +227,7 @@ test.describe('Django Admin', () => {
       await loginToAdmin(page);
 
       // Click on Documentos link
-      const documentsLink = page.locator('a').filter({ hasText: 'Documentos' }).first();
+      const documentsLink = page.locator('a').filter({ hasText: /Documentos|Documents/i }).first();
 
       if (await documentsLink.isVisible()) {
         await documentsLink.click();
@@ -282,7 +291,7 @@ test.describe('Django Admin', () => {
       await searchBox.fill('test');
 
       // Submit search
-      await page.click('input[type="submit"]');
+      await page.click('#changelist-search button[type="submit"], #changelist-search input[type="submit"]');
 
       // Should show search results or "0 results" message
       await expect(page.locator('#changelist')).toBeVisible({ timeout: 5000 });

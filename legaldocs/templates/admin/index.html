@@ -1,0 +1,310 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block content_title %}{% trans 'Executive Dashboard' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item active">{% trans 'Executive Dashboard' %}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <!-- Load Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Global Dashboard Translations for JavaScript -->
+    <script>
+        window.DashboardTranslations = {
+            // Statuses
+            'en_proceso': "{% trans 'En Proceso' %}",
+            'pendiente_documentos': "{% trans 'Pendiente Documentos' %}",
+            'en_revision': "{% trans 'En Revisión' %}",
+            'cerrado': "{% trans 'Cerrado' %}",
+
+            // Case Types
+            'civil': "{% trans 'Civil' %}",
+            'penal': "{% trans 'Penal' %}",
+            'laboral': "{% trans 'Laboral' %}",
+            'mercantil': "{% trans 'Mercantil' %}",
+            'familia': "{% trans 'Familia' %}",
+
+            // Messages
+            'error_fetch': "{% trans 'Could not load statistics from the server.' %}",
+            'no_deadlines': "{% trans 'No deadlines scheduled for the next 7 days.' %}",
+            'no_cases': "{% trans 'No cases registered recently.' %}",
+            'error_title': "{% trans 'Connection Error' %}",
+            'error_check': "{% trans 'Please verify that services and database are active.' %}",
+            'day': "{% trans 'day' %}",
+            'days': "{% trans 'days' %}",
+            'cases_dataset': "{% trans 'Cases' %}"
+        };
+    </script>
+
+    <!-- Executive Dashboard Grid -->
+    <div class="container-fluid custom-dashboard-container" id="content-main">
+        <div id="dashboard-metrics-container">
+        
+        <!-- Metric Cards Row -->
+        <div class="row mb-4">
+            <!-- Active Cases -->
+            <div class="col-xl-3 col-md-6 col-12 mb-3">
+                <div class="metric-card teal-theme">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="metric-info">
+                        <div class="metric-label">{% trans 'Active Cases' %}</div>
+                        <div class="metric-value" id="metric-active-cases">-</div>
+                        <div class="metric-subtitle">
+                            <i class="fas fa-chart-line mr-1"></i> <span id="metric-total-cases">-</span> {% trans 'cases in total' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cases Pending Documents -->
+            <div class="col-xl-3 col-md-6 col-12 mb-3">
+                <div class="metric-card gold-theme">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <div class="metric-info">
+                        <div class="metric-label">{% trans 'Pending Documents' %}</div>
+                        <div class="metric-value" id="metric-pending-docs">-</div>
+                        <div class="metric-subtitle">
+                            <i class="fas fa-exclamation-circle mr-1"></i> {% trans 'Awaiting attachments' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Clients -->
+            <div class="col-xl-3 col-md-6 col-12 mb-3">
+                <div class="metric-card blue-theme">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="metric-info">
+                        <div class="metric-label">{% trans 'Active Clients' %}</div>
+                        <div class="metric-value" id="metric-active-clients">-</div>
+                        <div class="metric-subtitle">
+                            <i class="fas fa-users mr-1"></i> <span id="metric-total-clients">-</span> {% trans 'clients total' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Uploaded Documents -->
+            <div class="col-xl-3 col-md-6 col-12 mb-3">
+                <div class="metric-card purple-theme">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="metric-info">
+                        <div class="metric-label">{% trans 'Total Documents' %}</div>
+                        <div class="metric-value" id="metric-total-docs">-</div>
+                        <div class="metric-subtitle">
+                            <i class="fas fa-hdd mr-1"></i> {% trans 'Stored files repository' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Deadlines Row -->
+        <div class="row mb-4">
+            <!-- Cases by Status Chart Card -->
+            <div class="col-lg-4 col-md-6 col-12 mb-4">
+                <div class="card h-100 dashboard-chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-chart-pie mr-2"></i>{% trans 'Cases by Status' %}</h3>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <div class="dashboard-chart-wrapper">
+                            <canvas id="chart-cases-status"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cases by Type Chart Card -->
+            <div class="col-lg-4 col-md-6 col-12 mb-4">
+                <div class="card h-100 dashboard-chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-chart-bar mr-2"></i>{% trans 'Cases by Type' %}</h3>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <div class="dashboard-chart-wrapper">
+                            <canvas id="chart-cases-type"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Deadlines list -->
+            <div class="col-lg-4 col-12 mb-4">
+                <div class="card h-100 dashboard-chart-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="card-title"><i class="fas fa-bell mr-2"></i>{% trans 'Upcoming Deadlines' %}</h3>
+                        <span class="badge badge-danger" id="deadline-count">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="deadline-list" id="upcoming-deadlines-container">
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-spinner fa-spin fa-2x mb-2"></i><br>
+                                {% trans 'Loading deadlines...' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent cases and quick shortcuts row -->
+        <div class="row mb-4">
+            <!-- Recent Cases Table -->
+            <div class="col-lg-8 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-history mr-2"></i>{% trans 'Recent Cases Activity' %}</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans 'Case Number' %}</th>
+                                        <th>{% trans 'Title' %}</th>
+                                        <th>{% trans 'Client' %}</th>
+                                        <th>{% trans 'Status' %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-cases-table-body">
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">
+                                            <i class="fas fa-spinner fa-spin mr-2"></i> {% trans 'Loading recent cases...' %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Admin Logs (Timeline) -->
+            <div class="col-lg-4 col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-fingerprint mr-2"></i>{% trans 'System Log' %}</h3>
+                    </div>
+                    <div class="card-body" style="max-height: 380px; overflow-y: auto;">
+                        {% load log %}
+                        {% get_admin_log 5 as admin_log for_user user %}
+                        {% if not admin_log %}
+                            <p class="text-muted text-center py-4">{% trans 'No recent actions available' %}</p>
+                        {% else %}
+                            <div class="timeline timeline-inverse">
+                                {% for entry in admin_log %}
+                                    <div>
+                                        {% if entry.is_addition %}
+                                            <i class="fas fa-plus bg-success"></i>
+                                        {% elif entry.is_change %}
+                                            <i class="fas fa-edit bg-info"></i>
+                                        {% else %}
+                                            <i class="fas fa-trash bg-danger"></i>
+                                        {% endif %}
+                                        <div class="timeline-item" style="box-shadow: none; background: transparent; border: none; margin-left: 45px; padding: 0; margin-bottom: 15px;">
+                                            <span class="time" style="font-size: 0.8rem; color: #94a3b8;"><i class="far fa-clock mr-1"></i>{{ entry.action_time|timesince }} {% trans 'ago' %}</span>
+                                            <div class="timeline-body" style="font-size: 0.9rem; color: #334155; margin-top: 2px;">
+                                                <strong>{{ entry.user.username }}</strong>
+                                                {% if entry.is_addition %}{% trans 'created' %}{% elif entry.is_change %}{% trans 'updated' %}{% else %}{% trans 'deleted' %}{% endif %}
+                                                {{ entry.object_repr }}
+                                                <span class="text-muted" style="font-size: 0.75rem;">({{ entry.content_type.name }})</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div>
+                                    <i class="far fa-clock bg-gray"></i>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div> <!-- close #dashboard-metrics-container -->
+
+        <!-- Django Apps Models (Collapsible Card at Bottom) -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-default collapsed-card">
+                    <div class="card-header dashboard-collapse-header" data-card-widget="collapse">
+                        <h3 class="card-title text-muted"><i class="fas fa-cogs mr-2"></i>{% trans 'System Database Registry (Quick Access)' %}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool text-muted">
+                                <i class="fas fa-chevron-down dashboard-collapse-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="display: none;">
+                        {% get_side_menu using="app_list" as dashboard_list %}
+                        {% if dashboard_list %}
+                            {% widthratio dashboard_list|length 2 1 as middle %}
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                {% for app in dashboard_list %}
+                                    <div class="card card-secondary card-outline">
+                                        <div class="card-header py-2">
+                                            <h5 class="m-0" style="font-size: 1rem; font-weight: 700;">{{ app.name }}</h5>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm table-hover m-0">
+                                                <tbody>
+                                                {% for model in app.models %}
+                                                    <tr>
+                                                        <td style="font-size: 0.85rem; padding: 10px 15px;">
+                                                            {% if model.url %}<a href="{{ model.url }}" class="font-weight-600">{{ model.name }}</a>{% else %}{{ model.name }}{% endif %}
+                                                        </td>
+                                                        <td style="padding: 6px 15px;">
+                                                            <div class="btn-group float-right">
+                                                                {% if model.add_url %}
+                                                                    <a href="{{ model.add_url }}" class="btn btn-xs {{ jazzmin_ui.button_classes.success }} addlink">{% trans 'Add' %}</a>
+                                                                {% endif %}
+                                                                {% if model.url %}
+                                                                    {% if model.view_only %}
+                                                                        <a href="{{ model.url }}" class="btn btn-xs {{ jazzmin_ui.button_classes.info }} viewlink">{% trans 'View' %}</a>
+                                                                    {% else %}
+                                                                        <a href="{{ model.url }}" class="btn btn-xs {{ jazzmin_ui.button_classes.info }} changelink">{% if model.custom %}{% trans 'Go' %}{% else %}{% trans 'Change' %}{% endif %}</a>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% if forloop.counter == middle|add:"0" %}
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

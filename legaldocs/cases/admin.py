@@ -71,17 +71,9 @@ class CaseAdmin(admin.ModelAdmin):
     @admin.display(description="Estado")
     def colored_status(self, obj):
         """Display status with colored badge."""
-        colors = {
-            'en_proceso': '#3498db',
-            'pendiente_documentos': '#f39c12',
-            'en_revision': '#9b59b6',
-            'cerrado': '#27ae60',
-        }
-        color = colors.get(obj.status, '#95a5a6')
         return format_html(
-            '<span style="background-color: {}; color: white; padding: 3px 8px; '
-            'border-radius: 3px; font-size: 11px;">{}</span>',
-            color,
+            '<span class="badge badge-status-{}">{}</span>',
+            obj.status,
             obj.get_status_display()
         )
 

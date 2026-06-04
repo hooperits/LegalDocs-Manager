@@ -1,0 +1,7 @@
+{% extends "drf_spectacular/swagger_ui.html" %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/custom_swagger.css' %}">
+{% endblock %}
