@@ -768,22 +768,39 @@ Docker Compose te permite levantar la arquitectura completa (base de datos y dep
 
 Utiliza el servidor de desarrollo nativo de Django. Los cambios que realices en el código dentro de la carpeta `legaldocs` se reflejarán inmediatamente.
 
+##### **Paso 1: Levantar los contenedores de desarrollo**
+Inicia todos los servicios (PostgreSQL, Redis, Django y MinIO) ejecutando:
 ```bash
-# Clonar el repositorio (si no lo has hecho)
-git clone https://github.com/hooperits/LegalDocs-Manager.git
-cd LegalDocs-Manager
-
-# Iniciar contenedores en desarrollo
 docker compose up --build
 ```
+*El script de inicio esperará automáticamente al contenedor de Postgres, aplicará las migraciones y cargará los **datos de demostración** (25 clientes, 35 casos y 60 documentos).*
 
-- El script de inicio esperará automáticamente al contenedor de Postgres, aplicará las migraciones y cargará los **datos de demostración**.
-- **Documentación API**: [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
-- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
-- **Consola de Almacenamiento MinIO**: [http://localhost:9001](http://localhost:9001) (usuario: `minioadmin`, contraseña: `minioadminsecure`)
-  - Un bucket privado llamado `legaldocs-media` se crea automáticamente al iniciar.
-  - Para probar la subida de archivos localmente con MinIO, establece `USE_S3=True` en tu archivo `.env`.
+##### **Paso 2: Crear una cuenta de Administrador**
+Para iniciar sesión en el panel de control o usar las APIs autenticadas, abre una nueva pestaña en tu terminal y crea un superusuario dentro del contenedor web:
+```bash
+docker compose exec web python manage.py createsuperuser
+```
+Sigue las instrucciones interactivas en pantalla para configurar tu usuario, correo y contraseña.
 
+##### **Paso 3: Explorar y Probar la Aplicación**
+
+*   **Documentación Interactiva de la API (Swagger UI)**:
+    👉 **[http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)**
+    *Nota: La ruta raíz (`/`) devolverá un error **404 (Not Found)** por diseño, ya que no tiene ninguna vista asociada. Utiliza siempre `/api/v1/docs/` para interactuar con la API. Puedes iniciar sesión en la documentación usando el botón **Authorize** tras obtener un token en `/api/v1/auth/token/` (usa el formato `Token <tu-token-aqui>`).*
+*   **Panel de Administración de Django**:
+    👉 **[http://localhost:8000/admin/](http://localhost:8000/admin/)**
+    Inicia sesión con las credenciales que creaste en el **Paso 2** para visualizar y gestionar los registros de clientes, casos y documentos cargados en el sistema.
+*   **Consola de Almacenamiento MinIO**:
+    👉 **[http://localhost:9001](http://localhost:9001)**
+    *   **Usuario**: `minioadmin`
+    *   **Contraseña**: `minioadminsecure`
+    Un bucket privado llamado `legaldocs-media` se crea automáticamente. Para habilitar y probar la subida de archivos adjuntos localmente hacia MinIO, asegúrate de establecer `USE_S3=True` en tu archivo `.env`.
+
+##### **Paso 4: Detener los servicios**
+Para apagar los contenedores y liberar los puertos, presiona `Ctrl + C` en la terminal donde se ejecuta Docker Compose, o escribe en tu consola:
+```bash
+docker compose down
+```
 
 #### 2. Modo de Producción (Gunicorn + Nginx + PostgreSQL + SSL/TLS)
 
