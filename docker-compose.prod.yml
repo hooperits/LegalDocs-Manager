@@ -32,8 +32,8 @@ services:
       - DB_NAME=${DB_NAME:-legaldocs_prod}
       - DB_USER=${DB_USER:-legaldocs_user}
       - DB_PASSWORD=${DB_PASSWORD:-prodpasswordsecure123}
-      - DB_HOST=${DB_HOST:-db}
-      - DB_PORT=${DB_PORT:-5432}
+      - DB_HOST=db
+      - DB_PORT=5432
       - CONN_MAX_AGE=60
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -93,7 +93,7 @@ services:
     volumes:
       - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
     environment:
-      - DB_HOST=${DB_HOST:-db}
+      - DB_HOST=db
       - DB_NAME=${DB_NAME:-legaldocs_prod}
       - DB_USER=${DB_USER:-legaldocs_user}
       - DB_PASSWORD=${DB_PASSWORD:-prodpasswordsecure123}
@@ -105,6 +105,11 @@ services:
       - AWS_S3_REGION_NAME=${AWS_S3_REGION_NAME}
       - BACKUP_RETENTION_DAYS=7
     entrypoint: ["/bin/sh", "/usr/local/bin/backup.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /tmp/last_backup_success ] && [ -z \"$$(find /tmp/last_backup_success -mmin +1500 2>/dev/null)\" ]"]
+      interval: 1m
+      timeout: 5s
+      retries: 3
 
 volumes:
   postgres_data_prod:

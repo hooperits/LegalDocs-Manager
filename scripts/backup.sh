@@ -1,6 +1,7 @@
 #!/bin/sh
 # Exit immediately if a command exits with a non-zero status
 set -e
+set -o pipefail
 
 # Install AWS CLI on startup (only if not already installed)
 if ! command -v aws >/dev/null 2>&1; then
@@ -27,22 +28,47 @@ run_backup() {
     TIMESTAMP=$(date +%Y%m%d_%H%M%S)
     BACKUP_FILE="$BACKUP_DIR/db_backup_$TIMESTAMP.sql.gz"
 
+    # Disable exit-on-error temporarily to handle cleanup and reporting manually
+    set +e
+
     # Run pg_dump
     PGPASSWORD="$DB_PASSWORD" pg_dump -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" | gzip > "$BACKUP_FILE"
+    PG_STATUS=$?
+
+    if [ $PG_STATUS -ne 0 ]; then
+        echo "ERROR: Database dump failed with exit code $PG_STATUS" >&2
+        rm -f "$BACKUP_FILE"
+        set -e
+        return 1
+    fi
     echo "Backup file created locally: $BACKUP_FILE ($(du -sh $BACKUP_FILE | cut -f1))"
 
     echo "Uploading backup to S3 bucket $AWS_STORAGE_BUCKET_NAME..."
     aws s3 cp "$BACKUP_FILE" "s3://$AWS_STORAGE_BUCKET_NAME/backups/db_backup_$TIMESTAMP.sql.gz" $AWS_ARGS
+    S3_STATUS=$?
 
+    # Always clean up local backup file
     echo "Cleaning up local backup file..."
-    rm "$BACKUP_FILE"
+    rm -f "$BACKUP_FILE"
+
+    if [ $S3_STATUS -ne 0 ]; then
+        echo "ERROR: S3 upload failed with exit code $S3_STATUS" >&2
+        set -e
+        return 1
+    fi
 
     # Enforce retention policy on S3
     if [ -n "$BACKUP_RETENTION_DAYS" ]; then
         echo "Enforcing backup retention policy (keeping last $BACKUP_RETENTION_DAYS days)..."
         # List backups in S3
         BACKUPS=$(aws s3 ls "s3://$AWS_STORAGE_BUCKET_NAME/backups/" $AWS_ARGS | awk '{print $4}')
-        
+        LS_STATUS=$?
+        if [ $LS_STATUS -ne 0 ]; then
+            echo "ERROR: Listing S3 backups failed with exit code $LS_STATUS" >&2
+            set -e
+            return 1
+        fi
+
         # Calculate cutoff date in YYYYMMDD
         CUTOFF_TIMESTAMP=$(( $(date +%s) - BACKUP_RETENTION_DAYS*86400 ))
         # Supports busybox date
@@ -57,12 +83,22 @@ run_backup() {
             fi
         done
     fi
+
+    # Re-enable exit-on-error
+    set -e
     echo "Backup completed successfully."
+    return 0
 }
 
+# Touch the file on container start to initialize health status
+touch /tmp/last_backup_success
+
 if [ "$1" = "--now" ]; then
-    run_backup
-    exit 0
+    if run_backup; then
+        exit 0
+    else
+        exit 1
+    fi
 fi
 
 echo "Database backup service initialized in daemon mode."
@@ -79,5 +115,10 @@ while :; do
 
     echo "Next backup scheduled in $SLEEP_SECONDS seconds (at 02:00 UTC)."
     sleep $SLEEP_SECONDS & wait $!
-    run_backup
+    
+    if run_backup; then
+        touch /tmp/last_backup_success
+    else
+        echo "ERROR: Scheduled backup failed at $(date)." >&2
+    fi
 done
