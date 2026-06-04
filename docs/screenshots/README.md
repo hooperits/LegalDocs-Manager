@@ -2,17 +2,47 @@
 
 > Auto-generated documentation with screenshots of all application interfaces.
 
-**Generated**: 2026-01-19T21:27:42.331Z
+**Generated**: 2026-06-04T17:13:45.840Z
 
 ## Table of Contents
 
+- [Django Admin](#django-admin)
 - [Authentication](#authentication)
 - [Client Management](#client-management)
 - [Case Management](#case-management)
 - [Document Management](#document-management)
 - [Dashboard & Search](#dashboard-search)
-- [Django Admin](#django-admin)
 - [Swagger API](#swagger-api)
+
+---
+
+## Django Admin
+
+Administrative interface for advanced data management and configuration.
+
+### Admin Login
+
+Django admin login page for administrative access.
+
+![Admin Login](./06-admin/01-admin-login.png)
+
+### Admin Dashboard
+
+Django admin dashboard showing all registered models and management options.
+
+![Admin Dashboard](./06-admin/02-admin-dashboard.png)
+
+### Admin Clients List
+
+Client management in Django admin with list display and filters.
+
+![Admin Clients List](./06-admin/03-admin-clients-list.png)
+
+### Admin Cases List
+
+Case management in Django admin with status badges and filtering.
+
+![Admin Cases List](./06-admin/04-admin-cases-list.png)
 
 ---
 
@@ -145,36 +175,6 @@ Dashboard endpoint providing aggregated statistics and recent activity.
 Global search endpoint for finding clients, cases, and documents.
 
 ![Search Endpoint](./05-dashboard/02-search-endpoint.png)
-
----
-
-## Django Admin
-
-Administrative interface for advanced data management and configuration.
-
-### Admin Login
-
-Django admin login page for administrative access.
-
-![Admin Login](./06-admin/01-admin-login.png)
-
-### Admin Dashboard
-
-Django admin dashboard showing all registered models and management options.
-
-![Admin Dashboard](./06-admin/02-admin-dashboard.png)
-
-### Admin Clients List
-
-Client management in Django admin with list display and filters.
-
-![Admin Clients List](./06-admin/03-admin-clients-list.png)
-
-### Admin Cases List
-
-Case management in Django admin with status badges and filtering.
-
-![Admin Cases List](./06-admin/04-admin-cases-list.png)
 
 ---
 

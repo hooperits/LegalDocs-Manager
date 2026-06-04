@@ -70,6 +70,16 @@ A comprehensive legal document management system designed to help law firms and 
 <details>
 <summary>📸 View Screenshots</summary>
 
+#### Django Admin
+
+![Admin Dashboard](docs/screenshots/06-admin/02-admin-dashboard.png)
+
+*Powerful admin interface for advanced management*
+
+![Admin Cases](docs/screenshots/06-admin/04-admin-cases-list.png)
+
+*Case management in Django Admin with status badges*
+
 #### Swagger API Documentation
 
 ![Swagger Overview](docs/screenshots/07-api/01-swagger-overview.png)
@@ -109,16 +119,6 @@ A comprehensive legal document management system designed to help law firms and 
 ![Dashboard](docs/screenshots/05-dashboard/01-dashboard-endpoint.png)
 
 *Real-time statistics and global search functionality*
-
-#### Django Admin
-
-![Admin Dashboard](docs/screenshots/06-admin/02-admin-dashboard.png)
-
-*Powerful admin interface for advanced management*
-
-![Admin Cases](docs/screenshots/06-admin/04-admin-cases-list.png)
-
-*Case management in Django Admin with status badges*
 
 </details>
 
@@ -605,6 +605,16 @@ Sistema integral de gestión de documentos legales diseñado para ayudar a bufet
 <details>
 <summary>📸 Ver Capturas</summary>
 
+#### Administración Django
+
+![Panel Admin](docs/screenshots/06-admin/02-admin-dashboard.png)
+
+*Potente interfaz de administración para gestión avanzada*
+
+![Casos en Admin](docs/screenshots/06-admin/04-admin-cases-list.png)
+
+*Gestión de casos en Django Admin con badges de estado*
+
 #### Documentación API Swagger
 
 ![Vista General Swagger](docs/screenshots/07-api/01-swagger-overview.png)
@@ -644,16 +654,6 @@ Sistema integral de gestión de documentos legales diseñado para ayudar a bufet
 ![Panel de Control](docs/screenshots/05-dashboard/01-dashboard-endpoint.png)
 
 *Estadísticas en tiempo real y funcionalidad de búsqueda global*
-
-#### Administración Django
-
-![Panel Admin](docs/screenshots/06-admin/02-admin-dashboard.png)
-
-*Potente interfaz de administración para gestión avanzada*
-
-![Casos en Admin](docs/screenshots/06-admin/04-admin-cases-list.png)
-
-*Gestión de casos en Django Admin con badges de estado*
 
 </details>
 

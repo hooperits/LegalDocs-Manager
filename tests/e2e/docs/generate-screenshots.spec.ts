@@ -422,17 +422,17 @@ test.describe('Screenshot Documentation Generator', () => {
     });
 
     // Try to login
-    const usernameInput = page.locator('#id_username');
-    const passwordInput = page.locator('#id_password');
+    const usernameInput = page.locator('input[name="username"]');
+    const passwordInput = page.locator('input[name="password"]');
 
     if (await usernameInput.isVisible() && await passwordInput.isVisible()) {
       await usernameInput.fill(ADMIN_CREDENTIALS.username);
       await passwordInput.fill(ADMIN_CREDENTIALS.password);
-      await page.locator('input[type="submit"]').click();
-      await page.waitForTimeout(1000);
+      await page.locator('button[type="submit"], input[type="submit"]').first().click();
+      await page.waitForTimeout(2000); // Give it a bit more time for the dashboard to load
 
       // Check if login was successful
-      const isLoggedIn = await page.locator('#user-tools').isVisible().catch(() => false);
+      const isLoggedIn = await page.locator('.brand-link').isVisible().catch(() => false);
 
       if (isLoggedIn) {
         // Screenshot 2: Admin dashboard

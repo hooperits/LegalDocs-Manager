@@ -24,6 +24,12 @@ export interface ModuleConfig {
  */
 export const MODULES: ModuleConfig[] = [
   {
+    id: '06-admin',
+    name: 'Django Admin',
+    description: 'Administrative interface for advanced data management and configuration.',
+    expectedScreenshots: 4,
+  },
+  {
     id: '01-auth',
     name: 'Authentication',
     description: 'User authentication flows including login, registration, and session management.',
@@ -52,12 +58,6 @@ export const MODULES: ModuleConfig[] = [
     name: 'Dashboard & Search',
     description: 'Overview dashboard with statistics and global search functionality.',
     expectedScreenshots: 2,
-  },
-  {
-    id: '06-admin',
-    name: 'Django Admin',
-    description: 'Administrative interface for advanced data management and configuration.',
-    expectedScreenshots: 4,
   },
   {
     id: '07-api',
@@ -123,7 +123,7 @@ export const SELECTORS = {
   swaggerResponse: '.responses-table',
 
   // Django Admin elements
-  adminLoginForm: '#login-form',
+  adminLoginForm: 'input[name="username"]',
   adminDashboard: '#content',
   adminModelList: '#changelist',
   adminChangeForm: '#content-main',
