@@ -9,10 +9,49 @@ Set DISABLE_THROTTLING=1 environment variable to disable rate limiting for testi
 
 import os
 
-from rest_framework.throttling import SimpleRateThrottle
+from rest_framework.throttling import SimpleRateThrottle, AnonRateThrottle, UserRateThrottle
 
 # Check if throttling should be disabled (for testing)
 DISABLE_THROTTLING = os.getenv('DISABLE_THROTTLING', '').lower() in ('1', 'true', 'yes')
+
+
+class CustomAnonRateThrottle(AnonRateThrottle):
+    """
+    Custom Anonymous rate throttle that respects the DISABLE_THROTTLING setting.
+    """
+
+    def get_cache_key(self, request, view):
+        if DISABLE_THROTTLING:
+            return None
+        return super().get_cache_key(request, view)
+
+
+class CustomUserRateThrottle(UserRateThrottle):
+    """
+    Custom Authenticated User rate throttle that respects the DISABLE_THROTTLING setting.
+    """
+
+    def get_cache_key(self, request, view):
+        if DISABLE_THROTTLING:
+            return None
+        return super().get_cache_key(request, view)
+
+
+class SearchRateThrottle(UserRateThrottle):
+    """
+    Throttle class for the search endpoint.
+
+    Limits search queries per authenticated user to prevent database abuse.
+    Rate: 30 requests per minute per user (disabled if DISABLE_THROTTLING=1).
+    """
+
+    scope = 'search'
+
+    def get_cache_key(self, request, view):
+        if DISABLE_THROTTLING:
+            return None
+        return super().get_cache_key(request, view)
+
 
 
 class AuthRateThrottle(SimpleRateThrottle):

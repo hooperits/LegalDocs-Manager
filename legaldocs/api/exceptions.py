@@ -98,6 +98,14 @@ ERROR_TRANSLATIONS = {
 
     # Rate limiting
     'Request was throttled.': 'Solicitud limitada por exceso de intentos.',
+    'Request was throttled. Expected available in {wait} seconds.':
+        'Límite de solicitudes excedido. Espere {wait} segundos.',
+    'Request was throttled. Expected available in {wait} second.':
+        'Límite de solicitudes excedido. Espere {wait} segundo.',
+    'Solicitud fue regulada (throttled). Expected available in {wait} seconds.':
+        'Límite de solicitudes excedido. Espere {wait} segundos.',
+    'Solicitud fue regulada (throttled). Expected available in {wait} second.':
+        'Límite de solicitudes excedido. Espere {wait} segundo.',
 
     # File errors
     'The submitted data was not a file.': 'Los datos enviados no son un archivo.',
@@ -119,6 +127,20 @@ def translate_error_message(message: str) -> str:
     Returns:
         The translated message in Spanish, or the original if not found.
     """
+    # Handle rate limiting throttled messages with dynamic wait times
+    if message.startswith("Request was throttled. Expected available in ") and message.endswith(" seconds."):
+        wait = message.replace("Request was throttled. Expected available in ", "").replace(" seconds.", "")
+        return f"Límite de solicitudes excedido. Espere {wait} segundos."
+    if message.startswith("Request was throttled. Expected available in ") and message.endswith(" second."):
+        wait = message.replace("Request was throttled. Expected available in ", "").replace(" second.", "")
+        return f"Límite de solicitudes excedido. Espere {wait} segundo."
+    if message.startswith("Solicitud fue regulada (throttled). Expected available in ") and message.endswith(" seconds."):
+        wait = message.replace("Solicitud fue regulada (throttled). Expected available in ", "").replace(" seconds.", "")
+        return f"Límite de solicitudes excedido. Espere {wait} segundos."
+    if message.startswith("Solicitud fue regulada (throttled). Expected available in ") and message.endswith(" second."):
+        wait = message.replace("Solicitud fue regulada (throttled). Expected available in ", "").replace(" second.", "")
+        return f"Límite de solicitudes excedido. Espere {wait} segundo."
+
     # Try exact match first
     if message in ERROR_TRANSLATIONS:
         return ERROR_TRANSLATIONS[message]
@@ -128,14 +150,14 @@ def translate_error_message(message: str) -> str:
         if '{' in english:
             # Handle parameterized messages
             pattern = english.replace('{min_length}', '(\\d+)').replace('{max_length}', '(\\d+)')
-            pattern = pattern.replace('{pk_value}', '(.+)')
+            pattern = pattern.replace('{pk_value}', '(.+)').replace('{wait}', '(\\d+)')
             import re
             match = re.match(pattern, message)
             if match:
                 result = spanish
                 for i, group in enumerate(match.groups(), 1):
                     result = result.replace('{min_length}', group).replace('{max_length}', group)
-                    result = result.replace('{pk_value}', group)
+                    result = result.replace('{pk_value}', group).replace('{wait}', group)
                 return result
 
     return message

@@ -82,3 +82,6 @@ celerybeat.pid
 *.pem
 *.key
 test-results/
+
+# Test Media
+test_media/

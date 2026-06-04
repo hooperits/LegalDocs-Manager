@@ -263,8 +263,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
+    'DEFAULT_THROTTLE_CLASSES': [
+        'api.throttling.CustomAnonRateThrottle',
+        'api.throttling.CustomUserRateThrottle',
+    ],
     # Rate limiting - disabled for testing via DISABLE_THROTTLING env var
     'DEFAULT_THROTTLE_RATES': {
+        'anon': '10000/day' if os.getenv('DISABLE_THROTTLING') else '100/day',
+        'user': '10000/day' if os.getenv('DISABLE_THROTTLING') else '1000/day',
+        'search': '10000/min' if os.getenv('DISABLE_THROTTLING') else '30/min',
         'auth': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',
         'login': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',
         'register': '1000/min' if os.getenv('DISABLE_THROTTLING') else '5/min',

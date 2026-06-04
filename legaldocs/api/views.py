@@ -21,7 +21,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import ProfileSerializer, RegisterSerializer, UserInfoSerializer
-from .throttling import LoginRateThrottle, RegisterRateThrottle
+from .throttling import LoginRateThrottle, RegisterRateThrottle, SearchRateThrottle
 
 
 class LoginView(ObtainAuthToken):
@@ -260,6 +260,7 @@ class SearchView(APIView):
     """
 
     permission_classes = [IsAuthenticated]
+    throttle_classes = [SearchRateThrottle]
 
     def get(self, request):
         """Search across all models and return unified results."""
