@@ -84,6 +84,28 @@ services:
       - certbot_var:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
 
+  db-backup:
+    image: postgres:15-alpine
+    container_name: legaldocs_db_backup_prod
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
+    environment:
+      - DB_HOST=db
+      - DB_NAME=legaldocs_prod
+      - DB_USER=legaldocs_user
+      - DB_PASSWORD=prodpasswordsecure123
+      - USE_S3=${USE_S3}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
+      - AWS_S3_ENDPOINT_URL=${AWS_S3_ENDPOINT_URL}
+      - AWS_S3_REGION_NAME=${AWS_S3_REGION_NAME}
+      - BACKUP_RETENTION_DAYS=7
+    entrypoint: ["/bin/sh", "/usr/local/bin/backup.sh"]
+
 volumes:
   postgres_data_prod:
   django_static:
