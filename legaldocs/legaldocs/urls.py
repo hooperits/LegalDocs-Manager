@@ -20,6 +20,7 @@ from django.urls import include, path
 from . import admin as admin_config  # noqa: F401 - Import to load admin site branding
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
 ]

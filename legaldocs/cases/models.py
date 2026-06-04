@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class CaseManager(models.Manager):
@@ -42,75 +43,75 @@ class Case(models.Model):
     """
 
     CASE_TYPE_CHOICES = [
-        ('civil', 'Civil'),
-        ('penal', 'Penal'),
-        ('laboral', 'Laboral'),
-        ('mercantil', 'Mercantil'),
-        ('familia', 'Familia'),
+        ('civil', _('Civil')),
+        ('penal', _('Penal')),
+        ('laboral', _('Laboral')),
+        ('mercantil', _('Mercantil')),
+        ('familia', _('Familia')),
     ]
 
     STATUS_CHOICES = [
-        ('en_proceso', 'En Proceso'),
-        ('pendiente_documentos', 'Pendiente Documentos'),
-        ('en_revision', 'En Revisión'),
-        ('cerrado', 'Cerrado'),
+        ('en_proceso', _('En Proceso')),
+        ('pendiente_documentos', _('Pendiente Documentos')),
+        ('en_revision', _('En Revisión')),
+        ('cerrado', _('Cerrado')),
     ]
 
     PRIORITY_CHOICES = [
-        ('baja', 'Baja'),
-        ('media', 'Media'),
-        ('alta', 'Alta'),
-        ('urgente', 'Urgente'),
+        ('baja', _('Baja')),
+        ('media', _('Media')),
+        ('alta', _('Alta')),
+        ('urgente', _('Urgente')),
     ]
 
     client = models.ForeignKey(
         'clients.Client',
         on_delete=models.PROTECT,
         related_name='cases',
-        verbose_name="Cliente"
+        verbose_name=_("Cliente")
     )
     case_number = models.CharField(
         max_length=20,
         unique=True,
         editable=False,
-        verbose_name="Número de caso"
+        verbose_name=_("Número de caso")
     )
     title = models.CharField(
         max_length=200,
-        verbose_name="Título"
+        verbose_name=_("Título")
     )
     description = models.TextField(
-        verbose_name="Descripción"
+        verbose_name=_("Descripción")
     )
     case_type = models.CharField(
         max_length=20,
         choices=CASE_TYPE_CHOICES,
-        verbose_name="Tipo de caso"
+        verbose_name=_("Tipo de caso")
     )
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
         default='en_proceso',
-        verbose_name="Estado"
+        verbose_name=_("Estado")
     )
     priority = models.CharField(
         max_length=20,
         choices=PRIORITY_CHOICES,
         default='media',
-        verbose_name="Prioridad"
+        verbose_name=_("Prioridad")
     )
     start_date = models.DateField(
-        verbose_name="Fecha de inicio"
+        verbose_name=_("Fecha de inicio")
     )
     deadline = models.DateField(
         null=True,
         blank=True,
-        verbose_name="Fecha límite"
+        verbose_name=_("Fecha límite")
     )
     closed_date = models.DateField(
         null=True,
         blank=True,
-        verbose_name="Fecha de cierre"
+        verbose_name=_("Fecha de cierre")
     )
     assigned_to = models.ForeignKey(
         'auth.User',
@@ -118,23 +119,23 @@ class Case(models.Model):
         null=True,
         blank=True,
         related_name='assigned_cases',
-        verbose_name="Asignado a"
+        verbose_name=_("Asignado a")
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Fecha de creación"
+        verbose_name=_("Fecha de creación")
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name="Última actualización"
+        verbose_name=_("Última actualización")
     )
 
     objects = CaseManager()
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = "Caso"
-        verbose_name_plural = "Casos"
+        verbose_name = _("Caso")
+        verbose_name_plural = _("Casos")
         indexes = [
             models.Index(fields=['client'], name='case_client_idx'),
             models.Index(fields=['status'], name='case_status_idx'),

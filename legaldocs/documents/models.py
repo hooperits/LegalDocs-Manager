@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Document(models.Model):
@@ -11,40 +12,40 @@ class Document(models.Model):
     """
 
     DOCUMENT_TYPE_CHOICES = [
-        ('contrato', 'Contrato'),
-        ('demanda', 'Demanda'),
-        ('poder', 'Poder'),
-        ('sentencia', 'Sentencia'),
-        ('escritura', 'Escritura'),
-        ('otro', 'Otro'),
+        ('contrato', _('Contrato')),
+        ('demanda', _('Demanda')),
+        ('poder', _('Poder')),
+        ('sentencia', _('Sentencia')),
+        ('escritura', _('Escritura')),
+        ('otro', _('Otro')),
     ]
 
     case = models.ForeignKey(
         'cases.Case',
         on_delete=models.CASCADE,
         related_name='documents',
-        verbose_name="Caso"
+        verbose_name=_("Caso")
     )
     document_type = models.CharField(
         max_length=20,
         choices=DOCUMENT_TYPE_CHOICES,
-        verbose_name="Tipo de documento"
+        verbose_name=_("Tipo de documento")
     )
     title = models.CharField(
         max_length=200,
-        verbose_name="Título"
+        verbose_name=_("Título")
     )
     description = models.TextField(
         blank=True,
-        verbose_name="Descripción"
+        verbose_name=_("Descripción")
     )
     file = models.FileField(
         upload_to='legal_documents/',
-        verbose_name="Archivo"
+        verbose_name=_("Archivo")
     )
     file_size = models.IntegerField(
         editable=False,
-        verbose_name="Tamaño del archivo (bytes)"
+        verbose_name=_("Tamaño del archivo (bytes)")
     )
     uploaded_by = models.ForeignKey(
         'auth.User',
@@ -52,21 +53,21 @@ class Document(models.Model):
         null=True,
         blank=True,
         related_name='uploaded_documents',
-        verbose_name="Subido por"
+        verbose_name=_("Subido por")
     )
     uploaded_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Fecha de subida"
+        verbose_name=_("Fecha de subida")
     )
     is_confidential = models.BooleanField(
         default=False,
-        verbose_name="Confidencial"
+        verbose_name=_("Confidencial")
     )
 
     class Meta:
         ordering = ['-uploaded_at']
-        verbose_name = "Documento"
-        verbose_name_plural = "Documentos"
+        verbose_name = _("Documento")
+        verbose_name_plural = _("Documentos")
         indexes = [
             models.Index(fields=['case'], name='doc_case_idx'),
             models.Index(fields=['-uploaded_at'], name='doc_uploaded_idx'),

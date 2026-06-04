@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-03 23:49-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+#: cases/models.py:46
+msgid "Civil"
+msgstr ""
+
+#: cases/models.py:47
+msgid "Penal"
+msgstr ""
+
+#: cases/models.py:48
+msgid "Laboral"
+msgstr ""
+
+#: cases/models.py:49
+msgid "Mercantil"
+msgstr ""
+
+#: cases/models.py:50
+msgid "Familia"
+msgstr ""
+
+#: cases/models.py:54
+msgid "En Proceso"
+msgstr ""
+
+#: cases/models.py:55
+msgid "Pendiente Documentos"
+msgstr ""
+
+#: cases/models.py:56
+msgid "En Revisión"
+msgstr ""
+
+#: cases/models.py:57
+msgid "Cerrado"
+msgstr ""
+
+#: cases/models.py:61
+msgid "Baja"
+msgstr ""
+
+#: cases/models.py:62
+msgid "Media"
+msgstr ""
+
+#: cases/models.py:63
+msgid "Alta"
+msgstr ""
+
+#: cases/models.py:64
+msgid "Urgente"
+msgstr ""
+
+#: cases/models.py:71 clients/models.py:53
+msgid "Cliente"
+msgstr ""
+
+#: cases/models.py:77
+msgid "Número de caso"
+msgstr ""
+
+#: cases/models.py:81 documents/models.py:36
+msgid "Título"
+msgstr ""
+
+#: cases/models.py:84 documents/models.py:40
+msgid "Descripción"
+msgstr ""
+
+#: cases/models.py:89
+msgid "Tipo de caso"
+msgstr ""
+
+#: cases/models.py:95
+msgid "Estado"
+msgstr ""
+
+#: cases/models.py:101
+msgid "Prioridad"
+msgstr ""
+
+#: cases/models.py:104
+msgid "Fecha de inicio"
+msgstr ""
+
+#: cases/models.py:109
+msgid "Fecha límite"
+msgstr ""
+
+#: cases/models.py:114
+msgid "Fecha de cierre"
+msgstr ""
+
+#: cases/models.py:122
+msgid "Asignado a"
+msgstr ""
+
+#: cases/models.py:126 clients/models.py:36
+msgid "Fecha de creación"
+msgstr ""
+
+#: cases/models.py:130 clients/models.py:40
+msgid "Última actualización"
+msgstr ""
+
+#: cases/models.py:137 documents/models.py:27
+msgid "Caso"
+msgstr ""
+
+#: cases/models.py:138
+msgid "Casos"
+msgstr ""
+
+#: clients/models.py:16
+msgid "Nombre completo"
+msgstr ""
+
+#: clients/models.py:21
+msgid "Número de identificación"
+msgstr ""
+
+#: clients/models.py:24
+msgid "Correo electrónico"
+msgstr ""
+
+#: clients/models.py:28
+msgid "Teléfono"
+msgstr ""
+
+#: clients/models.py:32
+msgid "Dirección"
+msgstr ""
+
+#: clients/models.py:44
+msgid "Activo"
+msgstr ""
+
+#: clients/models.py:48
+msgid "Notas"
+msgstr ""
+
+#: clients/models.py:54
+msgid "Clientes"
+msgstr ""
+
+#: documents/models.py:15
+msgid "Contrato"
+msgstr ""
+
+#: documents/models.py:16
+msgid "Demanda"
+msgstr ""
+
+#: documents/models.py:17
+msgid "Poder"
+msgstr ""
+
+#: documents/models.py:18
+msgid "Sentencia"
+msgstr ""
+
+#: documents/models.py:19
+msgid "Escritura"
+msgstr ""
+
+#: documents/models.py:20
+msgid "Otro"
+msgstr ""
+
+#: documents/models.py:32
+msgid "Tipo de documento"
+msgstr ""
+
+#: documents/models.py:44
+msgid "Archivo"
+msgstr ""
+
+#: documents/models.py:48
+msgid "Tamaño del archivo (bytes)"
+msgstr ""
+
+#: documents/models.py:56
+msgid "Subido por"
+msgstr ""
+
+#: documents/models.py:60
+msgid "Fecha de subida"
+msgstr ""
+
+#: documents/models.py:64
+msgid "Confidencial"
+msgstr ""
+
+#: documents/models.py:69
+msgid "Documento"
+msgstr ""
+
+#: documents/models.py:70
+msgid "Documentos"
+msgstr ""
+
+#: legaldocs/admin.py:13
+msgid "Panel de Administración"
+msgstr ""
+
+#: legaldocs/settings.py:199
+msgid "Spanish"
+msgstr ""
+
+#: legaldocs/settings.py:200
+msgid "English"
+msgstr ""
+
+#: legaldocs/settings.py:447
+msgid "Welcome to LegalDocs Manager"
+msgstr ""

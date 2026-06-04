@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     build-essential \
     netcat-openbsd \
+    gettext \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

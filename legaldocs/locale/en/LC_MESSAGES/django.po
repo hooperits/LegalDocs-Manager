@@ -1,0 +1,234 @@
+# LegalDocs Manager English Translation Catalog.
+# Copyright (C) 2026 LegalDocs Manager
+# This file is distributed under the same license as the LegalDocs Manager package.
+# HOOPERITS, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LegalDocs Manager 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-03 23:49-0500\n"
+"PO-Revision-Date: 2026-06-03 23:51-0500\n"
+"Last-Translator: HOOPERITS <admin@example.com>\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cases/models.py:46
+msgid "Civil"
+msgstr "Civil"
+
+#: cases/models.py:47
+msgid "Penal"
+msgstr "Criminal"
+
+#: cases/models.py:48
+msgid "Laboral"
+msgstr "Labor"
+
+#: cases/models.py:49
+msgid "Mercantil"
+msgstr "Commercial"
+
+#: cases/models.py:50
+msgid "Familia"
+msgstr "Family"
+
+#: cases/models.py:54
+msgid "En Proceso"
+msgstr "In Progress"
+
+#: cases/models.py:55
+msgid "Pendiente Documentos"
+msgstr "Pending Documents"
+
+#: cases/models.py:56
+msgid "En Revisión"
+msgstr "Under Review"
+
+#: cases/models.py:57
+msgid "Cerrado"
+msgstr "Closed"
+
+#: cases/models.py:61
+msgid "Baja"
+msgstr "Low"
+
+#: cases/models.py:62
+msgid "Media"
+msgstr "Medium"
+
+#: cases/models.py:63
+msgid "Alta"
+msgstr "High"
+
+#: cases/models.py:64
+msgid "Urgente"
+msgstr "Urgent"
+
+#: cases/models.py:71 clients/models.py:53
+msgid "Cliente"
+msgstr "Client"
+
+#: cases/models.py:77
+msgid "Número de caso"
+msgstr "Case Number"
+
+#: cases/models.py:81 documents/models.py:36
+msgid "Título"
+msgstr "Title"
+
+#: cases/models.py:84 documents/models.py:40
+msgid "Descripción"
+msgstr "Description"
+
+#: cases/models.py:89
+msgid "Tipo de caso"
+msgstr "Case Type"
+
+#: cases/models.py:95
+msgid "Estado"
+msgstr "Status"
+
+#: cases/models.py:101
+msgid "Prioridad"
+msgstr "Priority"
+
+#: cases/models.py:104
+msgid "Fecha de inicio"
+msgstr "Start Date"
+
+#: cases/models.py:109
+msgid "Fecha límite"
+msgstr "Deadline"
+
+#: cases/models.py:114
+msgid "Fecha de cierre"
+msgstr "Closed Date"
+
+#: cases/models.py:122
+msgid "Asignado a"
+msgstr "Assigned To"
+
+#: cases/models.py:126 clients/models.py:36
+msgid "Fecha de creación"
+msgstr "Creation Date"
+
+#: cases/models.py:130 clients/models.py:40
+msgid "Última actualización"
+msgstr "Last Update"
+
+#: cases/models.py:137 documents/models.py:27
+msgid "Caso"
+msgstr "Case"
+
+#: cases/models.py:138
+msgid "Casos"
+msgstr "Cases"
+
+#: clients/models.py:16
+msgid "Nombre completo"
+msgstr "Full Name"
+
+#: clients/models.py:21
+msgid "Número de identificación"
+msgstr "Identification Number"
+
+#: clients/models.py:24
+msgid "Correo electrónico"
+msgstr "Email Address"
+
+#: clients/models.py:28
+msgid "Teléfono"
+msgstr "Phone"
+
+#: clients/models.py:32
+msgid "Dirección"
+msgstr "Address"
+
+#: clients/models.py:44
+msgid "Activo"
+msgstr "Active"
+
+#: clients/models.py:48
+msgid "Notas"
+msgstr "Notes"
+
+#: clients/models.py:54
+msgid "Clientes"
+msgstr "Clients"
+
+#: documents/models.py:15
+msgid "Contrato"
+msgstr "Contract"
+
+#: documents/models.py:16
+msgid "Demanda"
+msgstr "Lawsuit"
+
+#: documents/models.py:17
+msgid "Poder"
+msgstr "Power of Attorney"
+
+#: documents/models.py:18
+msgid "Sentencia"
+msgstr "Ruling"
+
+#: documents/models.py:19
+msgid "Escritura"
+msgstr "Deed"
+
+#: documents/models.py:20
+msgid "Otro"
+msgstr "Other"
+
+#: documents/models.py:32
+msgid "Tipo de documento"
+msgstr "Document Type"
+
+#: documents/models.py:44
+msgid "Archivo"
+msgstr "File"
+
+#: documents/models.py:48
+msgid "Tamaño del archivo (bytes)"
+msgstr "File Size (bytes)"
+
+#: documents/models.py:56
+msgid "Subido por"
+msgstr "Uploaded By"
+
+#: documents/models.py:60
+msgid "Fecha de subida"
+msgstr "Upload Date"
+
+#: documents/models.py:64
+msgid "Confidencial"
+msgstr "Confidential"
+
+#: documents/models.py:69
+msgid "Documento"
+msgstr "Document"
+
+#: documents/models.py:70
+msgid "Documentos"
+msgstr "Documents"
+
+#: legaldocs/admin.py:13
+msgid "Panel de Administración"
+msgstr "Administration Panel"
+
+#: legaldocs/settings.py:199
+msgid "Spanish"
+msgstr "Spanish"
+
+#: legaldocs/settings.py:200
+msgid "English"
+msgstr "English"
+
+#: legaldocs/settings.py:447
+msgid "Welcome to LegalDocs Manager"
+msgstr "Welcome to LegalDocs Manager"

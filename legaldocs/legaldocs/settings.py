@@ -81,6 +81,8 @@ CSRF_TRUSTED_ORIGINS = [
 # =============================================================================
 
 INSTALLED_APPS = [
+    # Third-party admin theme
+    'jazzmin',
     # Django built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -109,6 +111,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # CORS - must be before CommonMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Multi-language translation support
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -188,7 +191,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # =============================================================================
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-co'  # Spanish (Colombia)
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGE_CODE = 'es'
+
+LANGUAGES = [
+    ('es', _('Spanish')),
+    ('en', _('English')),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
 TIME_ZONE = 'America/Bogota'
 
@@ -418,4 +432,91 @@ if not DEBUG:
             'level': 'WARNING',
         },
     }
+
+# =============================================================================
+# Jazzmin Admin Theme Configuration
+# =============================================================================
+JAZZMIN_SETTINGS = {
+    # Title on the brand, and block title
+    "site_title": "LegalDocs Manager",
+    "site_header": "LegalDocs Manager",
+    "site_brand": "LegalDocs Manager",
+    "site_logo_classes": "img-circle",
+    
+    # Welcome text on the login screen
+    "welcome_sign": _("Welcome to LegalDocs Manager"),
+    
+    # Copyright on the footer
+    "copyright": "LegalDocs Manager",
+    
+    # Field name on user model that contains avatar image URL (optional)
+    "user_avatar": None,
+    
+    # User Menu links
+    "usermenu_links": [],
+    
+    # Top Menu links
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": []},
+        {"name": "API Docs", "url": "/api/v1/docs/", "new_window": True},
+    ],
+    
+    # Sidebar navigation setup
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    
+    # List of apps to show in side navigation
+    "order_with_respect_to": ["clients", "cases", "documents", "auth"],
+    
+    # Icons for apps and models (FontAwesome 5 classes)
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.Group": "fas fa-users-cog",
+        "auth.User": "fas fa-user-shield",
+        "clients.Client": "fas fa-user-tie",
+        "cases.Case": "fas fa-briefcase",
+        "documents.Document": "fas fa-file-signature",
+        "authtoken.TokenProxy": "fas fa-key",
+    },
+    
+    # Default icons for when none is specified
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    
+    # Custom CSS and Javascript files
+    "custom_css": "admin/css/custom_jazzmin.css",
+    "custom_js": None,
+    
+    # Multi-language selector drop-down
+    "show_language_chooser": True,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-teal navbar-dark",
+    "no_navbar_border": False,
+    "navbar_double_row": False,
+    "sidebar": "sidebar-dark-teal",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "flatly",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
 

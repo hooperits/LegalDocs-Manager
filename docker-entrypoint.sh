@@ -25,6 +25,14 @@ fi
 echo "Running migrations..."
 python manage.py migrate --noinput
 
+# Compile translation files
+echo "Compiling translation files..."
+if [ -d "locale" ] && find locale -name "*.po" 2>/dev/null | grep -q .; then
+    python manage.py compilemessages
+else
+    echo "No translation source files (.po) found. Skipping compilation."
+fi
+
 # Collect static files
 echo "Collecting static files..."
 python manage.py collectstatic --noinput

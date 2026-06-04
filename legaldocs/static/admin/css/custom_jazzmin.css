@@ -1,0 +1,210 @@
+/* Custom Premium Stylesheet for LegalDocs Manager Admin Panel */
+
+/* Import Outfit Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Apply font-family and modern rendering globally */
+body, .main-sidebar, .main-header, .content-wrapper, .modal-content, input, select, textarea, button {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background canvas color */
+.content-wrapper {
+    background-color: #f8fafc !important;
+}
+
+/* Custom premium navbar gradient */
+.main-header.navbar-teal {
+    background: linear-gradient(135deg, #107e7a 0%, #0b4946 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Sidebar branding logo custom accent */
+.brand-link {
+    background: #083634 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Sidebar styling overrides */
+.main-sidebar {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.nav-sidebar .nav-item {
+    margin: 2px 8px !important;
+}
+
+.nav-sidebar .nav-link {
+    border-radius: 8px !important;
+    transition: all 0.2s ease-in-out !important;
+    padding: 10px 12px !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(135deg, #107e7a 0%, #0d5c59 100%) !important;
+    box-shadow: 0 4px 12px rgba(16, 126, 122, 0.3) !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+}
+
+.nav-sidebar .nav-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #fff !important;
+}
+
+/* Dashboard title and header customization */
+.content-header h1 {
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.025em !important;
+    font-size: 1.8rem !important;
+}
+
+/* Rounded premium cards */
+.card {
+    border-radius: 14px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 0 4px 24px rgba(148, 163, 184, 0.06) !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background-color: #ffffff !important;
+    overflow: hidden;
+}
+
+/* Subtle micro-animation on card hover */
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 16px 20px !important;
+}
+
+.card-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+}
+
+/* Premium table enhancements and hover transition */
+.table {
+    border-collapse: separate !important;
+}
+
+.table tr {
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(16, 126, 122, 0.02) !important;
+}
+
+.table th {
+    border-top: none !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 12px 16px !important;
+}
+
+.table td {
+    border-top: 1px solid #f1f5f9 !important;
+    vertical-align: middle !important;
+    padding: 12px 16px !important;
+}
+
+/* Button overrides - Modern Gradients & Micro-animations */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Add / Success button customization */
+.btn-success, .btn-success:focus, .btn-success:active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.18) !important;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.28) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Change / Primary button customization */
+.btn-primary, .btn-primary:focus, .btn-primary:active {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.18) !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.28) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Info / View button customization */
+.btn-info, .btn-info:focus, .btn-info:active {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(6, 182, 212, 0.18) !important;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+    box-shadow: 0 6px 16px rgba(6, 182, 212, 0.28) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn:active {
+    transform: translateY(0) !important;
+    box-shadow: none !important;
+}
+
+/* Form fields and inputs styling */
+input[type="text"], input[type="email"], input[type="password"], select, textarea {
+    border-radius: 8px !important;
+    border: 1px solid #cbd5e0 !important;
+    padding: 8px 12px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+    border-color: #107e7a !important;
+    box-shadow: 0 0 0 3px rgba(16, 126, 122, 0.15) !important;
+    outline: none !important;
+}
+
+/* Badge styling */
+.badge {
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
+}
+
+/* Customize list-group items hover */
+.list-group-item {
+    transition: all 0.2s ease !important;
+    border-radius: 8px !important;
+    margin-bottom: 4px;
+    border: 1px solid #f1f5f9;
+}
+
+.list-group-item:hover {
+    background-color: rgba(16, 126, 122, 0.04) !important;
+    padding-left: 24px !important; /* Micro-slide animation */
+}

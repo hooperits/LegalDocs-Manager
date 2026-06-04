@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Client(models.Model):
@@ -12,45 +13,45 @@ class Client(models.Model):
 
     full_name = models.CharField(
         max_length=200,
-        verbose_name="Nombre completo"
+        verbose_name=_("Nombre completo")
     )
     identification_number = models.CharField(
         max_length=50,
         unique=True,
-        verbose_name="Número de identificación"
+        verbose_name=_("Número de identificación")
     )
     email = models.EmailField(
-        verbose_name="Correo electrónico"
+        verbose_name=_("Correo electrónico")
     )
     phone = models.CharField(
         max_length=20,
-        verbose_name="Teléfono"
+        verbose_name=_("Teléfono")
     )
     address = models.TextField(
         blank=True,
-        verbose_name="Dirección"
+        verbose_name=_("Dirección")
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Fecha de creación"
+        verbose_name=_("Fecha de creación")
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name="Última actualización"
+        verbose_name=_("Última actualización")
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name="Activo"
+        verbose_name=_("Activo")
     )
     notes = models.TextField(
         blank=True,
-        verbose_name="Notas"
+        verbose_name=_("Notas")
     )
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = "Cliente"
-        verbose_name_plural = "Clientes"
+        verbose_name = _("Cliente")
+        verbose_name_plural = _("Clientes")
 
     def __str__(self) -> str:
         return f"{self.full_name} ({self.identification_number})"
