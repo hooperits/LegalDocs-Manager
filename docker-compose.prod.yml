@@ -7,11 +7,11 @@ services:
     volumes:
       - postgres_data_prod:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=legaldocs_prod
-      - POSTGRES_USER=legaldocs_user
-      - POSTGRES_PASSWORD=prodpasswordsecure123
+      - POSTGRES_DB=${DB_NAME:-legaldocs_prod}
+      - POSTGRES_USER=${DB_USER:-legaldocs_user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-prodpasswordsecure123}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U legaldocs_user -d legaldocs_prod"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -27,13 +27,13 @@ services:
     container_name: legaldocs_web_prod
     environment:
       - DEBUG=False
-      - SECRET_KEY=django-secure-prod-key-please-change-this-in-actual-production
-      - ALLOWED_HOSTS=localhost,127.0.0.1,web
-      - DB_NAME=legaldocs_prod
-      - DB_USER=legaldocs_user
-      - DB_PASSWORD=prodpasswordsecure123
-      - DB_HOST=db
-      - DB_PORT=5432
+      - SECRET_KEY=${SECRET_KEY:-django-secure-prod-key-please-change-this-in-actual-production}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,web}
+      - DB_NAME=${DB_NAME:-legaldocs_prod}
+      - DB_USER=${DB_USER:-legaldocs_user}
+      - DB_PASSWORD=${DB_PASSWORD:-prodpasswordsecure123}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
       - CONN_MAX_AGE=60
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -93,10 +93,10 @@ services:
     volumes:
       - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
     environment:
-      - DB_HOST=db
-      - DB_NAME=legaldocs_prod
-      - DB_USER=legaldocs_user
-      - DB_PASSWORD=prodpasswordsecure123
+      - DB_HOST=${DB_HOST:-db}
+      - DB_NAME=${DB_NAME:-legaldocs_prod}
+      - DB_USER=${DB_USER:-legaldocs_user}
+      - DB_PASSWORD=${DB_PASSWORD:-prodpasswordsecure123}
       - USE_S3=${USE_S3}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
