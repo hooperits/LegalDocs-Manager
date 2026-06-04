@@ -813,7 +813,19 @@ Una vez aprovisionado:
 > [!NOTE]
 > El contenedor `certbot` se ejecuta en segundo plano y comprueba la renovación automáticamente cada 12 horas. Nginx está configurado para recargar su configuración cada 24 horas y aplicar dinámicamente los certificados renovados.
 
-#### 3. Ejecutar Pruebas Unitarias en Docker
+#### 3. Copias de Seguridad Automáticas (Database Backups a S3)
+
+El entorno de producción incluye un servicio de copias de seguridad automático (`db-backup`) que realiza volcados diarios de la base de datos:
+- **Ejecución Diaria**: Se ejecuta automáticamente todos los días a las **02:00 AM UTC**.
+- **Compresión y Carga**: Realiza el volcado (`pg_dump`), lo comprime con `gzip` y lo sube directamente al bucket S3 bajo el prefijo `backups/`.
+- **Política de Retención**: Conserva únicamente las copias de seguridad de los últimos **7 días** para controlar el espacio de almacenamiento.
+
+**Ejecutar copia de seguridad manual inmediata**:
+```bash
+docker compose -f docker-compose.prod.yml run --rm db-backup --now
+```
+
+#### 4. Ejecutar Pruebas Unitarias en Docker
 
 Ejecuta la suite de pruebas unitarias dentro del contenedor del servicio web:
 

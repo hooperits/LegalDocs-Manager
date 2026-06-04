@@ -451,47 +451,37 @@ Create `/etc/logrotate.d/legaldocs`:
 
 ### Database Backups
 
-Create `/usr/local/bin/backup-legaldocs.sh`:
+Production database backups are automated using a dedicated companion service (`db-backup`) defined in `docker-compose.prod.yml`.
+
+- **Backup Daemon**: The backup service runs a daemonized loop in the background, sleeping until **2:00 AM UTC** daily to trigger the backup process.
+- **Storage**: Backups are performed using `pg_dump`, compressed on the fly via `gzip`, and uploaded directly to the S3 bucket under the `backups/` prefix.
+- **Retention**: A 7-day retention policy is enforced automatically. After each backup, the backup script lists S3 backups and deletes files older than 7 days.
+
+### Triggering a Manual Backup
+
+You can run an immediate database backup on-demand by passing the `--now` flag to the container entrypoint:
 
 ```bash
-#!/bin/bash
-BACKUP_DIR="/var/backups/legaldocs"
-DATE=$(date +%Y%m%d_%H%M%S)
-RETENTION_DAYS=30
-
-mkdir -p $BACKUP_DIR
-
-# Database backup
-pg_dump -U legaldocs_user legaldocs_prod | gzip > "$BACKUP_DIR/db_$DATE.sql.gz"
-
-# Media files backup
-tar -czf "$BACKUP_DIR/media_$DATE.tar.gz" /var/www/legaldocs/media
-
-# Remove old backups
-find $BACKUP_DIR -name "*.gz" -mtime +$RETENTION_DAYS -delete
-
-echo "Backup completed: $DATE"
+docker compose -f docker-compose.prod.yml run --rm db-backup --now
 ```
 
-### Automated Backups (Cron)
-
-```bash
-sudo chmod +x /usr/local/bin/backup-legaldocs.sh
-sudo crontab -e
-
-# Add this line for daily backups at 2 AM:
-0 2 * * * /usr/local/bin/backup-legaldocs.sh >> /var/log/legaldocs/backup.log 2>&1
-```
+This generates a compressed backup, uploads it to S3, enforces the retention rules, and exits immediately.
 
 ### Restore from Backup
 
-```bash
-# Database restore
-gunzip -c /var/backups/legaldocs/db_YYYYMMDD_HHMMSS.sql.gz | psql -U legaldocs_user legaldocs_prod
+To restore the database from a compressed S3 backup:
 
-# Media restore
-tar -xzf /var/backups/legaldocs/media_YYYYMMDD_HHMMSS.tar.gz -C /
-```
+1. **Download the Backup File**:
+   Use the AWS CLI or your storage console to download the backup file from S3:
+   ```bash
+   aws s3 cp s3://your-bucket-name/backups/db_backup_YYYYMMDD_HHMMSS.sql.gz ./db_backup.sql.gz
+   ```
+
+2. **Restore to the Database Container**:
+   Stream the decompressed dump directly to the PostgreSQL database container:
+   ```bash
+   gunzip -c db_backup.sql.gz | docker compose -f docker-compose.prod.yml exec -T db psql -U legaldocs_user -d legaldocs_prod
+   ```
 
 ---
 
