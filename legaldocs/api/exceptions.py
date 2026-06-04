@@ -5,6 +5,7 @@ Provides a custom DRF exception handler that translates error messages
 to Spanish and formats field names in a user-friendly way.
 """
 
+from django.utils.translation import get_language
 from rest_framework.views import exception_handler
 
 
@@ -182,7 +183,7 @@ def translate_errors(errors: dict) -> dict:
 
 def custom_exception_handler(exc, context):
     """
-    Custom exception handler that translates error messages to Spanish.
+    Custom exception handler that translates error messages to Spanish if requested.
 
     Args:
         exc: The exception that was raised.
@@ -195,12 +196,15 @@ def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
     if response is not None:
-        # Translate the error data
-        if isinstance(response.data, dict):
-            response.data = translate_errors(response.data)
-        elif isinstance(response.data, list):
-            response.data = [translate_error_message(str(msg)) for msg in response.data]
-        elif isinstance(response.data, str):
-            response.data = translate_error_message(response.data)
+        # Detect active language. Only translate if the client requested Spanish.
+        lang = get_language()
+        if lang and lang.startswith('es'):
+            # Translate the error data
+            if isinstance(response.data, dict):
+                response.data = translate_errors(response.data)
+            elif isinstance(response.data, list):
+                response.data = [translate_error_message(str(msg)) for msg in response.data]
+            elif isinstance(response.data, str):
+                response.data = translate_error_message(response.data)
 
     return response
