@@ -46,6 +46,35 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# HTTPS and Proxy Security Settings
+if not DEBUG:
+    # Tell Django it is behind a secure proxy (Nginx terminates SSL)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # Enforce cookies to be transmitted over HTTPS only
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    
+    # HSTS headers
+    SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '31536000'))  # Default 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # Browser security headers
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# CSRF Trusted Origins (needed in Django 4.0+)
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        'CSRF_TRUSTED_ORIGINS',
+        'https://localhost,https://127.0.0.1'
+    ).split(',')
+    if origin.strip()
+]
+
+
 
 # =============================================================================
 # Application Definition
