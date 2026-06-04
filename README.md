@@ -1123,8 +1123,8 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 **[⬆ Volver arriba](#legaldocs-manager)** | **[🇺🇸 English](#english)** | **[🇪🇸 Español](#español)**
 
-Made with ❤️ for the legal community
+If you find this project useful, please ⭐ star the repository and follow [hooperits](https://github.com/hooperits) on GitHub!
 
-Hecho con ❤️ para la comunidad legal
+Si encuentras útil este proyecto, por favor ⭐ dale una estrella al repositorio y sigue a [hooperits](https://github.com/hooperits) en GitHub!
 
 </div>
