@@ -18,6 +18,12 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: legaldocs_redis_dev
+    ports:
+      - "6379:6379"
+
   web:
     build: .
     container_name: legaldocs_web_dev
@@ -35,10 +41,16 @@ services:
       - DB_PASSWORD=devpassword123
       - DB_HOST=db
       - DB_PORT=5432
+      - CONN_MAX_AGE=0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379/1
       - LOAD_DEMO_DATA=true
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
 volumes:
   postgres_data_dev:

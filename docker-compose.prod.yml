@@ -16,6 +16,12 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: legaldocs_redis_prod
+    expose:
+      - "6379"
+
   web:
     build: .
     container_name: legaldocs_web_prod
@@ -28,6 +34,10 @@ services:
       - DB_PASSWORD=prodpasswordsecure123
       - DB_HOST=db
       - DB_PORT=5432
+      - CONN_MAX_AGE=60
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379/1
       - STATIC_ROOT=/app/legaldocs/staticfiles
       - MEDIA_ROOT=/app/legaldocs/media
       - LOAD_DEMO_DATA=false
@@ -37,6 +47,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
   nginx:
     image: nginx:1.25-alpine

@@ -37,3 +37,10 @@ python-magic>=0.4.27
 # WSGI Server for Production
 gunicorn==22.0.0
 
+# Redis Cache Backend
+redis==5.0.4
+
+# Error Tracking
+sentry-sdk==2.3.1
+
+

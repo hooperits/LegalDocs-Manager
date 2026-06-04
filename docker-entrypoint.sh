@@ -12,6 +12,15 @@ if [ "$DB_HOST" ]; then
     echo "Database is ready!"
 fi
 
+# Wait for Redis to be ready
+if [ "$REDIS_HOST" ]; then
+    echo "Waiting for Redis at $REDIS_HOST:${REDIS_PORT:-6379}..."
+    while ! nc -z $REDIS_HOST ${REDIS_PORT:-6379}; do
+      sleep 0.5
+    done
+    echo "Redis is ready!"
+fi
+
 # Run database migrations
 echo "Running migrations..."
 python manage.py migrate --noinput
