@@ -108,3 +108,21 @@ class RegisterRateThrottle(AuthRateThrottle):
     """
 
     scope = 'register'
+
+
+def axes_lockout_response(request, *args, **kwargs):
+    """
+    Custom lockout response for django-axes that returns JSON and is bilingual.
+    """
+    from django.http import JsonResponse
+    from django.utils.translation import get_language
+
+    lang = get_language()
+    if lang and lang.startswith('es'):
+        message = "Cuenta bloqueada temporalmente por exceso de intentos fallidos. Intente de nuevo en 15 minutos."
+        data = {"detalle": message}
+    else:
+        message = "Account locked out due to too many failed login attempts. Please try again in 15 minutes."
+        data = {"detail": message}
+    return JsonResponse(data, status=403)
+

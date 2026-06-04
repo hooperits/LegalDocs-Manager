@@ -20,7 +20,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import ProfileSerializer, RegisterSerializer, UserInfoSerializer
+from .serializers import CustomAuthTokenSerializer, ProfileSerializer, RegisterSerializer, UserInfoSerializer
 from .throttling import LoginRateThrottle, RegisterRateThrottle, SearchRateThrottle
 
 
@@ -36,6 +36,7 @@ class LoginView(ObtainAuthToken):
     """
 
     throttle_classes = [LoginRateThrottle]
+    serializer_class = CustomAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
         """Authenticate user and return token."""

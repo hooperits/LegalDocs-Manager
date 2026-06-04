@@ -105,6 +105,9 @@ INSTALLED_APPS = [
     'clients',
     'cases',
     'documents',
+    
+    # Security/Lockout
+    'axes',
 ]
 
 MIDDLEWARE = [
@@ -115,9 +118,23 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'axes.middleware.AxesMiddleware',  # Lockout middleware - must be after AuthenticationMiddleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# django-axes Lockout Configuration
+from datetime import timedelta
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=15)
+AXES_LOCKOUT_PARAMETERS = [['username', 'ip_address']]
+AXES_LOCKOUT_CALLABLE = 'api.throttling.axes_lockout_response'
+AXES_RESET_ON_SUCCESS = True
 
 ROOT_URLCONF = 'legaldocs.urls'
 
