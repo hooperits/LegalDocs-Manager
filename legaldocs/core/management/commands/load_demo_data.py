@@ -55,6 +55,50 @@ class Command(BaseCommand):
                 )
                 return
 
+        # Seed mock files to storage for any demo documents that don't have files
+        self.stdout.write('Seeding mock files to storage backend...')
+        from django.core.files.storage import default_storage
+        from django.core.files.base import ContentFile
+        import os
+
+        # Minimal valid PDF content to prevent viewer errors
+        MINIMAL_PDF = (
+            b"%PDF-1.4\n"
+            b"1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n"
+            b"2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj\n"
+            b"3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Resources<<>>/Contents 4 0 R>>endobj\n"
+            b"4 0 obj<</Length 46>>stream\n"
+            b"BT /F1 24 Tf 100 700 Td (Demo Legal Document) Tj ET\n"
+            b"endstream\n"
+            b"endobj\n"
+            b"xref\n"
+            b"0 5\n"
+            b"0000000000 65535 f\n"
+            b"0000000009 00000 n\n"
+            b"0000000052 00000 n\n"
+            b"0000000101 00000 n\n"
+            b"0000000201 00000 n\n"
+            b"trailer<</Size 5/Root 1 0 R>>\n"
+            b"startxref\n"
+            b"298\n"
+            b"%%EOF"
+        )
+
+        seeded_count = 0
+        for doc in Document.objects.all():
+            if doc.file and not default_storage.exists(doc.file.name):
+                _, ext = os.path.splitext(doc.file.name.lower())
+                if ext == '.pdf':
+                    content = MINIMAL_PDF
+                else:
+                    content = b"This is a placeholder for a demo legal document."
+                
+                default_storage.save(doc.file.name, ContentFile(content))
+                seeded_count += 1
+        
+        if seeded_count > 0:
+            self.stdout.write(self.style.SUCCESS(f'  Successfully seeded {seeded_count} mock files to storage.'))
+
         # Report counts
         client_count = Client.objects.count()
         case_count = Case.objects.count()

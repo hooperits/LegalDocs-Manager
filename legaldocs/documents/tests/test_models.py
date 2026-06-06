@@ -197,3 +197,65 @@ class DocumentModelTests(TestCase):
             description=''
         )
         self.assertEqual(document.description, '')
+
+    def test_file_deleted_from_storage_on_document_delete(self):
+        """Test that the file is physically deleted from storage when the Document is deleted."""
+        from django.core.files.storage import default_storage
+        test_file = SimpleUploadedFile(
+            name='delete_test.pdf',
+            content=b'content',
+            content_type='application/pdf'
+        )
+        document = Document.objects.create(
+            case=self.case,
+            title='Delete Storage Test',
+            document_type='contrato',
+            file=test_file
+        )
+        file_name = document.file.name
+        
+        # Verify file exists in storage
+        self.assertTrue(default_storage.exists(file_name))
+        
+        # Delete document
+        document.delete()
+        
+        # Verify file is deleted from storage
+        self.assertFalse(default_storage.exists(file_name))
+
+    def test_old_file_deleted_from_storage_on_file_change(self):
+        """Test that the old file is deleted from storage when a Document's file is updated."""
+        from django.core.files.storage import default_storage
+        file1 = SimpleUploadedFile(
+            name='file1.pdf',
+            content=b'content1',
+            content_type='application/pdf'
+        )
+        document = Document.objects.create(
+            case=self.case,
+            title='Update Storage Test',
+            document_type='contrato',
+            file=file1
+        )
+        old_file_name = document.file.name
+        self.assertTrue(default_storage.exists(old_file_name))
+        
+        # Update with new file
+        file2 = SimpleUploadedFile(
+            name='file2.pdf',
+            content=b'content2',
+            content_type='application/pdf'
+        )
+        document.file = file2
+        document.save()
+        
+        new_file_name = document.file.name
+        self.assertTrue(default_storage.exists(new_file_name))
+        
+        # Verify the old file is deleted
+        self.assertFalse(default_storage.exists(old_file_name))
+        
+        # Clean up new file
+        document.delete()
+        self.assertFalse(default_storage.exists(new_file_name))
+

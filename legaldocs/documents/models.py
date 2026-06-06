@@ -1,5 +1,16 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
+
+
+def get_document_upload_path(instance, filename):
+    """
+    Generate dynamic upload path for document files.
+    Files are organized in folders named after the associated case's number.
+    E.g.: legal_documents/CASE-2026-0001/contrato.pdf
+    """
+    safe_case_number = slugify(instance.case.case_number).upper()
+    return f"legal_documents/{safe_case_number}/{filename}"
 
 
 class Document(models.Model):
@@ -40,7 +51,7 @@ class Document(models.Model):
         verbose_name=_("Descripción")
     )
     file = models.FileField(
-        upload_to='legal_documents/',
+        upload_to=get_document_upload_path,
         verbose_name=_("Archivo")
     )
     file_size = models.IntegerField(
