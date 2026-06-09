@@ -14,6 +14,7 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { randomUUID } from 'crypto';
 
 // Admin credentials (adjust as needed for your setup)
 const ADMIN_CREDENTIALS = {
@@ -143,7 +144,7 @@ test.describe('Django Admin', () => {
       await loginToAdmin(page);
       await page.goto('/admin/clients/client/add/');
 
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
 
       // Fill client form
       await page.fill('input[name="full_name"]', `Admin Test Client ${uniqueId}`);

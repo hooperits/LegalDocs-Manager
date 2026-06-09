@@ -6,11 +6,12 @@
  */
 
 import { test, expect, AuthHelper, API_BASE, createTestPDF } from '../fixtures/auth';
+import { randomUUID } from 'crypto';
 
 test.describe('Complete Workflow', () => {
   test('should complete full user journey: Register → Login → Create Client → Create Case → Upload Document → Search → Dashboard', async ({ request }) => {
     const auth = new AuthHelper(request);
-    const uniqueId = `workflow_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const uniqueId = `workflow_${Date.now()}_${randomUUID().substring(0, 8)}`;
 
     // Step 1: Register a new user
     console.log('Step 1: Registering new user...');
@@ -190,7 +191,7 @@ test.describe('Complete Workflow', () => {
 
   test('should handle case lifecycle: Create → Update → Assign → Close', async ({ request }) => {
     const auth = new AuthHelper(request);
-    const uniqueId = `lifecycle_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const uniqueId = `lifecycle_${Date.now()}_${randomUUID().substring(0, 8)}`;
 
     // Register and setup
     const registerResponse = await auth.register({
@@ -269,7 +270,7 @@ test.describe('Complete Workflow', () => {
 
   test('should handle document management flow', async ({ request }) => {
     const auth = new AuthHelper(request);
-    const uniqueId = `docflow_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const uniqueId = `docflow_${Date.now()}_${randomUUID().substring(0, 8)}`;
 
     // Setup
     await auth.register({ username: `docflowuser_${uniqueId}` });
@@ -361,7 +362,7 @@ test.describe('Complete Workflow', () => {
   });
 
   test('should handle multi-user collaboration scenario', async ({ request }) => {
-    const uniqueId = `collab_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const uniqueId = `collab_${Date.now()}_${randomUUID().substring(0, 8)}`;
 
     // User 1: Creates client and case
     const user1Auth = new AuthHelper(request);

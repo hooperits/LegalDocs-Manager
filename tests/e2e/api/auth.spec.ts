@@ -10,12 +10,13 @@
  */
 
 import { test, expect, AuthHelper, API_BASE } from '../fixtures/auth';
+import { randomUUID } from 'crypto';
 
 test.describe('Authentication API', () => {
   test.describe('Registration', () => {
     test('should register a new user successfully', async ({ request }) => {
       const auth = new AuthHelper(request);
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
 
       const response = await request.post(`${API_BASE}/auth/register/`, {
         data: {
@@ -35,7 +36,7 @@ test.describe('Authentication API', () => {
     });
 
     test('should reject registration with mismatched passwords', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
 
       const response = await request.post(`${API_BASE}/auth/register/`, {
         data: {
@@ -50,7 +51,7 @@ test.describe('Authentication API', () => {
     });
 
     test('should reject registration with existing username', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
       const username = `existing_${uniqueId}`;
 
       // First registration
@@ -77,7 +78,7 @@ test.describe('Authentication API', () => {
     });
 
     test('should reject registration with invalid email format', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
 
       const response = await request.post(`${API_BASE}/auth/register/`, {
         data: {
@@ -94,7 +95,7 @@ test.describe('Authentication API', () => {
 
   test.describe('Login', () => {
     test('should login successfully and return token', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
       const username = `logintest_${uniqueId}`;
       const password = 'TestPassword123!';
 

@@ -8,12 +8,13 @@
  */
 
 import { test, expect, API_BASE, generateTestClient, generateTestCase, createTestPDF, AuthHelper } from '../fixtures/auth';
+import { randomUUID } from 'crypto';
 
 test.describe('Search API', () => {
   // Helper to create test data
   async function createTestData(auth: AuthHelper) {
     // Create a client with unique name
-    const uniqueId = `search_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const uniqueId = `search_${Date.now()}_${randomUUID().substring(0, 8)}`;
     const clientData = {
       ...generateTestClient(),
       full_name: `Searchable Client ${uniqueId}`,
@@ -142,7 +143,7 @@ test.describe('Search API', () => {
       await auth.register();
 
       // Search for something that doesn't exist
-      const uniqueQuery = `nonexistent_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueQuery = `nonexistent_${Date.now()}_${randomUUID().substring(0, 8)}`;
       const response = await auth.get(`${API_BASE}/search/?q=${uniqueQuery}`);
       expect(response.status()).toBe(200);
 

@@ -9,6 +9,7 @@
  */
 
 import { test, expect, API_BASE } from '../fixtures/auth';
+import { randomUUID } from 'crypto';
 
 test.describe('Security API', () => {
   // Rate limiting tests are skipped by default because they consume the rate limit quota
@@ -51,7 +52,7 @@ test.describe('Security API', () => {
       let rateLimited = false;
 
       for (let i = 0; i < 7; i++) {
-        const uniqueId = `${Date.now()}_${i}_${Math.random().toString(36).substring(7)}`;
+        const uniqueId = `${Date.now()}_${i}_${randomUUID().substring(0, 8)}`;
         const response = await request.post(`${API_BASE}/auth/register/`, {
           data: {
             username: `ratelimit_reg_${uniqueId}`,
@@ -157,7 +158,7 @@ test.describe('Security API', () => {
     });
 
     test('should return validation error for invalid email in registration', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
       const response = await request.post(`${API_BASE}/auth/register/`, {
         data: {
           username: `testuser_${uniqueId}`,
@@ -178,7 +179,7 @@ test.describe('Security API', () => {
     });
 
     test('should return validation error for password mismatch', async ({ request }) => {
-      const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
       const response = await request.post(`${API_BASE}/auth/register/`, {
         data: {
           username: `testuser_${uniqueId}`,

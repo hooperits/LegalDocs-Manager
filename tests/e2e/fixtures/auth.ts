@@ -8,6 +8,7 @@
  */
 
 import { test as base, expect, APIRequestContext, APIResponse } from '@playwright/test';
+import { randomUUID } from 'crypto';
 
 // Test user credentials
 export const TEST_USER = {
@@ -115,8 +116,8 @@ export class AuthHelper {
   async register(userData?: Partial<typeof TEST_USER>): Promise<RegisterResponse> {
     const data = {
       ...TEST_USER,
-      username: `testuser_${Date.now()}_${Math.random().toString(36).substring(7)}`,
-      email: `testuser_${Date.now()}_${Math.random().toString(36).substring(7)}@test.com`,
+      username: `testuser_${Date.now()}_${randomUUID().substring(0, 8)}`,
+      email: `testuser_${Date.now()}_${randomUUID().substring(0, 8)}@test.com`,
       ...userData,
     };
     // Ensure password_confirm matches password
@@ -340,7 +341,7 @@ export { expect };
  * Generate unique test data
  */
 export function generateTestClient(): Omit<Client, 'id' | 'created_at' | 'updated_at'> {
-  const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+  const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
   return {
     full_name: `Test Client ${uniqueId}`,
     identification_number: `ID-${uniqueId}`,
@@ -353,7 +354,7 @@ export function generateTestClient(): Omit<Client, 'id' | 'created_at' | 'update
 }
 
 export function generateTestCase(clientId: number): Omit<Case, 'id' | 'case_number' | 'created_at' | 'updated_at'> {
-  const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+  const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
   const today = new Date().toISOString().split('T')[0];
   const deadline = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
@@ -376,7 +377,7 @@ export function generateTestDocument(caseId: number): {
   description: string;
   is_confidential: boolean;
 } {
-  const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+  const uniqueId = `${Date.now()}_${randomUUID().substring(0, 8)}`;
   return {
     case: caseId,
     title: `Test Document ${uniqueId}`,
