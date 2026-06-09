@@ -2,7 +2,7 @@
 # Django 5.x with PostgreSQL and DRF
 
 # Core Framework
-Django==5.0.11
+Django==5.1.15
 
 # REST API
 djangorestframework==3.15.2
@@ -11,10 +11,10 @@ djangorestframework==3.15.2
 psycopg2-binary==2.9.10
 
 # Environment Variables
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 
 # Image/Document Handling
-Pillow==11.1.0
+Pillow==12.2.0
 
 # CORS Support
 django-cors-headers==4.6.0
@@ -41,7 +41,7 @@ gunicorn==22.0.0
 redis==5.0.4
 
 # Error Tracking
-sentry-sdk==2.3.1
+sentry-sdk==2.8.0
 
 # Object Storage
 django-storages[s3]==1.14.4
