@@ -14,7 +14,7 @@ psycopg2-binary==2.9.10
 python-dotenv==1.2.2
 
 # Image/Document Handling
-Pillow==12.2.0
+Pillow==12.3.0
 
 # CORS Support
 django-cors-headers==4.6.0
